@@ -3,13 +3,16 @@ module Main where
 import LoLStats
 import LoLLogs
 import System.Directory (getCurrentDirectory, getDirectoryContents, doesFileExist)
+import System.Environment (getArgs)
+import System.IO (hPutStrLn, stderr)
 import Data.Maybe (catMaybes)
 
 main = do
-    files <- getCurrentDirectory >>= getDirectoryContents
-    stats <- sequence . map processFile $ files
+    [dir] <- getArgs
+    files <- getDirectoryContents dir
     putStrLn csvHeader
-    sequence . map (putStrLn . toCSV) . catMaybes $ stats
+    let printCSV file = processFile (dir ++ file) >>= maybe (return ()) (putStrLn . toCSV)
+    sequence . map printCSV $ files
 
 
 processFile :: FilePath -> IO (Maybe StatsRow)
@@ -20,5 +23,5 @@ processFile path = do
             eGame <- parseFile path
             case eGame of
                 Left game -> return . getStats $ game
-                Right _   -> return Nothing
+                Right err -> hPutStrLn stderr (path ++ " :: " ++ err) >> return Nothing
         else return Nothing
