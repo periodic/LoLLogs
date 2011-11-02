@@ -1,0 +1,2947 @@
+  body = (com.riotgames.platform.gameclient.domain::EndOfGameStats)#1
+    basePoints = 67
+    boostIpEarned = 145
+    boostXpEarned = 0
+    completionBonusPoints = 0
+    difficulty = (null)
+    elo = 0
+    eloChange = 0
+    experienceEarned = 0
+    experienceTotal = 115
+    expPointsToNextLevel = 0
+    firstWinBonus = 150
+    gameId = 239404170
+    gameLength = 1777
+    gameMode = "CLASSIC"
+    gameType = "MATCHED_GAME"
+    imbalancedTeamsNoPoints = false
+    invalid = false
+    ipEarned = 380
+    ipTotal = 56352
+    leveledUp = false
+    locationBoostIpEarned = 0
+    locationBoostXpEarned = 0
+    loyaltyBoostIpEarned = 0
+    loyaltyBoostXpEarned = 0
+    newSpells = (mx.collections::ArrayCollection)#2
+      filterFunction = (null)
+      length = 0
+      list = (mx.collections::ArrayList)#3
+        length = 0
+        source = (Array)#4
+        uid = "81BE63BA-4F76-D337-436A-3983678AA90C"
+      sort = (null)
+      source = (Array)#4
+    odinBonusIp = 0
+    otherTeamPlayerParticipantStats = (mx.collections::ArrayCollection)#5
+      filterFunction = (null)
+      length = 5
+      list = (mx.collections::ArrayList)#6
+        length = 5
+        source = (Array)#7
+          [0] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#8
+            _profileIconId = 21
+            _summonerName = "Machi Chan"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#9
+              filterFunction = (null)
+              length = 3
+              list = (mx.collections::ArrayList)#10
+                length = 3
+                source = (Array)#11
+                  [0] 3027
+                  [1] 3111
+                  [2] 1029
+                uid = "123A26A8-3E04-1BE1-AB6B-3983678A8A71"
+              sort = (null)
+              source = (Array)#11
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 0
+            level = 30
+            losses = 452
+            profileIconId = 21
+            skinName = "Nunu"
+            spell1Id = 11
+            spell2Id = 4
+            statistics = (mx.collections::ArrayCollection)#12
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#13
+                length = 27
+                source = (Array)#14
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#15
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#16
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 5808
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#17
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#18
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 8591
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#19
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#20
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 35
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#21
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#22
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 14620
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#23
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#24
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 13005
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#25
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#26
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 46726
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#27
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#28
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 3027
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#29
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#30
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 5826
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#31
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#32
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 0
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#33
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#34
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3111
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#35
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#36
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 22106
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#37
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#38
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 6
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#39
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#40
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 172
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#41
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#42
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#43
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#44
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#45
+                    displayName = "Losses"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#46
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LOSE"
+                    value = 1
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#47
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#48
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#49
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#50
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 13
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#51
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#52
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 1029
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#53
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#54
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 0
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#55
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#56
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 37
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#57
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#58
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 0
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#59
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#60
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 13515
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#61
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#62
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 0
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#63
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#64
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 2
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#65
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#66
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 6
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#67
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#68
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 400
+                uid = "0E9896E4-D1A3-01AC-306F-3983678A04DD"
+              sort = (null)
+              source = (Array)#14
+            summonerName = "Machi Chan"
+            teamId = 200
+            userId = 21407309
+            wins = 542
+          [1] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#69
+            _profileIconId = 6
+            _summonerName = "iJokesterr"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#70
+              filterFunction = (null)
+              length = 5
+              list = (mx.collections::ArrayList)#71
+                length = 5
+                source = (Array)#72
+                  [0] 3006
+                  [1] 1053
+                  [2] 3086
+                  [3] 1038
+                  [4] 1037
+                uid = "6A315894-2FDC-16C0-20C5-3983678A0460"
+              sort = (null)
+              source = (Array)#72
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 14
+            level = 30
+            losses = 344
+            profileIconId = 6
+            skinName = "Tryndamere"
+            spell1Id = 3
+            spell2Id = 4
+            statistics = (mx.collections::ArrayCollection)#73
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#74
+                length = 27
+                source = (Array)#75
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#76
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#77
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 6763
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#78
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#79
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 1038
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#80
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#81
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 461
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#82
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#83
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3086
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#84
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#85
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 102325
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#86
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#87
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 139
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#88
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#89
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 16225
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#90
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#91
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 0
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#92
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#93
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 101755
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#94
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#95
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 3006
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#96
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#97
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 2
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#98
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#99
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 9720
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#100
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#101
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#102
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#103
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#104
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#105
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 1037
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#106
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#107
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 25945
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#108
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#109
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 108
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#110
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#111
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 16
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#112
+                    displayName = "Losses"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#113
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LOSE"
+                    value = 1
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#114
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#115
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#116
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#117
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 1053
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#118
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#119
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 0
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#120
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#121
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 6018
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#122
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#123
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 3
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#124
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#125
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 0
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#126
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#127
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 1
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#128
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#129
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 19
+                uid = "019347C4-F9B3-E159-E823-3983678A230B"
+              sort = (null)
+              source = (Array)#75
+            summonerName = "iJokesterr"
+            teamId = 200
+            userId = 20933666
+            wins = 353
+          [2] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#130
+            _profileIconId = 22
+            _summonerName = "WingDynasty"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#131
+              filterFunction = (null)
+              length = 4
+              list = (mx.collections::ArrayList)#132
+                length = 4
+                source = (Array)#133
+                  [0] 1055
+                  [1] 3158
+                  [2] 3142
+                  [3] 3044
+                uid = "354C70F3-064D-8D63-717B-3983678AE3C6"
+              sort = (null)
+              source = (Array)#133
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 4
+            level = 30
+            losses = 437
+            profileIconId = 22
+            skinName = "Renekton"
+            spell1Id = 4
+            spell2Id = 6
+            statistics = (mx.collections::ArrayCollection)#134
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#135
+                length = 27
+                source = (Array)#136
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#137
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#138
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 326
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#139
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#140
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 7822
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#141
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#142
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 22809
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#143
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#144
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 66318
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#145
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#146
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 6009
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#147
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#148
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 1055
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#149
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#150
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3142
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#151
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#152
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 71152
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#153
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#154
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 103
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#155
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#156
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 3
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#157
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#158
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 3044
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#159
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#160
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 3416
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#161
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#162
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3158
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#163
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#164
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#165
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#166
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#167
+                    displayName = "Losses"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#168
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LOSE"
+                    value = 1
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#169
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#170
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#171
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#172
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 13
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#173
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#174
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 0
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#175
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#176
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 8
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#177
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#178
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 0
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#179
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#180
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 14986
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#181
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#182
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 1
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#183
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#184
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 4
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#185
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#186
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 4834
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#187
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#188
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 2
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#189
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#190
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 101
+                uid = "67C65C39-A6F8-72E2-C355-3983678A3AB1"
+              sort = (null)
+              source = (Array)#136
+            summonerName = "WingDynasty"
+            teamId = 200
+            userId = 21510832
+            wins = 435
+          [3] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#191
+            _profileIconId = 27
+            _summonerName = "Unnatura1"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#192
+              filterFunction = (null)
+              length = 6
+              list = (mx.collections::ArrayList)#193
+                length = 6
+                source = (Array)#194
+                  [0] 1056
+                  [1] 3020
+                  [2] 3010
+                  [3] 1056
+                  [4] 1026
+                  [5] 1056
+                uid = "45C6CD70-3E96-178E-9C03-3983678AF3CB"
+              sort = (null)
+              source = (Array)#194
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 4
+            level = 25
+            losses = 52
+            profileIconId = 27
+            skinName = "Chogath"
+            spell1Id = 4
+            spell2Id = 6
+            statistics = (mx.collections::ArrayCollection)#195
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#196
+                length = 27
+                source = (Array)#197
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#198
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#199
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 1056
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#200
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#201
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 19287
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#202
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#203
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 1800
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#204
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#205
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 22827
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#206
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#207
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 4
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#208
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#209
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3010
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#210
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#211
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 35742
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#212
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#213
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 1056
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#214
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#215
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 0
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#216
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#217
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 10772
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#218
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#219
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 7534
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#220
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#221
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 4845
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#222
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#223
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#224
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#225
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#226
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#227
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 1026
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#228
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#229
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 1
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#230
+                    displayName = "Losses"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#231
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LOSE"
+                    value = 1
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#232
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#233
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 1056
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#234
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#235
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 12
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#236
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#237
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 0
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#238
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#239
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3020
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#240
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#241
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 45
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#242
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#243
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 4
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#244
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#245
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 0
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#246
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#247
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 2
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#248
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#249
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 11752
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#250
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#251
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 130
+                uid = "E9E0289E-008D-F50F-03E0-3983678AEA32"
+              sort = (null)
+              source = (Array)#197
+            summonerName = "Unnatura1"
+            teamId = 200
+            userId = 22598199
+            wins = 62
+          [4] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#252
+            _profileIconId = 27
+            _summonerName = "Zevatus"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#253
+              filterFunction = (null)
+              length = 5
+              list = (mx.collections::ArrayList)#254
+                length = 5
+                source = (Array)#255
+                  [0] 1056
+                  [1] 3020
+                  [2] 3027
+                  [3] 2003
+                  [4] 1026
+                uid = "DFD0DC0B-45AE-625A-AEC8-3983678A3833"
+              sort = (null)
+              source = (Array)#255
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 1
+            level = 21
+            losses = 75
+            profileIconId = 27
+            skinName = "Annie"
+            spell1Id = 14
+            spell2Id = 4
+            statistics = (mx.collections::ArrayCollection)#256
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#257
+                length = 27
+                source = (Array)#258
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#259
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#260
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 89
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#261
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#262
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 1529
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#263
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#264
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 1056
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#265
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#266
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3027
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#267
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#268
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 31312
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#269
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#270
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 2003
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#271
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#272
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 14768
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#273
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#274
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 1
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#275
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#276
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 0
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#277
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#278
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 41658
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#279
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#280
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 2
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#281
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#282
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 7
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#283
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#284
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#285
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#286
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 1026
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#287
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#288
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 2
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#289
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#290
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 2980
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#291
+                    displayName = "Losses"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#292
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LOSE"
+                    value = 1
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#293
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#294
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#295
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#296
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 3
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#297
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#298
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 10346
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#299
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#300
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 14
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#301
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#302
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3020
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#303
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#304
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 189
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#305
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#306
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 3
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#307
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#308
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 0
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#309
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#310
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 17749
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#311
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#312
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 5935
+                uid = "50B77198-DCE6-10B7-EDDF-3983678A860F"
+              sort = (null)
+              source = (Array)#258
+            summonerName = "Zevatus"
+            teamId = 200
+            userId = 25619379
+            wins = 76
+        uid = "4AA95464-F287-A658-93E8-3983678A67EF"
+      sort = (null)
+      source = (Array)#7
+    pointsPenalties = (mx.collections::ArrayCollection)#313
+      filterFunction = (null)
+      length = 0
+      list = (mx.collections::ArrayList)#314
+        length = 0
+        source = (Array)#315
+        uid = "8443C9C1-798F-227E-9206-3983678A4E71"
+      sort = (null)
+      source = (Array)#315
+    practiceMinutesLeftToday = 180
+    practiceMinutesPlayedToday = NaN
+    practiceMsecsUntilReset = -1
+    queueBonusEarned = 18
+    queueType = "NORMAL"
+    ranked = false
+    skinIndex = 0
+    skinName = (null)
+    talentPointsGained = 0
+    teamPlayerParticipantStats = (mx.collections::ArrayCollection)#316
+      filterFunction = (null)
+      length = 5
+      list = (mx.collections::ArrayList)#317
+        length = 5
+        source = (Array)#318
+          [0] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#319
+            _profileIconId = 26
+            _summonerName = "ShaperOfChaos"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#320
+              filterFunction = (null)
+              length = 5
+              list = (mx.collections::ArrayList)#321
+                length = 5
+                source = (Array)#322
+                  [0] 3020
+                  [1] 3157
+                  [2] 1056
+                  [3] 3001
+                  [4] 1056
+                uid = "9F0A0E3C-400E-F192-5EFE-3983677A56A3"
+              sort = (null)
+              source = (Array)#322
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 0
+            level = 30
+            losses = 169
+            profileIconId = 26
+            skinName = "FiddleSticks"
+            spell1Id = 4
+            spell2Id = 11
+            statistics = (mx.collections::ArrayCollection)#323
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#324
+                length = 27
+                source = (Array)#325
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#326
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#327
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 21
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#328
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#329
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 17582
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#330
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#331
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 3020
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#332
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#333
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 80905
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#334
+                    displayName = "Victories"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#335
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "WIN"
+                    value = 1
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#336
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#337
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 68933
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#338
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#339
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 7732
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#340
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#341
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 1056
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#342
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#343
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 51
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#344
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#345
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 18108
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#346
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#347
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 8
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#348
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#349
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 0
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#350
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#351
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3157
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#352
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#353
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 2
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#354
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#355
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 3001
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#356
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#357
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#358
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#359
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 9429
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#360
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#361
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 5
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#362
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#363
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 3463
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#364
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#365
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 1056
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#366
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#367
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 14
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#368
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#369
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 23283
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#370
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#371
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 9
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#372
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#373
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 0
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#374
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#375
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 0
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#376
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#377
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 59
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#378
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#379
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 2
+                uid = "801FF41E-CEAE-BE8D-CBDD-3983675B9C14"
+              sort = (null)
+              source = (Array)#325
+            summonerName = "ShaperOfChaos"
+            teamId = 100
+            userId = 24073547
+            wins = 197
+          [1] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#380
+            _profileIconId = 5
+            _summonerName = "TheChills"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#381
+              filterFunction = (null)
+              length = 5
+              list = (mx.collections::ArrayList)#382
+                length = 5
+                source = (Array)#383
+                  [0] 1056
+                  [1] 3020
+                  [2] 3027
+                  [3] 3089
+                  [4] 1052
+                uid = "924A9437-2C93-836A-6D1A-3983677A4C7D"
+              sort = (null)
+              source = (Array)#383
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 0
+            level = 30
+            losses = 244
+            profileIconId = 5
+            skinName = "Brand"
+            spell1Id = 4
+            spell2Id = 12
+            statistics = (mx.collections::ArrayCollection)#384
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#385
+                length = 27
+                source = (Array)#386
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#387
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#388
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 86
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#389
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#390
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 151
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#391
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#392
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 95022
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#393
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#394
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 1056
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#395
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#396
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3027
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#397
+                    displayName = "Victories"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#398
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "WIN"
+                    value = 1
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#399
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#400
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 17588
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#401
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#402
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 1206
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#403
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#404
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 10
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#405
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#406
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 5156
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#407
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#408
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#409
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#410
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#411
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#412
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 17
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#413
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#414
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 3089
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#415
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#416
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 111
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#417
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#418
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 4906
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#419
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#420
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 4
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#421
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#422
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#423
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#424
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3020
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#425
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#426
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 9355
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#427
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#428
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 77434
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#429
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#430
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 12
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#431
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#432
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 1052
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#433
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#434
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 10592
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#435
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#436
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 2
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#437
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#438
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 6
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#439
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#440
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 2
+                uid = "49EA4B39-92F6-9002-A134-3983677A7F97"
+              sort = (null)
+              source = (Array)#386
+            summonerName = "TheChills"
+            teamId = 100
+            userId = 19801515
+            wins = 278
+          [2] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#441
+            _profileIconId = 12
+            _summonerName = "Glasz"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#442
+              filterFunction = (null)
+              length = 5
+              list = (mx.collections::ArrayList)#443
+                length = 5
+                source = (Array)#444
+                  [0] 3096
+                  [1] 3009
+                  [2] 3027
+                  [3] 3109
+                  [4] 3116
+                uid = "68255C7A-E46B-9837-993D-3983678A0DC7"
+              sort = (null)
+              source = (Array)#444
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 24
+            level = 30
+            losses = 680
+            profileIconId = 12
+            skinName = "Singed"
+            spell1Id = 6
+            spell2Id = 3
+            statistics = (mx.collections::ArrayCollection)#445
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#446
+                length = 27
+                source = (Array)#447
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#448
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#449
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 3096
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#450
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#451
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 135413
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#452
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#453
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 19822
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#454
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#455
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3027
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#456
+                    displayName = "Victories"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#457
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "WIN"
+                    value = 1
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#458
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#459
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 27883
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#460
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#461
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 106
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#462
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#463
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 11886
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#464
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#465
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 15
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#466
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#467
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 7010
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#468
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#469
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 3109
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#470
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#471
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 128402
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#472
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#473
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 188
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#474
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#475
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 0
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#476
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#477
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 4289
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#478
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#479
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#480
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#481
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 8061
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#482
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#483
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#484
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#485
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 3
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#486
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#487
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 18
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#488
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#489
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#490
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#491
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 2
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#492
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#493
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 3
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#494
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#495
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 3116
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#496
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#497
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3009
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#498
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#499
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 2
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#500
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#501
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 5
+                uid = "5E734C92-CF91-517B-4CE6-3983678AEC5C"
+              sort = (null)
+              source = (Array)#447
+            summonerName = "Glasz"
+            teamId = 100
+            userId = 20165703
+            wins = 770
+          [3] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#502
+            _profileIconId = 28
+            _summonerName = "mittense"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#503
+              filterFunction = (null)
+              length = 4
+              list = (mx.collections::ArrayList)#504
+                length = 4
+                source = (Array)#505
+                  [0] 3158
+                  [1] 3077
+                  [2] 1037
+                  [3] 1018
+                uid = "356E05EE-0A4C-47A7-F306-3983678AE93E"
+              sort = (null)
+              source = (Array)#505
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 0
+            level = 9
+            losses = 13
+            profileIconId = 28
+            skinName = "Riven"
+            spell1Id = 7
+            spell2Id = 3
+            statistics = (mx.collections::ArrayCollection)#506
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#507
+                length = 27
+                source = (Array)#508
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#509
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#510
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 3158
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#511
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#512
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 50768
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#513
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#514
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 1037
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#515
+                    displayName = "Victories"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#516
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "WIN"
+                    value = 1
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#517
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#518
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 2866
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#519
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#520
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 6836
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#521
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#522
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 0
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#523
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#524
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 1018
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#525
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#526
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 77
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#527
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#528
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 5
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#529
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#530
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 2709
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#531
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#532
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 50768
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#533
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#534
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 11458
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#535
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#536
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#537
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#538
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#539
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#540
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 0
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#541
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#542
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#543
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#544
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 14
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#545
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#546
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 0
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#547
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#548
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 0
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#549
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#550
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3077
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#551
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#552
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 349
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#553
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#554
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 138
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#555
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#556
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 1
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#557
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#558
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 4
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#559
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#560
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 8545
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#561
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#562
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 2
+                uid = "F3198DE2-1E7F-90E0-CF32-3983678A86E4"
+              sort = (null)
+              source = (Array)#508
+            summonerName = "mittense"
+            teamId = 100
+            userId = 48015
+            wins = 20
+          [4] (com.riotgames.platform.gameclient.domain::PlayerParticipantStatsSummary)#563
+            _profileIconId = 21
+            _summonerName = "Tolbi Gangles"
+            botPlayer = false
+            elo = 0
+            eloChange = 0
+            gameId = 239404170
+            gameItems = (mx.collections::ArrayCollection)#564
+              filterFunction = (null)
+              length = 4
+              list = (mx.collections::ArrayList)#565
+                length = 4
+                source = (Array)#566
+                  [0] 1055
+                  [1] 3031
+                  [2] 3009
+                  [3] 3086
+                uid = "EE3F298E-7617-9724-F639-3983678AF361"
+              sort = (null)
+              source = (Array)#566
+            inChat = false
+            isMe = false
+            leaver = false
+            leaves = 0
+            level = 23
+            losses = 79
+            profileIconId = 21
+            skinName = "Ashe"
+            spell1Id = 6
+            spell2Id = 4
+            statistics = (mx.collections::ArrayCollection)#567
+              filterFunction = (null)
+              length = 27
+              list = (mx.collections::ArrayList)#568
+                length = 27
+                source = (Array)#569
+                  [0] (com.riotgames.platform.gameclient.domain::PlayerStat)#570
+                    displayName = "Minions Slain"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#571
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "MINIONS_KILLED"
+                    value = 92
+                  [1] (com.riotgames.platform.gameclient.domain::PlayerStat)#572
+                    displayName = "Physical Damage Dealt"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#573
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "PHYSICAL_DAMAGE_DEALT_PLAYER"
+                    value = 59643
+                  [2] (com.riotgames.platform.gameclient.domain::PlayerStat)#574
+                    displayName = "Magic Damage Taken"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#575
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "MAGIC_DAMAGE_TAKEN"
+                    value = 2098
+                  [3] (com.riotgames.platform.gameclient.domain::PlayerStat)#576
+                    displayName = "Victories"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#577
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "WIN"
+                    value = 1
+                  [4] (com.riotgames.platform.gameclient.domain::PlayerStat)#578
+                    displayName = "Gold Earned"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#579
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "GOLD_EARNED"
+                    value = 7309
+                  [5] (com.riotgames.platform.gameclient.domain::PlayerStat)#580
+                    displayName = "**ITEM0"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#581
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM0"
+                    value = 1055
+                  [6] (com.riotgames.platform.gameclient.domain::PlayerStat)#582
+                    displayName = "Damage Taken"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#583
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_DAMAGE_TAKEN"
+                    value = 7706
+                  [7] (com.riotgames.platform.gameclient.domain::PlayerStat)#584
+                    displayName = "Physical Damage Taken"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#585
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "PHYSICAL_DAMAGE_TAKEN"
+                    value = 5607
+                  [8] (com.riotgames.platform.gameclient.domain::PlayerStat)#586
+                    displayName = "Time Spent Dead"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#587
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TOTAL_TIME_SPENT_DEAD"
+                    value = 34
+                  [9] (com.riotgames.platform.gameclient.domain::PlayerStat)#588
+                    displayName = "Assists"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#589
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "ASSISTS"
+                    value = 5
+                  [10] (com.riotgames.platform.gameclient.domain::PlayerStat)#590
+                    displayName = "**ITEM2"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#591
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM2"
+                    value = 3009
+                  [11] (com.riotgames.platform.gameclient.domain::PlayerStat)#592
+                    displayName = "**ITEM1"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#593
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM1"
+                    value = 3031
+                  [12] (com.riotgames.platform.gameclient.domain::PlayerStat)#594
+                    displayName = "Largest Multi Kill"
+                    priority = 6
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#595
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_MULTI_KILL"
+                    value = 1
+                  [13] (com.riotgames.platform.gameclient.domain::PlayerStat)#596
+                    displayName = "Inhibitors Destroyed"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#597
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "BARRACKS_KILLED"
+                    value = 0
+                  [14] (com.riotgames.platform.gameclient.domain::PlayerStat)#598
+                    displayName = "Largest Killing Spree"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#599
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "LARGEST_KILLING_SPREE"
+                    value = 2
+                  [15] (com.riotgames.platform.gameclient.domain::PlayerStat)#600
+                    displayName = "Neutral Monsters Killed"
+                    priority = 5
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#601
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "NEUTRAL_MINIONS_KILLED"
+                    value = 0
+                  [16] (com.riotgames.platform.gameclient.domain::PlayerStat)#602
+                    displayName = "**ITEM5"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#603
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM5"
+                    value = 0
+                  [17] (com.riotgames.platform.gameclient.domain::PlayerStat)#604
+                    displayName = "Champion Level"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#605
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "LEVEL"
+                    value = 14
+                  [18] (com.riotgames.platform.gameclient.domain::PlayerStat)#606
+                    displayName = "Healing Done"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#607
+                      displayName = "Damage Taken & Healed"
+                      name = "DAMAGE_TAKEN_CATEGORY"
+                      priority = 4
+                    statTypeName = "TOTAL_HEAL"
+                    value = 0
+                  [19] (com.riotgames.platform.gameclient.domain::PlayerStat)#608
+                    displayName = "**ITEM4"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#609
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM4"
+                    value = 0
+                  [20] (com.riotgames.platform.gameclient.domain::PlayerStat)#610
+                    displayName = "Damage Dealt"
+                    priority = 1
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#611
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "TOTAL_DAMAGE_DEALT"
+                    value = 61248
+                  [21] (com.riotgames.platform.gameclient.domain::PlayerStat)#612
+                    displayName = "**ITEM3"
+                    priority = 2147483647
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#613
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "ITEM3"
+                    value = 3086
+                  [22] (com.riotgames.platform.gameclient.domain::PlayerStat)#614
+                    displayName = "Turrets Destroyed"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#615
+                      displayName = "**"
+                      name = "MISC_CATEGORY"
+                      priority = 2147483647
+                    statTypeName = "TURRETS_KILLED"
+                    value = 0
+                  [23] (com.riotgames.platform.gameclient.domain::PlayerStat)#616
+                    displayName = "Magic Damage Dealt"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#617
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "MAGIC_DAMAGE_DEALT_PLAYER"
+                    value = 1604
+                  [24] (com.riotgames.platform.gameclient.domain::PlayerStat)#618
+                    displayName = "Champion Kills"
+                    priority = 2
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#619
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "CHAMPIONS_KILLED"
+                    value = 2
+                  [25] (com.riotgames.platform.gameclient.domain::PlayerStat)#620
+                    displayName = "Deaths"
+                    priority = 3
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#621
+                      displayName = "Combat"
+                      name = "COMBAT_CATEGORY"
+                      priority = 2
+                    statTypeName = "NUM_DEATHS"
+                    value = 1
+                  [26] (com.riotgames.platform.gameclient.domain::PlayerStat)#622
+                    displayName = "Largest Critical Strike"
+                    priority = 4
+                    statCategory = (com.riotgames.platform.gameclient.domain::PlayerStatCategory)#623
+                      displayName = "Damage Done"
+                      name = "DAMAGE_DONE_CATEGORY"
+                      priority = 3
+                    statTypeName = "LARGEST_CRITICAL_STRIKE"
+                    value = 476
+                uid = "20A59409-4DBE-FC12-5047-3983678A57E0"
+              sort = (null)
+              source = (Array)#569
+            summonerName = "Tolbi Gangles"
+            teamId = 100
+            userId = 24428525
+            wins = 94
+        uid = "0403F26A-9F93-720D-662D-3983675B97B2"
+      sort = (null)
+      source = (Array)#318
+    timeUntilNextFirstWinBonus = 79200000
+    userId = 38318437
+  clientId = "gn-38318437"
+  correlationId = ""
+  destination = "messagingDestination"
+  headers = (Object)#624
+    DSSubtopic = "gn-38318437"
+  messageId = "4d0c238d-0728-4a6e-9e7f-adf16d1c9166"
+  timestamp = 1319519870650
+  timeToLive = 0
