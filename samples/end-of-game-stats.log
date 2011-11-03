@@ -1,3 +1,4 @@
+(mx.messaging.messages::AsyncMessageExt)#0
   body = (com.riotgames.platform.gameclient.domain::EndOfGameStats)#1
     basePoints = 67
     boostIpEarned = 145
@@ -2945,3 +2946,4 @@
   messageId = "4d0c238d-0728-4a6e-9e7f-adf16d1c9166"
   timestamp = 1319519870650
   timeToLive = 0
+done

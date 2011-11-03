@@ -1,54 +1,74 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, GeneralizedNewtypeDeriving #-}
 module ParseLog where
 
-import Prelude hiding (takeWhile)
-import Data.Attoparsec.Char8
+import Data.Attoparsec as P
+import Data.Attoparsec.Char8 (char8, endOfLine)
+import qualified Data.Attoparsec.Char8 as P8
+
+import qualified Data.ByteString.Char8 as C8
 import qualified Data.ByteString as S
+import qualified Data.ByteString.Lazy as L
 import Control.Applicative hiding (many)
+import Control.Monad
+import Control.Monad.Reader
+import Data.Maybe (catMaybes)
 
-data Log = Log deriving Show
+import Value
+import Json
+import Data.Aeson (encode)
 
-{-
-parseFile :: FilePath -> IO ()
-parseFile path = parseOnly logParser <$> S.readFile path >>= print
--}
+data Log = Log { logLines :: [LogLine] } deriving Show
 
-data Value = NumberValue Integer
-           | StringValue S.ByteString
-           | BooleanValue Bool
-           | NullValue
-           | ObjectValue S.ByteString [(S.ByteString, Value)]
-           deriving (Show, Eq)
+parseLog = Log <$> many (logLine <* many (satisfy $ inClass "\n \r"))
 
-value :: Parser Value
-value = null <|> boolean <|> str <|> number
+data LogLine = LogLine { logTimestamp :: S.ByteString
+                       , logLevel     :: S.ByteString
+                       , logMessage   :: Message
+                       } deriving (Show)
+whiteSpace = P.takeWhile (inClass " ")
+
+logLine = LogLine <$> dateTime <* whiteSpace <*> level <* whiteSpace <*> message
+
+dateTime :: Parser S.ByteString
+dateTime = S.concat <$> sequence [digits, string "/", digits, string "/", digits, string " ", digits, string ":", digits, string ":", digits, string ".", digits]
     where
-        number  = NumberValue . read <$> many digit 
-        boolean = (string "false" *> return (BooleanValue False)) <|> (string "true" *> return (BooleanValue True))
-        str     = StringValue <$> (char '"' *> takeWhile (not . (== '"')) <* char '"')
-        null    = string "(null)" *> return NullValue
+        digits = P.takeWhile1 $ inClass "0-9"
 
-object = do
-    char '('
-    name <- objectType
-    endOfLine
-    pairs <- many (pair <* endOfLine)
-    return $ ObjectValue name pairs
+level  =  string "["
+       *> (foldr1 (<|>) . map string $ ["INFO", "DEBUG", "WARN", "ERROR", "FATAL"])
+      <*  string "]"
 
-pair = do
-    k <- word
-    whiteSpace
-    char '='
-    whiteSpace
-    v <- value
-    return (k, v)
+message = endOfGameStats <|> sentMessage <|> other
+    where
+        endOfGameStats = do
+            string "com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Got async message:"
+            whiteSpace
+            obj@(ObjectValue _ _ properties) <- parseValue
+            case lookup "body" properties of
+                Just stats@(ObjectValue name _ _) ->
+                    if (name == "com.riotgames.platform.gameclient.domain::EndOfGameStats")
+                    then return . EndOfGameStats $ stats
+                    else return . AsyncMessageExt $ obj
+                _ -> return . AsyncMessageExt $ obj
+        sentMessage = do
+            string "com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message:"
+            whiteSpace
+            SentMessage <$> parseValue
+        other = Other <$> P.takeTill (inClass "\n")
 
-objectType = char '(' *> takeWhile (not . (== ')')) <* char ')'
+data Message = AsyncMessageExt Value
+             | EndOfGameStats Value
+             | SentMessage Value
+             | Other S.ByteString
+             deriving(Show)
 
-whiteSpace = many space
-
-word = takeWhile1 (not . isSpace)
-
-indent spaces = sequence . replicate spaces $ space
-
-withIndent spaces parser = indent spaces *> parser
+gamesAsJSON :: S.ByteString -> L.ByteString
+gamesAsJSON logText = encode gameStats
+    where
+        lines = parseOnly parseLog logText
+        gameStats = case lines of
+            Left err          -> [StringValue . C8.pack $ err]
+            Right (Log lines) -> catMaybes . map maybeStats $ lines
+        maybeStats l = case logMessage l of 
+            (EndOfGameStats stats) -> Just stats
+            _                      -> Nothing
