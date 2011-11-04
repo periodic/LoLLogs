@@ -8,13 +8,13 @@ import qualified Data.Attoparsec.Char8 as P8
 import qualified Data.ByteString.Char8 as C8
 import qualified Data.ByteString as S
 import qualified Data.ByteString.Lazy as L
+import qualified Data.Map as M
 import Control.Applicative hiding (many)
 import Control.Monad
 import Control.Monad.Reader
 import Data.Maybe (catMaybes)
 
-import Value
-import Json
+import Data.ASObject
 import Data.Aeson (encode)
 
 data Log = Log { logLines :: [LogLine] } deriving Show
@@ -43,9 +43,9 @@ message = endOfGameStats <|> sentMessage <|> other
         endOfGameStats = do
             string "com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Got async message:"
             whiteSpace
-            obj@(ObjectValue _ _ properties) <- parseValue
-            case lookup "body" properties of
-                Just stats@(ObjectValue name _ _) ->
+            obj@(ASObject _ _ properties) <- parseActionScript
+            case M.lookup "body" properties of
+                Just stats@(ASObject name _ _) ->
                     if (name == "com.riotgames.platform.gameclient.domain::EndOfGameStats")
                     then return . EndOfGameStats $ stats
                     else return . AsyncMessageExt $ obj
@@ -53,12 +53,12 @@ message = endOfGameStats <|> sentMessage <|> other
         sentMessage = do
             string "com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message:"
             whiteSpace
-            SentMessage <$> parseValue
+            SentMessage <$> parseActionScript
         other = Other <$> P.takeTill (inClass "\n")
 
-data Message = AsyncMessageExt Value
-             | EndOfGameStats Value
-             | SentMessage Value
+data Message = AsyncMessageExt ASValue
+             | EndOfGameStats ASValue
+             | SentMessage ASValue
              | Other S.ByteString
              deriving(Show)
 
@@ -67,7 +67,7 @@ gamesAsJSON logText = encode gameStats
     where
         lines = parseOnly parseLog logText
         gameStats = case lines of
-            Left err          -> [StringValue . C8.pack $ err]
+            Left err          -> [toAS err]
             Right (Log lines) -> catMaybes . map maybeStats $ lines
         maybeStats l = case logMessage l of 
             (EndOfGameStats stats) -> Just stats
