@@ -1,0 +1,1259 @@
+11/4/2011 22:08:37.500 [INFO] com.riotgames.platform.common.utils.LogManager RiotApplication: initializing
+11/4/2011 22:08:37.500 [DEBUG] com.riotgames.platform.common.utils.LogManager This is a debug message.
+11/4/2011 22:08:37.500 [INFO] com.riotgames.platform.common.utils.LogManager This is an info message.
+11/4/2011 22:08:37.500 [WARN] com.riotgames.platform.common.utils.LogManager This is a warning message.
+11/4/2011 22:08:37.500 [ERROR] com.riotgames.platform.common.utils.LogManager This is an error message.
+11/4/2011 22:08:37.500 [FATAL] com.riotgames.platform.common.utils.LogManager This is fatal message.
+11/4/2011 22:08:37.500 [INFO] com.riotgames.platform.gameclient.RiotApplication loadLocale: loading resource bundle: /assets/locale/resources-en_US.swf
+11/4/2011 22:08:37.500 [WARN] com.riotgames.platform.gameclient.RiotApplication RiotApplication.initializeIME: Disabling IME support since IME conversion mode not specified.
+11/4/2011 22:08:37.546 [INFO] LolClient AIR version: 2.5.0.16600 / 16600
+11/4/2011 22:08:37.546 [INFO] LolClient Flash version: WIN 10,1,85,3
+11/4/2011 22:08:37.546 [INFO] LolClient Shell.onInitialize: Starting the League of Legends Game Client 1.47.11_11_03_17_32
+11/4/2011 22:08:37.546 [INFO] LolClient Shell.onInitialize: Configured to connect to League of Legends platform server: [object MultiValueProperty]
+11/4/2011 22:08:37.546 [INFO] com.riotgames.platform.common.utils.LogManager Remoting URL: rtmps://beta.lol.riotgames.com:2099
+11/4/2011 22:08:37.546 [INFO] com.riotgames.platform.common.utils.LogManager Messsaging channel: my-rtmps
+11/4/2011 22:08:37.546 [INFO] com.riotgames.platform.common.utils.LogManager Start Maestro?: Yes
+11/4/2011 22:08:37.546 [INFO] com.riotgames.platform.common.utils.LogManager Start Chat?: Yes
+11/4/2011 22:08:37.546 [INFO] com.riotgames.platform.common.utils.LogManager XMPP URL: conference.pvp.net
+11/4/2011 22:08:37.546 [INFO] com.riotgames.platform.common.utils.LogManager Disconnect Logging?: Yes
+11/4/2011 22:08:37.546 [DEBUG] com.riotgames.platform.common.utils.LogManager Memory Snapshot: 14.74 MB (15092 kb)
+11/4/2011 22:08:37.546 [DEBUG] LolClient Shell.onInitialize: Loading font module /css/fonts.swf
+11/4/2011 22:08:37.796 [DEBUG] com.riotgames.platform.gameclient.RiotApplication RiotApplication.resourceBundleLoaded: Locale en_US supported.
+11/4/2011 22:08:37.796 [DEBUG] com.riotgames.platform.gameclient.wordfilter.WordFilter WordFilter.initialize: Initializing for locale en_US
+11/4/2011 22:08:37.812 [INFO] com.riotgames.platform.gameclient.wordfilter.WordFilter WordFilter.initialize: Bad word list initialized with 207 words.
+11/4/2011 22:08:37.812 [INFO] com.riotgames.platform.gameclient.wordfilter.WordFilter WordFilter.initialize: Restricted word list initialized with 4 words.
+11/4/2011 22:08:38.359 [INFO] LolClient initialize: Maestro starting.
+11/4/2011 22:08:38.359 [DEBUG] com.riotgames.platform.gameclient.maestro.MaestroController MaestroController.addMessage: message=Listening On Port: 8393
+
+11/4/2011 22:08:38.359 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.connect: Attempting to connect to Maestro at 127.0.0.1:8393
+11/4/2011 22:08:38.359 [INFO] LolClient initialize: Maestro started.
+11/4/2011 22:08:40.562 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.connectHandler: [Event type="connect" bubbles=false cancelable=false eventPhase=2]
+11/4/2011 22:08:40.562 [DEBUG] com.riotgames.platform.gameclient.maestro.MaestroController MaestroController.addMessage: message=First heartbeat.
+
+11/4/2011 22:08:43.359 [INFO] com.riotgames.platform.gameclient.module.services.rest.RestAuthServiceImpl Calling RestService POST:https://lq.na.lol.riotgames.com/login-queue/rest/queue/authenticate
+11/4/2011 22:08:49.078 [ERROR] com.riotgames.platform.common.utils.HttpRequest authenticate: Service fault: {"rate":0,"reason":"invalid_credentials","status":"FAILED","delay":10000}: HTTP request error: Server.Error.Request: Error: [IOErrorEvent type="ioError" bubbles=false cancelable=false eventPhase=2 text="Error #2032" errorID=2032]. URL: https://lq.na.lol.riotgames.com/login-queue/rest/queue/authenticate
+11/4/2011 22:08:49.078 [ERROR] com.riotgames.platform.gameclient.module.login.view.LoginView Auth failed with fault event:: status Code:403
+11/4/2011 22:08:52.296 [INFO] com.riotgames.platform.gameclient.module.services.rest.RestAuthServiceImpl Calling RestService POST:https://lq.na.lol.riotgames.com/login-queue/rest/queue/authenticate
+11/4/2011 22:08:52.812 [DEBUG] com.riotgames.platform.gameclient.module.login.controller.LoginQueueController Queue success, proceed directly to login LOGIN
+11/4/2011 22:08:52.812 [DEBUG] com.riotgames.platform.gameclient.module.login.view.LoginView Starting login process
+11/4/2011 22:08:52.812 [INFO] com.riotgames.platform.gameclient.module.login.controller.LoginController login...
+11/4/2011 22:08:52.812 [INFO] com.riotgames.platform.gameclient.module.services.rest.RestAuthServiceImpl Calling RestService GET:http://ll.leagueoflegends.com/services/connection_info
+11/4/2011 22:08:53.046 [INFO] com.riotgames.platform.gameclient.module.login.controller.LoginController Login with authToken [9b69c3fb-a0a9-4d78-a64a-393eb16ba9c7]
+11/4/2011 22:08:53.062 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Creating RTMPS Channel
+11/4/2011 22:08:53.062 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] (com.riotgames.platform.common.domain::AuthenticationCredentials)#2
+      authToken = "9b69c3fb-a0a9-4d78-a64a-393eb16ba9c7"
+      clientVersion = "1.47.11_11_03_17_32"
+      domain = "lolclient.lol.riotgames.com"
+      ipAddress = "69.181.66.36"
+      locale = "en_US"
+      oldPassword = (null)
+      partnerCredentials = (null)
+      securityAnswer = (null)
+  clientId = (null)
+  destination = ""
+  headers = (Object)#3
+    DSRequestTimeout = 60
+  messageId = "F56E6484-6F0B-04BD-309E-72211EC6967D"
+  operation = "login"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:08:53.953 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator ChannelSet Connected: [ChannelEvent channelId="my-rtmps" reconnecting=false rejected=false type="channelConnect" bubbles=false cancelable=false eventPhase=2]
+11/4/2011 22:08:54.031 [INFO] com.riotgames.platform.gameclient.module.login.controller.LoginController handleLoginSuccess...
+11/4/2011 22:08:54.031 [INFO] ChannelSet.AuthenticationAgent '2F71731D-1339-050F-018D-7221228F026C' authentication agent connected.
+11/4/2011 22:08:54.093 [INFO] ChannelSet.AuthenticationAgent '2F71731D-1339-050F-018D-7221228F026C' authentication agent acknowledge of 'E09DC6BF-156B-07F6-37F1-7221228F13B1'.
+11/4/2011 22:08:58.859 [DEBUG] com.riotgames.platform.gameclient.chat.muc.MucCluster enableWatcher
+11/4/2011 22:08:59.421 [DEBUG] com.riotgames.platform.gameclient.components.chrome.PersistentNavigator fade out store button
+11/4/2011 22:08:59.484 [DEBUG] com.riotgames.gameclient.controllers.lobby.LobbyController LobbyController.initialize: Initializing the LobbyController.
+11/4/2011 22:08:59.484 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.SummonerProfileController SummonerProfileController.initialize: Initializing the SummonerProfileController
+11/4/2011 22:08:59.484 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.initialize: Initializing the RuneBookController
+11/4/2011 22:08:59.484 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.ChampionSkinController ChampionSkinController.initialize: Initializing the ChampionSkinController
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.initialize: Initializing the MasterGameController.
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.practice.JoinGameController JoinGameController.initialize: Initializing the JoinGameController
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController MasterGameViewController.initialize: Initializing the MasterGameViewController.
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.TeamSelectionController TeamSelectionController.initialize: Initializing the TeamSelectionController
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.ChampionSelectionController ChampionSelectionController.initialize: Initializing the ChampionSelectionController.
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.QueuedGameController QueuedGameController.initialize: Initializing the QueuedGameController
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.InGameController InGameController.initialize: Initializing the InGameController
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.controllers.game.EndOfGameStatsController EndOfGameStatsController.initialize: Initializing the EndOfGameStatsController
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.gameclient.controllers.lobby.LobbyController LobbyController.activate: Activating the LobbyController.
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Memory Snapshot: 42.02 MB (43032 kb)
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.ApplicationController loadSummoner...
+11/4/2011 22:08:59.500 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+  clientId = (null)
+  destination = "clientFacadeService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "B545AA99-4D4E-E6AF-E66B-722137ECBD5A"
+  operation = "getLoginDataPacketForUser"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:08:59.515 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+  clientId = (null)
+  destination = "matchmakerService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "94A10EAB-7222-FC20-1B04-722137EC59DD"
+  operation = "getAvailableQueues"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:08:59.515 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.SummonerProfileController SummonerProfileController.deactivate: Deactivating the SummonerProfileController
+11/4/2011 22:08:59.515 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.deactivate: Deactivating the RuneBookController
+11/4/2011 22:08:59.515 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.ChampionSkinController ChampionSkinController.deactivate: Deactivating the ChampionSkinController
+11/4/2011 22:08:59.515 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Memory Snapshot: 42.29 MB (43300 kb)
+11/4/2011 22:09:00.359 [DEBUG] com.riotgames.platform.gameclient.ApplicationController ViewMediatorImpl.loadSummonerCatalogHandler: received catalog for summoner.
+11/4/2011 22:09:00.359 [DEBUG] com.riotgames.platform.gameclient.ApplicationController handleGetSummonerByAccountId...
+11/4/2011 22:09:00.437 [WARN] com.riotgames.gameclient.domain.UserPreferencesManager loadSharedPreferences: error processing property = 
+11/4/2011 22:09:00.468 [INFO] com.riotgames.platform.gameclient.ApplicationController Matchmaking enabled by the server? true
+11/4/2011 22:09:00.468 [INFO] com.riotgames.platform.gameclient.ApplicationController Max Practice Game Size by Server: 5
+11/4/2011 22:09:00.468 [DEBUG] com.riotgames.platform.gameclient.ApplicationController ApplicationController.handleLoginDataPacket: Initiating a request to retrieve active boosts.
+11/4/2011 22:09:00.468 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+  clientId = (null)
+  destination = "inventoryService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "8C05184A-F4E0-67EE-F2FA-72213BB45E29"
+  operation = "getSumonerActiveBoosts"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:09:00.468 [DEBUG] com.riotgames.platform.gameclient.ApplicationController ApplicationController.handleLoginDataPacket: Initiating a request to retrieve the list of available champions.
+11/4/2011 22:09:00.468 [INFO] com.riotgames.platform.gameclient.domain.inventory.Inventory Loading user inventory
+11/4/2011 22:09:00.484 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+  clientId = (null)
+  destination = "inventoryService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "581F2EEB-2199-5DFB-18BB-72213BC4E7ED"
+  operation = "getAvailableChampions"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:09:00.484 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.getRuneInventory: Retrieving the rune inventory for summoner ShaperOfChaos
+11/4/2011 22:09:00.500 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] 24073547
+  clientId = (null)
+  destination = "summonerRuneService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "9887BF70-1AA1-F181-0878-72213BC47326"
+  operation = "getSummonerRuneInventory"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:09:00.500 [INFO] com.riotgames.platform.gameclient.domain.inventory.Inventory Finished loading user inventory
+11/4/2011 22:09:00.500 [DEBUG] com.riotgames.platform.gameclient.chat.PresenceController PresenceController.sendGroupChatPresenceUpdate Updating all chat rooms with presence information.
+11/4/2011 22:09:00.500 [DEBUG] com.riotgames.platform.gameclient.chat.PresenceController PresenceController.sendGroupChatPresenceUpdate Updating all chat rooms with presence information.
+11/4/2011 22:09:00.515 [DEBUG] com.riotgames.platform.gameclient.ApplicationController ApplicationController.updateClientSystemStates: Game maps updated. Total 4 game maps.
+11/4/2011 22:09:00.515 [DEBUG] com.riotgames.platform.gameclient.components.chrome.PersistentNavigator fade in store button
+11/4/2011 22:09:00.515 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+  clientId = (null)
+  destination = "matchmakerService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "A4A0ED21-248E-95AA-3B20-72213BE367E0"
+  operation = "getAvailableQueues"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:09:00.515 [INFO] com.riotgames.platform.gameclient.ApplicationController setting the heartbeat interval to 180 and starting heartbeats
+11/4/2011 22:09:00.640 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] 38318437
+    [1] "407f40a7-8391-4ced-a92e-5e5620ed6ae1"
+    [2] 1
+    [3] "Fri Nov 4 2011 22:09:00 GMT-0700"
+  clientId = (null)
+  destination = "loginService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "05346670-9C0F-A78C-0835-72213C6017F1"
+  operation = "performLCDSHeartBeat"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:09:00.640 [DEBUG] com.riotgames.platform.gameclient.summoner.masteries.LocalMasteriesController repairing local mastery pages
+11/4/2011 22:09:00.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl setupConnectionEventListeners...
+11/4/2011 22:09:00.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl setCurrentState: changing state to [stateLoggingIn]
+11/4/2011 22:09:00.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connect: connecting to XMPP server: shaperofchaos@chat.na.lol.riotgames.com:5223/xiff is stateLoggingIn
+11/4/2011 22:09:00.703 [DEBUG] com.riotgames.platform.gameclient.domain.inventory.Inventory MasterGameController.onRetrieveAvailableChampionsSuccess: Retrieved 86 available champions.
+11/4/2011 22:09:00.703 [DEBUG] com.riotgames.platform.gameclient.domain.inventory.Inventory Inventory.updateFreeToPlayChampions setting the following champion to free to play: 3,8,21,23,24,27,37,41,90,104
+11/4/2011 22:09:00.703 [INFO] com.riotgames.platform.gameclient.domain.inventory.Inventory FINISHED RETRIEVING CHAMPIONS
+11/4/2011 22:09:00.718 [INFO] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController Runebook inventory retrieved: [object SummonerRuneInventory]
+11/4/2011 22:09:00.718 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController Setting Rune Inventory, disabling maestro check
+11/4/2011 22:09:00.718 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.onSummonerRuneInventoryRetrieved: Rune inventory for summoner ShaperOfChaos retrieved.
+11/4/2011 22:09:00.718 [INFO] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController Runebook inventory retrieved FINISHED
+11/4/2011 22:09:00.734 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 1 of 2)...
+11/4/2011 22:09:01.500 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 1 of 2)...
+11/4/2011 22:09:01.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<?xml version="1.0"?><stream:stream to="pvp.net" xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" version="1.0">
+11/4/2011 22:09:01.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_connectSuccessHandler: connected to XMPP server: shaperofchaos@chat.na.lol.riotgames.com:5223/xiff is stateLoggingIn
+11/4/2011 22:09:01.671 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 2 of 2)...
+11/4/2011 22:09:02.609 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=confidential
+11/4/2011 22:09:02.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<?xml version="1.0"?><stream:stream to="pvp.net" xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" version="1.0">
+11/4/2011 22:09:02.703 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq id="iq_1" type="set"><bind xmlns="urn:ietf:params:xml:ns:xmpp-bind"><resource>xiff</resource></bind></iq>
+11/4/2011 22:09:02.812 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq id="iq_3" type="set"><session xmlns="urn:ietf:params:xml:ns:xmpp-session" /></iq>
+11/4/2011 22:09:02.843 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.getDefaultPrivacyList: Requesting the default privacy list
+11/4/2011 22:09:02.843 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq to="pvp.net" id="privacy_5" type="get"><query xmlns="jabber:iq:privacy" /></iq>
+11/4/2011 22:09:02.906 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net/ShaperOfChaos"><priority>0</priority><x xmlns="http://jabber.org/protocol/muc" /></presence>
+11/4/2011 22:09:02.906 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq id="roster_6" type="get"><query xmlns="jabber:iq:roster" /></iq>
+11/4/2011 22:09:02.906 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence><status>Online</status><priority>5</priority></presence>
+11/4/2011 22:09:02.906 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl login successful
+11/4/2011 22:09:02.906 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl setCurrentState: changing state to [stateConnected]
+11/4/2011 22:09:02.921 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.onAllPrivacyListsRetrieved: Retrieved list of all privacy lists.
+11/4/2011 22:09:02.921 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.onAllPrivacyListsRetrieved: Privacy list LOL found.
+11/4/2011 22:09:02.921 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.getPrivacyList: Requesting privacy list LOL details
+11/4/2011 22:09:02.921 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq to="pvp.net" id="privacy_8" type="get"><query xmlns="jabber:iq:privacy"><list name="LOL" /></query></iq>
+11/4/2011 22:09:03.062 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:09:03.062 [DEBUG] com.riotgames.platform.gameclient.chat.PresenceController PresenceController.sendGroupChatPresenceUpdate Updating all chat rooms with presence information.
+11/4/2011 22:09:03.078 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net/ShaperOfChaos"><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:09:03.281 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.onPrivacyListRetrieved: Retrieved default privacy list.
+11/4/2011 22:09:03.281 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.retrieveSummonerNames: Retrieving summoner names for privacy list items
+11/4/2011 22:09:03.281 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] (Array)#2
+      [0] 23213789
+      [1] 23959332
+      [2] 23884284
+      [3] 23530951
+      [4] 21649572
+      [5] 20870460
+      [6] 19883040
+      [7] 103206
+      [8] 99771
+      [9] 20113498
+      [10] 25074608
+      [11] 19435756
+      [12] 21445033
+      [13] 22334269
+      [14] 20487930
+      [15] 85226
+      [16] 23788743
+      [17] 25335606
+  clientId = (null)
+  destination = "summonerService"
+  headers = (Object)#3
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "A3A0436F-F1A9-AABB-2F5E-722146B1F578"
+  operation = "getSummonerNames"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:09:03.375 [DEBUG] com.riotgames.platform.gameclient.controllers.chat.PrivacyListController PrivacyListController.onSummonerNamesRetrieved: Retrieved 18 summoner names for the privacy list.
+11/4/2011 22:09:03.421 [DEBUG] com.riotgames.platform.gameclient.chat.controls.GroupChatWindow initializeHandler...
+11/4/2011 22:09:03.437 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:09:03.468 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net" id="iq_12" type="set"><query xmlns="http://jabber.org/protocol/muc#owner"><x xmlns="jabber:x:data" type="submit" /></query></iq>
+11/4/2011 22:09:03.484 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:09:03.484 [DEBUG] com.riotgames.platform.gameclient.chat.PresenceController PresenceController.sendGroupChatPresenceUpdate Updating all chat rooms with presence information.
+11/4/2011 22:09:03.484 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net/ShaperOfChaos"><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:09:03.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net" id="disco_info_13" type="get"><query xmlns="http://jabber.org/protocol/disco#info" /></iq>
+11/4/2011 22:09:04.187 [DEBUG] com.riotgames.platform.gameclient.chat.views.chatpanel.CoreChatTextArea scrollChatDisplayToBottom...
+11/4/2011 22:09:04.187 [DEBUG] com.riotgames.platform.gameclient.chat.views.chatpanel.CoreChatTextArea scrollChatDisplayToBottom...
+11/4/2011 22:09:04.296 [DEBUG] com.riotgames.platform.gameclient.chat.ChatController Received error from chat server: forbidden
+11/4/2011 22:09:04.296 [ERROR] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_onErrorHandler: errorCode[403]
+11/4/2011 22:09:04.296 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_onErrorHandler: Received unhandled error code [403]
+11/4/2011 22:09:05.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:09:07.093 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<iq to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net" id="disco_info_16" type="get"><query xmlns="http://jabber.org/protocol/disco#info" /></iq>
+11/4/2011 22:09:28.500 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:09:30.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:09:53.625 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:09:55.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:10:07.281 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl keepAliveTimer_timerHandler: sending keepAlive request.
+11/4/2011 22:10:07.281 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data= 
+11/4/2011 22:10:18.718 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:10:20.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:10:43.812 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:10:45.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:11:08.828 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:11:09.093 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl chatService.sendBuddyMessage: 'yay!' to sum278539@pvp.net
+11/4/2011 22:11:09.093 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<message id="m_19" from="sum24073547@pvp.net/xiff" to="sum278539@pvp.net" type="chat"><body>yay!</body></message>
+11/4/2011 22:11:10.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:11:14.484 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl chatService.sendBuddyMessage: 'er, what's so exciting?' to sum278539@pvp.net
+11/4/2011 22:11:14.500 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<message id="m_20" from="sum24073547@pvp.net/xiff" to="sum278539@pvp.net" type="chat"><body>er, what&apos;s so exciting?</body></message>
+11/4/2011 22:11:33.828 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:11:35.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:11:46.687 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl chatService.sendBuddyMessage: 'nice' to sum278539@pvp.net
+11/4/2011 22:11:46.703 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<message id="m_23" from="sum24073547@pvp.net/xiff" to="sum278539@pvp.net" type="chat"><body>nice</body></message>
+11/4/2011 22:11:58.859 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:12:00.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:12:00.937 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] 38318437
+    [1] "407f40a7-8391-4ced-a92e-5e5620ed6ae1"
+    [2] 2
+    [3] "Fri Nov 4 2011 22:12:00 GMT-0700"
+  clientId = (null)
+  destination = "loginService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "334A8935-2D8F-297A-82CE-7223FCA90BD7"
+  operation = "performLCDSHeartBeat"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:12:23.875 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:12:25.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:12:27.468 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController handleGameInviteResponse: inviteId=1328259875
+11/4/2011 22:12:27.468 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController sendMessageIfValidLCDS....
+11/4/2011 22:12:27.468 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] "1328259875"
+  clientId = (null)
+  destination = "matchmakerService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "2178494B-8735-D0B9-BB5B-7224644CB437"
+  operation = "acceptInviteForMatchmakingGame"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:12:27.500 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController handleSendMessageIfValidLCDS_success....
+11/4/2011 22:12:27.515 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<message to="sum278539@pvp.net/xiff" id="msg_25" type="normal"><body>&lt;body&gt;&lt;inviteId&gt;1328259875&lt;/inviteId&gt;&lt;userName&gt;Spugkiller&lt;/userName&gt;&lt;profileIconId&gt;24&lt;/profileIconId&gt;&lt;gameType&gt;NORMAL_GAME&lt;/gameType&gt;&lt;mapId&gt;1&lt;/mapId&gt;&lt;queueId&gt;2&lt;/queueId&gt;&lt;gameMode&gt;classic_pvp&lt;/gameMode&gt;&lt;gameDifficulty /&gt;&lt;/body&gt;</body><subject>GAME_INVITE_ACCEPT</subject></message>
+11/4/2011 22:12:27.593 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController onInviteStatusReceived
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController handleGameInviteAcceptAck: inviteId=1328259875
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController InviteController.setInviteGroupAsInvitee: Invited to NORMAL_GAME using inviteId 1328259875 for game 0 and map 1
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.SummonerProfileController SummonerProfileController.deactivate: Deactivating the SummonerProfileController
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.deactivate: Deactivating the RuneBookController
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.ChampionSkinController ChampionSkinController.deactivate: Deactivating the ChampionSkinController
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Memory Snapshot: 55.63 MB (56964 kb)
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.startNormalGameFlow: Starting the normal game flow.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.initialize: Initializing the MasterGameController before a game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController MasterGameViewController.initializeCycle: Initializing the MasterGameViewController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.practice.JoinGameController JoinGameController.initializeCycle: Initializing the JoinGameController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.tutorial.CreateTutorialGameController CreateTutorialGameController.initializeCycle: Initializing the CreateTutorialGameController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.TeamSelectionController TeamSelectionController.initializeCycle: Initializing the TeamSelectionController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.ChampionSelectionController ChampionSelectionController.initializeCycle: Initializing the ChampionSelectionController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.QueuedGameController QueuedGameController.initializeCycle: Initializing the QueuedGameController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.InGameController InGameController.initializeCycle: Initializing the InGameController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.practice.CreatePracticeGameController CreatePracticeGameController.initializeCycle: Initializing the CreatePracticeGameController for a new game cycle.
+11/4/2011 22:12:27.640 [DEBUG] com.riotgames.platform.gameclient.controllers.game.EndOfGameStatsController EndOfGameStatsController.initializeCycle: Initializing the EndOfGameStatsController for a new game cycle.
+11/4/2011 22:12:27.656 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.initializeForNewGame: Registering to be notified of game messages via the MessageRouter.
+11/4/2011 22:12:27.656 [DEBUG] com.riotgames.platform.gameclient.chat.ChatController requestChatRoom: MUC Service disabled
+11/4/2011 22:12:27.656 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController MasterGameViewController.onChatRoomCreated
+11/4/2011 22:12:27.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="ag~d187bc8f5c84edabc3add0bdc2a728ef4720ec53@conference.pvp.net/ShaperOfChaos"><priority>0</priority><x xmlns="http://jabber.org/protocol/muc" /></presence>
+11/4/2011 22:12:27.656 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="ag~d187bc8f5c84edabc3add0bdc2a728ef4720ec53@conference.pvp.net/ShaperOfChaos"><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:12:27.656 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController MasterGameViewController.activate: Activating the MasterGameViewController
+11/4/2011 22:12:27.671 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.currentState<setter>: Setting new view state to NORMAL_JOIN_QUEUE
+11/4/2011 22:12:27.687 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController onInviteStatusReceived
+11/4/2011 22:12:27.765 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 1 of 2)...
+11/4/2011 22:12:27.875 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 1 of 2)...
+11/4/2011 22:12:27.890 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:12:27.890 [DEBUG] com.riotgames.platform.gameclient.chat.PresenceController PresenceController.sendGroupChatPresenceUpdate Updating all chat rooms with presence information.
+11/4/2011 22:12:27.890 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net/ShaperOfChaos"><show>chat</show><status>&lt;body&gt;&lt;gameStatus&gt;outOfGame&lt;/gameStatus&gt;&lt;profileIcon&gt;26&lt;/profileIcon&gt;&lt;level&gt;30&lt;/level&gt;&lt;wins&gt;218&lt;/wins&gt;&lt;leaves&gt;0&lt;/leaves&gt;&lt;queueType /&gt;&lt;rankedWins&gt;0&lt;/rankedWins&gt;&lt;rankedLosses&gt;0&lt;/rankedLosses&gt;&lt;rankedRating&gt;0&lt;/rankedRating&gt;&lt;tier&gt;UNRANKED&lt;/tier&gt;&lt;statusMsg /&gt;&lt;/body&gt;</status><priority>0</priority></presence>
+11/4/2011 22:12:28.078 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 2 of 2)...
+11/4/2011 22:12:37.937 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController onInviteStatusReceived
+11/4/2011 22:12:38.562 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:12:38.671 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController onInviteStatusReceived
+11/4/2011 22:12:48.890 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:12:50.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:12:50.734 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController onInviteStatusReceived
+11/4/2011 22:12:51.468 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController onInviteStatusReceived
+11/4/2011 22:12:51.468 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:12:55.203 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom:room_groupMessageHandler message[wait for jaxon]
+11/4/2011 22:12:55.468 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:12:56.828 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom:room_groupMessageHandler message[bideo!]
+11/4/2011 22:12:57.093 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:13:01.343 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom:room_groupMessageHandler message[jumpin into mumble!]
+11/4/2011 22:13:01.593 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:13:13.937 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:13:15.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:13:38.937 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:13:40.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:14:03.968 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:14:05.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:14:28.984 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:14:30.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:14:54.015 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:14:55.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:15:00.984 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] 38318437
+    [1] "407f40a7-8391-4ced-a92e-5e5620ed6ae1"
+    [2] 3
+    [3] "Fri Nov 4 2011 22:15:00 GMT-0700"
+  clientId = (null)
+  destination = "loginService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "00B902AF-1099-8D26-D42B-7226BBF82A90"
+  operation = "performLCDSHeartBeat"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:15:19.015 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:15:20.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:15:44.015 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:15:45.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:16:09.062 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:16:10.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:16:34.062 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:16:35.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:16:45.968 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom:room_groupMessageHandler message[bimbo did you accept some rewards in my battle pirates/]
+11/4/2011 22:16:46.250 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:16:47.281 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom:room_groupMessageHandler message[?]
+11/4/2011 22:16:47.312 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom:room_groupMessageHandler message[brb, goodies]
+11/4/2011 22:16:47.546 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom updateBufferedMessages...
+11/4/2011 22:16:59.078 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendHeartbeat
+11/4/2011 22:17:00.296 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.messageReceived: Maestro heartbeat received.
+11/4/2011 22:17:08.921 [DEBUG] com.riotgames.gameclient.domain.game.PracticeGameManager cleanupTimer...
+11/4/2011 22:17:08.921 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.currentState<setter>: Setting new view state to 
+11/4/2011 22:17:08.937 [DEBUG] com.riotgames.gameclient.controllers.lobby.LobbyController LobbyController.deactivate: Deactivating the LobbyController.
+11/4/2011 22:17:08.937 [DEBUG] com.riotgames.platform.gameclient.chat.ChatController logout...
+11/4/2011 22:17:08.937 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController setInviteGroupCancel...
+11/4/2011 22:17:08.937 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<message to="sum278539@pvp.net/xiff" id="msg_40" type="normal"><body /><subject>GAME_INVITE_REJECT</subject></message>
+11/4/2011 22:17:08.937 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=<presence to="pu~bed9d93e040dbc21aae86d13f43929e9f650c1d8@conference.pvp.net/ShaperOfChaos" type="unavailable"><priority>0</priority></presence>
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl setCurrentState: changing state to [stateLoggingOut]
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl disconnect: disconnecting from XMPP server: sum24073547@chat.na.lol.riotgames.com:5223/xiff is stateLoggingOut
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_outgoingDataHandler: data=</stream:stream>
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_disconnectHandler: received DisconnectionEvent: sum24073547@chat.na.lol.riotgames.com:5223/xiff is stateLoggingOut
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl setCurrentState: changing state to [stateDisconnected]
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl attemptReconnection: removeConnectionEventListeners=0
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl removeKeepAliveTimer...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.module.services.lcds.ChatServiceImpl connection_disconnectHandler: successful disconnection from XMPP server: sum24073547@chat.na.lol.riotgames.com:5223/xiff is stateDisconnected
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom.conn_disconnectHandler...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom.conn_disconnectHandler...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom.conn_disconnectHandler...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.chat.service.ChatRoom ChatRoom.conn_disconnectHandler...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.gameclient.controllers.lobby.LobbyController LobbyController.cleanup: Cleaning up the LobbyController.
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.SummonerProfileController SummonerProfileController.cleanup: Cleaning up the SummonerProfileController
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.cleanup: Cleaning up the RuneBookController
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.ChampionSkinController ChampionSkinController.cleanup: Cleaning up the ChampionSkinController
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.cleanup: Cleaning up the MasterGameController.
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.game.MasterGameController MasterGameController.cleanupCycle: Cleaning up the MasterGameController after a game cycle.
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.game.practice.JoinGameController JoinGameController.cleanupCycle: Cleaning up the JoinGameController after a game cycle.
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController MasterGameViewController.cleanupCycle: Cleaning up the MasterGameViewController after a game cycle.
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.gameclient.controllers.game.InviteController setInviteGroupCancel...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.gameclient.domain.game.GameQueueManager cleanupTimer...
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController leaveChatRoom
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.game.TeamSelectionController TeamSelectionController.cleanupCycle: Cleaning up the TeamSelectionController after a game cycle.
+11/4/2011 22:17:08.953 [DEBUG] com.riotgames.platform.gameclient.controllers.game.ChampionSelectionController ChampionSelectionController.cleanupCycle: Cleaning up the ChampionSelectionController after a game cycle.
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.QueuedGameController QueuedGameController.cleanupCycle: Cleaning up the QueuedGameController after a game cycle.
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.InGameController InGameController.cleanupCycle: Cleaning up the InGameController after a game cycle.
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.EndOfGameStatsController EndOfGameStatsController.cleanupCycle: Cleaning up the EndOfGameStatsController after a game cycle.
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.practice.JoinGameController JoinGameController.cleanup: Cleaning up the JoinGameController
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.gameclient.controllers.game.MasterGameViewController MasterGameViewController.cleanup: Cleaning up the MasterGameViewController.
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.TeamSelectionController TeamSelectionController.cleanup: Cleaning up the TeamSelectionController
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.ChampionSelectionController ChampionSelectionController.cleanup: Cleaning up the ChampionSelectionController.
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.QueuedGameController QueuedGameController.cleanup: Cleaning up the QueuedGameController
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.InGameController InGameController.cleanup: Cleaning up the InGameController
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.controllers.game.EndOfGameStatsController EndOfGameStatsController.cleanup: Cleaning up the EndOfGameStatsController
+11/4/2011 22:17:08.968 [INFO] com.riotgames.platform.gameclient.ApplicationController Calling loginService.logout()
+11/4/2011 22:17:08.968 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Sending message: (mx.messaging.messages::RemotingMessage)#0
+  body = (Array)#1
+    [0] "407f40a7-8391-4ced-a92e-5e5620ed6ae1"
+  clientId = (null)
+  destination = "loginService"
+  headers = (Object)#2
+    DSEndpoint = "my-rtmps"
+    DSId = "99A2DF27-532E-E415-150B-BF8FF48260B9"
+    DSRequestTimeout = 60
+  messageId = "195414A6-8CEA-D3D1-6B81-7228AFE83E1E"
+  operation = "logout"
+  source = (null)
+  timestamp = 0
+  timeToLive = 0
+11/4/2011 22:17:09.046 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.SummonerProfileController SummonerProfileController.deactivate: Deactivating the SummonerProfileController
+11/4/2011 22:17:09.046 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.RuneBookController RuneBookController.deactivate: Deactivating the RuneBookController
+11/4/2011 22:17:09.046 [DEBUG] com.riotgames.platform.gameclient.controllers.summoner.ChampionSkinController ChampionSkinController.deactivate: Deactivating the ChampionSkinController
+11/4/2011 22:17:09.046 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Memory Snapshot: 59.5 MB (60932 kb)
+11/4/2011 22:17:09.062 [WARN] ChannelSet.AuthenticationAgent '2F71731D-1339-050F-018D-7221228F026C' authentication agent channel disconnected.
+11/4/2011 22:17:09.125 [DEBUG] com.riotgames.platform.gameclient.module.services.async.MessageRouterServiceImpl MessageRouter Channel Disconnected: (mx.messaging.events::ChannelEvent)#0
+  bubbles = false
+  cancelable = false
+  channel = (mx.messaging.channels::SecureRTMPChannel)#1
+    authenticated = true
+    channelSets = (Array)#2
+      [0] (mx.messaging::ChannelSet)#3
+        authenticated = true
+        channelIds = (Array)#4
+          [0] "my-rtmps"
+        channels = (Array)#5
+          [0] (mx.messaging.channels::SecureRTMPChannel)#1
+        clustered = false
+        connected = true
+        currentChannel = (mx.messaging.channels::SecureRTMPChannel)#1
+        heartbeatInterval = 0
+        initialDestinationId = (null)
+        messageAgents = (Array)#6
+          [0] (mx.messaging::Consumer)#7
+            authenticated = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "cn-38318437"
+            connected = true
+            destination = "messagingDestination"
+            id = "5ED3A57C-A29A-2B1C-5D1A-722137ECB8D0"
+            maxFrequency = 0
+            requestTimeout = -1
+            resubscribeAttempts = 5
+            resubscribeInterval = 5000
+            selector = ""
+            subscribed = true
+            subtopic = "cn-38318437"
+            timestamp = 1320469739218
+          [1] (mx.messaging::Consumer)#8
+            authenticated = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "bc-38318437"
+            connected = true
+            destination = "messagingDestination"
+            id = "14257AC2-7B71-2AA2-9AAF-722137ECA303"
+            maxFrequency = 0
+            requestTimeout = -1
+            resubscribeAttempts = 5
+            resubscribeInterval = 5000
+            selector = ""
+            subscribed = true
+            subtopic = "bc"
+            timestamp = 1320469739224
+          [2] (mx.rpc::AsyncRequest)#9
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A316E7-C95A-010E-AD54-91060000789C"
+            connected = true
+            defaultHeaders = (null)
+            destination = "clientFacadeService"
+            id = "EE40644F-89D3-5360-0747-722137EC3237"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [3] (mx.rpc::AsyncRequest)#10
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A3175F-6A0C-57CA-C94B-28A357E10E25"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "4157B0FF-26A9-ECF6-6A49-722137EC9B96"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [4] (mx.rpc::AsyncRequest)#11
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32014-6B0B-B013-3DA6-7B8F66541085"
+            connected = true
+            defaultHeaders = (null)
+            destination = "inventoryService"
+            id = "F68A972E-B92B-07E6-ADBF-72213BB43DF1"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [5] (mx.rpc::AsyncRequest)#12
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32036-991C-7DFA-5F5B-50E8C645D64F"
+            connected = true
+            defaultHeaders = (null)
+            destination = "inventoryService"
+            id = "600F68B0-CAA5-C3BC-E800-72213BB45510"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [6] (mx.rpc::AsyncRequest)#13
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32073-A20C-4206-470B-EE4A06A18B6A"
+            connected = true
+            defaultHeaders = (null)
+            destination = "summonerRuneService"
+            id = "EEB023F1-CC78-3DAB-F092-72213BC46E91"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [7] (mx.rpc::AsyncRequest)#14
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A3207F-D70A-9211-6168-05DCB0611DB2"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "641D9212-8843-C670-1D8F-72213BE39711"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [8] (mx.rpc::AsyncRequest)#15
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A321A9-B10D-B747-45BF-F492D5D9FA6F"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C6A70B56-BFB9-0CC6-4315-72213C605947"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [9] (mx.rpc::AsyncRequest)#16
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A33ADB-E30A-6F49-4B33-2963D103CBBA"
+            connected = true
+            defaultHeaders = (null)
+            destination = "summonerService"
+            id = "B70D8545-85B5-A149-B0B4-722146B18651"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [10] (mx.rpc::AsyncRequest)#17
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A9D69C-4409-8AF4-D919-ED57671C91E9"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C219584C-024F-1D60-10CE-7223FCA94F2A"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [11] (mx.rpc::AsyncRequest)#18
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99AAD39E-C60A-4872-B9AA-866A8051F3F2"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "7EDE75ED-AE11-B493-4F2F-7224644C5D68"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [12] (mx.rpc::AsyncRequest)#19
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99B08B82-A209-9804-9C35-464280780338"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C0016D6A-8189-885C-FCFA-7226BBF8E5CD"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [13] (mx.rpc::AsyncRequest)#20
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99B55005-CE0F-47BD-09E7-D1E8A177DA4C"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "FC18D3EE-D1F9-6560-C1E1-7228AFE8D6D9"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+    connected = true
+    connectTimeout = -1
+    enableSmallMessages = true
+    endpoint = "rtmps://beta.lol.riotgames.com:2099"
+    failoverURIs = (Array)#21
+    id = "my-rtmps"
+    mpiEnabled = false
+    netConnection = (flash.net::NetConnection)#22
+      client = (mx.messaging.channels::SecureRTMPChannel)#1
+      connected = true
+      connectedProxyType = "none"
+      farID = ""
+      farNonce = "0000000000000000000000000000000000000000000000000000000000000000"
+      maxPeerConnections = 8
+      nearID = ""
+      nearNonce = "0000000000000000000000000000000000000000000000000000000000000000"
+      objectEncoding = 3
+      protocol = "rtmp"
+      proxyType = "best"
+      unconnectedPeerStreams = (Array)#23
+      uri = "rtmps://beta.lol.riotgames.com:2099"
+      usingTLS = true
+    protocol = "rtmps"
+    reconnecting = false
+    recordMessageSizes = false
+    recordMessageTimes = false
+    requestTimeout = -1
+    uri = "rtmps://beta.lol.riotgames.com:2099"
+    url = "rtmps://beta.lol.riotgames.com:2099"
+    useSmallMessages = true
+  channelId = "my-rtmps"
+  connected = false
+  currentTarget = (mx.messaging::Consumer)#24
+    authenticated = false
+    channelSet = (mx.messaging::ChannelSet)#3
+    clientId = "gn-38318437"
+    connected = false
+    destination = "messagingDestination"
+    id = "7C7403A4-54CE-2492-FA8B-722137EC3C41"
+    maxFrequency = 0
+    requestTimeout = -1
+    resubscribeAttempts = 5
+    resubscribeInterval = 5000
+    selector = ""
+    subscribed = false
+    subtopic = "gn-38318437"
+    timestamp = 1320469739217
+  eventPhase = 2
+  reconnecting = false
+  rejected = false
+  target = (mx.messaging::Consumer)#24
+  type = "channelDisconnect"
+11/4/2011 22:17:09.156 [DEBUG] com.riotgames.platform.gameclient.module.services.async.MessageRouterServiceImpl MessageRouter Channel Disconnected: (mx.messaging.events::ChannelEvent)#0
+  bubbles = false
+  cancelable = false
+  channel = (mx.messaging.channels::SecureRTMPChannel)#1
+    authenticated = true
+    channelSets = (Array)#2
+      [0] (mx.messaging::ChannelSet)#3
+        authenticated = true
+        channelIds = (Array)#4
+          [0] "my-rtmps"
+        channels = (Array)#5
+          [0] (mx.messaging.channels::SecureRTMPChannel)#1
+        clustered = false
+        connected = true
+        currentChannel = (mx.messaging.channels::SecureRTMPChannel)#1
+        heartbeatInterval = 0
+        initialDestinationId = (null)
+        messageAgents = (Array)#6
+          [0] (mx.messaging::Consumer)#7
+            authenticated = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "bc-38318437"
+            connected = true
+            destination = "messagingDestination"
+            id = "14257AC2-7B71-2AA2-9AAF-722137ECA303"
+            maxFrequency = 0
+            requestTimeout = -1
+            resubscribeAttempts = 5
+            resubscribeInterval = 5000
+            selector = ""
+            subscribed = true
+            subtopic = "bc"
+            timestamp = 1320469739224
+          [1] (mx.rpc::AsyncRequest)#8
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A316E7-C95A-010E-AD54-91060000789C"
+            connected = true
+            defaultHeaders = (null)
+            destination = "clientFacadeService"
+            id = "EE40644F-89D3-5360-0747-722137EC3237"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [2] (mx.rpc::AsyncRequest)#9
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A3175F-6A0C-57CA-C94B-28A357E10E25"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "4157B0FF-26A9-ECF6-6A49-722137EC9B96"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [3] (mx.rpc::AsyncRequest)#10
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32014-6B0B-B013-3DA6-7B8F66541085"
+            connected = true
+            defaultHeaders = (null)
+            destination = "inventoryService"
+            id = "F68A972E-B92B-07E6-ADBF-72213BB43DF1"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [4] (mx.rpc::AsyncRequest)#11
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32036-991C-7DFA-5F5B-50E8C645D64F"
+            connected = true
+            defaultHeaders = (null)
+            destination = "inventoryService"
+            id = "600F68B0-CAA5-C3BC-E800-72213BB45510"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [5] (mx.rpc::AsyncRequest)#12
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32073-A20C-4206-470B-EE4A06A18B6A"
+            connected = true
+            defaultHeaders = (null)
+            destination = "summonerRuneService"
+            id = "EEB023F1-CC78-3DAB-F092-72213BC46E91"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [6] (mx.rpc::AsyncRequest)#13
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A3207F-D70A-9211-6168-05DCB0611DB2"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "641D9212-8843-C670-1D8F-72213BE39711"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [7] (mx.rpc::AsyncRequest)#14
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A321A9-B10D-B747-45BF-F492D5D9FA6F"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C6A70B56-BFB9-0CC6-4315-72213C605947"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [8] (mx.rpc::AsyncRequest)#15
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A33ADB-E30A-6F49-4B33-2963D103CBBA"
+            connected = true
+            defaultHeaders = (null)
+            destination = "summonerService"
+            id = "B70D8545-85B5-A149-B0B4-722146B18651"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [9] (mx.rpc::AsyncRequest)#16
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A9D69C-4409-8AF4-D919-ED57671C91E9"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C219584C-024F-1D60-10CE-7223FCA94F2A"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [10] (mx.rpc::AsyncRequest)#17
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99AAD39E-C60A-4872-B9AA-866A8051F3F2"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "7EDE75ED-AE11-B493-4F2F-7224644C5D68"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [11] (mx.rpc::AsyncRequest)#18
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99B08B82-A209-9804-9C35-464280780338"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C0016D6A-8189-885C-FCFA-7226BBF8E5CD"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [12] (mx.rpc::AsyncRequest)#19
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99B55005-CE0F-47BD-09E7-D1E8A177DA4C"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "FC18D3EE-D1F9-6560-C1E1-7228AFE8D6D9"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+    connected = true
+    connectTimeout = -1
+    enableSmallMessages = true
+    endpoint = "rtmps://beta.lol.riotgames.com:2099"
+    failoverURIs = (Array)#20
+    id = "my-rtmps"
+    mpiEnabled = false
+    netConnection = (flash.net::NetConnection)#21
+      client = (mx.messaging.channels::SecureRTMPChannel)#1
+      connected = true
+      connectedProxyType = "none"
+      farID = ""
+      farNonce = "0000000000000000000000000000000000000000000000000000000000000000"
+      maxPeerConnections = 8
+      nearID = ""
+      nearNonce = "0000000000000000000000000000000000000000000000000000000000000000"
+      objectEncoding = 3
+      protocol = "rtmp"
+      proxyType = "best"
+      unconnectedPeerStreams = (Array)#22
+      uri = "rtmps://beta.lol.riotgames.com:2099"
+      usingTLS = true
+    protocol = "rtmps"
+    reconnecting = false
+    recordMessageSizes = false
+    recordMessageTimes = false
+    requestTimeout = -1
+    uri = "rtmps://beta.lol.riotgames.com:2099"
+    url = "rtmps://beta.lol.riotgames.com:2099"
+    useSmallMessages = true
+  channelId = "my-rtmps"
+  connected = false
+  currentTarget = (mx.messaging::Consumer)#23
+    authenticated = false
+    channelSet = (mx.messaging::ChannelSet)#3
+    clientId = "cn-38318437"
+    connected = false
+    destination = "messagingDestination"
+    id = "5ED3A57C-A29A-2B1C-5D1A-722137ECB8D0"
+    maxFrequency = 0
+    requestTimeout = -1
+    resubscribeAttempts = 5
+    resubscribeInterval = 5000
+    selector = ""
+    subscribed = false
+    subtopic = "cn-38318437"
+    timestamp = 1320469739218
+  eventPhase = 2
+  reconnecting = false
+  rejected = false
+  target = (mx.messaging::Consumer)#23
+  type = "channelDisconnect"
+11/4/2011 22:17:09.171 [DEBUG] com.riotgames.platform.gameclient.module.services.async.MessageRouterServiceImpl MessageRouter Channel Disconnected: (mx.messaging.events::ChannelEvent)#0
+  bubbles = false
+  cancelable = false
+  channel = (mx.messaging.channels::SecureRTMPChannel)#1
+    authenticated = true
+    channelSets = (Array)#2
+      [0] (mx.messaging::ChannelSet)#3
+        authenticated = true
+        channelIds = (Array)#4
+          [0] "my-rtmps"
+        channels = (Array)#5
+          [0] (mx.messaging.channels::SecureRTMPChannel)#1
+        clustered = false
+        connected = true
+        currentChannel = (mx.messaging.channels::SecureRTMPChannel)#1
+        heartbeatInterval = 0
+        initialDestinationId = (null)
+        messageAgents = (Array)#6
+          [0] (mx.rpc::AsyncRequest)#7
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A316E7-C95A-010E-AD54-91060000789C"
+            connected = true
+            defaultHeaders = (null)
+            destination = "clientFacadeService"
+            id = "EE40644F-89D3-5360-0747-722137EC3237"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [1] (mx.rpc::AsyncRequest)#8
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A3175F-6A0C-57CA-C94B-28A357E10E25"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "4157B0FF-26A9-ECF6-6A49-722137EC9B96"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [2] (mx.rpc::AsyncRequest)#9
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32014-6B0B-B013-3DA6-7B8F66541085"
+            connected = true
+            defaultHeaders = (null)
+            destination = "inventoryService"
+            id = "F68A972E-B92B-07E6-ADBF-72213BB43DF1"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [3] (mx.rpc::AsyncRequest)#10
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32036-991C-7DFA-5F5B-50E8C645D64F"
+            connected = true
+            defaultHeaders = (null)
+            destination = "inventoryService"
+            id = "600F68B0-CAA5-C3BC-E800-72213BB45510"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [4] (mx.rpc::AsyncRequest)#11
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A32073-A20C-4206-470B-EE4A06A18B6A"
+            connected = true
+            defaultHeaders = (null)
+            destination = "summonerRuneService"
+            id = "EEB023F1-CC78-3DAB-F092-72213BC46E91"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [5] (mx.rpc::AsyncRequest)#12
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A3207F-D70A-9211-6168-05DCB0611DB2"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "641D9212-8843-C670-1D8F-72213BE39711"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [6] (mx.rpc::AsyncRequest)#13
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A321A9-B10D-B747-45BF-F492D5D9FA6F"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C6A70B56-BFB9-0CC6-4315-72213C605947"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [7] (mx.rpc::AsyncRequest)#14
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A33ADB-E30A-6F49-4B33-2963D103CBBA"
+            connected = true
+            defaultHeaders = (null)
+            destination = "summonerService"
+            id = "B70D8545-85B5-A149-B0B4-722146B18651"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [8] (mx.rpc::AsyncRequest)#15
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99A9D69C-4409-8AF4-D919-ED57671C91E9"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C219584C-024F-1D60-10CE-7223FCA94F2A"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [9] (mx.rpc::AsyncRequest)#16
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99AAD39E-C60A-4872-B9AA-866A8051F3F2"
+            connected = true
+            defaultHeaders = (null)
+            destination = "matchmakerService"
+            id = "7EDE75ED-AE11-B493-4F2F-7224644C5D68"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [10] (mx.rpc::AsyncRequest)#17
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99B08B82-A209-9804-9C35-464280780338"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "C0016D6A-8189-885C-FCFA-7226BBF8E5CD"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+          [11] (mx.rpc::AsyncRequest)#18
+            authenticated = true
+            autoConnect = true
+            channelSet = (mx.messaging::ChannelSet)#3
+            clientId = "99B55005-CE0F-47BD-09E7-D1E8A177DA4C"
+            connected = true
+            defaultHeaders = (null)
+            destination = "loginService"
+            id = "FC18D3EE-D1F9-6560-C1E1-7228AFE8D6D9"
+            priority = -1
+            reconnectAttempts = 0
+            reconnectInterval = 0
+            requestTimeout = 60
+            subtopic = ""
+    connected = true
+    connectTimeout = -1
+    enableSmallMessages = true
+    endpoint = "rtmps://beta.lol.riotgames.com:2099"
+    failoverURIs = (Array)#19
+    id = "my-rtmps"
+    mpiEnabled = false
+    netConnection = (flash.net::NetConnection)#20
+      client = (mx.messaging.channels::SecureRTMPChannel)#1
+      connected = true
+      connectedProxyType = "none"
+      farID = ""
+      farNonce = "0000000000000000000000000000000000000000000000000000000000000000"
+      maxPeerConnections = 8
+      nearID = ""
+      nearNonce = "0000000000000000000000000000000000000000000000000000000000000000"
+      objectEncoding = 3
+      protocol = "rtmp"
+      proxyType = "best"
+      unconnectedPeerStreams = (Array)#21
+      uri = "rtmps://beta.lol.riotgames.com:2099"
+      usingTLS = true
+    protocol = "rtmps"
+    reconnecting = false
+    recordMessageSizes = false
+    recordMessageTimes = false
+    requestTimeout = -1
+    uri = "rtmps://beta.lol.riotgames.com:2099"
+    url = "rtmps://beta.lol.riotgames.com:2099"
+    useSmallMessages = true
+  channelId = "my-rtmps"
+  connected = false
+  currentTarget = (mx.messaging::Consumer)#22
+    authenticated = false
+    channelSet = (mx.messaging::ChannelSet)#3
+    clientId = "bc-38318437"
+    connected = false
+    destination = "messagingDestination"
+    id = "14257AC2-7B71-2AA2-9AAF-722137ECA303"
+    maxFrequency = 0
+    requestTimeout = -1
+    resubscribeAttempts = 5
+    resubscribeInterval = 5000
+    selector = ""
+    subscribed = false
+    subtopic = "bc"
+    timestamp = 1320469739224
+  eventPhase = 2
+  reconnecting = false
+  rejected = false
+  target = (mx.messaging::Consumer)#22
+  type = "channelDisconnect"
+11/4/2011 22:17:09.171 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator ChannelSet Disconnected: [ChannelEvent channelId="my-rtmps" reconnecting=false rejected=false type="channelDisconnect" bubbles=false cancelable=false eventPhase=2]
+11/4/2011 22:17:09.171 [DEBUG] com.riotgames.platform.gameclient.ApplicationController ApplicationController.onLCDSChannelDisconnect: LCDS channel has disconnected, disconnecting chat
+11/4/2011 22:17:09.203 [INFO] ChannelSet.AuthenticationAgent '2F71731D-1339-050F-018D-7221228F026C' authentication agent acknowledge of '9FFEEFBD-7E86-43E5-929E-7228B036BD73'.
+11/4/2011 22:17:09.203 [INFO] LolClient onExiting...
+11/4/2011 22:17:09.203 [DEBUG] com.riotgames.platform.gameclient.maestro.MaestroController MaestroController.addMessage: message=Sending quit message to maestro.
+
+11/4/2011 22:17:09.203 [DEBUG] com.riotgames.platform.gameclient.module.services.maestro.MaestroServiceImpl Maestro.sendCloseRequest
+11/4/2011 22:17:09.203 [DEBUG] com.riotgames.platform.common.utils.LogManager LogManager.cleanseLogDirectory: Deleting logs older than 5 day(s).
+11/4/2011 22:17:09.312 [DEBUG] com.riotgames.platform.common.utils.LogManager LogManager.forEachLogFileIn: Could not find the directory [object File]
+11/4/2011 22:17:09.312 [DEBUG] com.riotgames.platform.gameclient.ApplicationController Performing system garbage collection (Pass 1 of 2)...

@@ -14,31 +14,33 @@ data List a = List  { lsource :: [a]
 instance (FromJSON a) => FromJSON (List a) where
     parseJSON (Object obj) = case M.lookup "list" obj of
                                 Just (Object obj) -> List <$> obj .: "source"
-                                _                 -> mzero
+                                v                 -> fail $ "Got an invalid type to List: " ++ show v
     parseJSON (Array arr)  = List <$> mapM parseJSON (V.toList arr)
-    parseJSON _            = mzero
+    parseJSON v            = fail $ "Got an invalid type to List: " ++ show v
 
 instance (ToJSON a) => ToJSON (List a) where
     toJSON (List vals) = toJSON vals
-{- {
-    "filterFunction": null,
-    "length": 0,
-    "list": {
-        "length": 0,
-        "source": [],
-        "uid": "81BE63BA-4F76-D337-436A-3983678AA90C"
-    },
-    "sort": null,
-    "source": []
-}, -}
-
 
 data PointsPenalty = PointsPenalty  { ptype :: String
                                     , ppenalty :: Float
                                     } deriving (Show, Eq)
+{-
+pointsPenalties = (mx.collections::ArrayCollection)#313
+  filterFunction = (null)
+  length = 1
+  list = (mx.collections::ArrayList)#314
+    length = 1
+    source = (Array)#315
+      [0] (com.riotgames.platform.gameclient.domain::PointsPenalty)#316
+        penalty = -0.25
+        type = "GAME_TYPE"
+    uid = "E446DDDA-82FA-353A-CDEF-7C0D35887DD9"
+  sort = (null)
+  source = (Array)#315
+  -}
 
-
-data Spell = Spell
+data Spell = Spell { spellName :: String
+                   }
              deriving (Show, Eq)
 
 data GameStats = GameStats  { gsbasePoints                        :: Integer

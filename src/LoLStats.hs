@@ -18,11 +18,19 @@ data StatsRow = StatsRow { gameId       :: Integer
                          , duration     :: Integer
                          } deriving (Show, Eq)
 
+withErr :: b -> Maybe a -> Either b a
+withErr _ (Just a)  = Right a
+withErr b (Nothing) = Left  b
 
-getStats :: GameStats -> Maybe StatsRow
-getStats game = do
-    p       <- getPlayer game
-    champ   <- psskinName p
+withDefault :: b -> Either a b -> b
+withDefault _ (Right b) = b
+withDefault b (Left  _) = b
+
+
+getStats :: String -> GameStats -> Either String StatsRow
+getStats name game = do
+    p       <- getPlayer name game
+    champ   <- withErr "Could not get skin name" $ psskinName p
     kills   <- getStat p "CHAMPIONS_KILLED"
     deaths  <- getStat p "NUM_DEATHS"
     assists <- getStat p "ASSISTS"
@@ -32,7 +40,7 @@ getStats game = do
         duration    = gsgameLength  $ game
         gId         = gsgameId      $ game
         queue       = gsqueueType   $ game
-        win         = fromMaybe 0 . getStat p $ "WIN"
+        win         = withDefault 0 . getStat p $ "WIN"
     return $ StatsRow gId queue name champ kills deaths assists creep gold win duration
 
 toCSV :: StatsRow -> String
@@ -41,17 +49,17 @@ toCSV (StatsRow a b c d e f g h i j l) = intercalate "," [show a, show b, show c
 csvHeader :: String
 csvHeader = intercalate "," . map (show) $ ["Game ID", "Queue Type", "Summoner", "Champion", "Kills", "Deaths", "Assists", "CreepScore", "Gold", "Win", "Duration"]
 
-getPlayer :: GameStats -> Maybe PlayerStats
-getPlayer stats = case Prelude.filter (psisMe) (thisTeam ++ thatTeam) of
-                            []      -> Nothing
-                            (p:_)   -> Just p
+getPlayer :: String -> GameStats -> Either String PlayerStats
+getPlayer pName stats = case Prelude.filter ((== pName) . pssummonerName) (thisTeam ++ thatTeam) of
+                            []      -> Left "Could not find 'isMe' player."
+                            (p:_)   -> Right p
     where
         thisTeam = lsource . gsteamPlayerParticipantStats $ stats
         thatTeam = lsource . gsotherTeamPlayerParticipantStats $ stats
 
 
-getStat :: PlayerStats -> String -> Maybe Integer
+getStat :: PlayerStats -> String -> Either String Integer
 getStat p statType = case Prelude.filter ((== statType) . statstatTypeName) (lsource . psstatistics $ p) of
-                            []      -> Nothing
-                            (s:_)   -> Just . statvalue $ s
+                            []      -> Left $ "Could not find stat " ++ statType
+                            (s:_)   -> Right . statvalue $ s
 
