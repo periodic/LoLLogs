@@ -62,8 +62,8 @@ data Message = AsyncMessageExt ASValue
              | Other S.ByteString
              deriving(Show)
 
-gamesAsJSON :: S.ByteString -> L.ByteString
-gamesAsJSON logText = encode gameStats
+gamesAsJSON :: S.ByteString -> S.ByteString
+gamesAsJSON logText = S.pack . L.unpack $ encode gameStats
     where
         lines = parseOnly parseLog logText
         gameStats = case lines of

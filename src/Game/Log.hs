@@ -15,7 +15,7 @@ instance (FromJSON a) => FromJSON (List a) where
     parseJSON (Object obj) = case M.lookup "list" obj of
                                 Just (Object obj) -> List <$> obj .: "source"
                                 _                 -> mzero
-    parseJSON (Array arr)  = return . List . V.toList <$> arr
+    parseJSON (Array arr)  = List <$> mapM parseJSON (V.toList arr)
     parseJSON _            = mzero
 
 instance (ToJSON a) => ToJSON (List a) where
