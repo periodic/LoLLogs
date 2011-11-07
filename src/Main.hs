@@ -2,7 +2,7 @@ module Main where
 
 import LoLStats
 import Game.Log
-import System.Directory (getCurrentDirectory, getDirectoryContents, doesFileExist)
+import System.Directory (getCurrentDirectory, getDirectoryContents, doesFileExist, doesDirectoryExist)
 import System.Environment (getArgs)
 import System.IO (hPutStrLn, stderr)
 import Data.Maybe (catMaybes)
@@ -14,7 +14,10 @@ import Data.Aeson
 
 main = do
     [dir] <- getArgs
-    files <- getDirectoryContents dir
+    isDir <- doesDirectoryExist dir
+    files <- if isDir
+             then getDirectoryContents dir
+             else return [dir]
     putStrLn csvHeader
     let printCSV file = processFile (dir ++ file) >>= mapM_ (putStrLn . toCSV)
     mapM_ printCSV $ files
