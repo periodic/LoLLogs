@@ -55,6 +55,8 @@ instance ToAS a => ToAS [a] where
     toAS = ASArray (-1) . V.fromList . map toAS
 instance ToAS [Char] where
     toAS = ASString . T.pack
+instance ToAS N.Number where
+    toAS = ASNumber
 
 (.:) :: (FromAS a) => Object -> T.Text -> Parser a
 obj .: key = case M.lookup key obj of
@@ -70,12 +72,12 @@ value = nullVal <|> nanVal <|> booleanVal <|> numVal <|> dateVal <|> stringVal <
         stringVal  = toAS <$> (quote *> takeWhileL (not . inClass "\"") <* quote)
         dateVal    = ASDate . TE.decodeUtf8 . BS.concat <$> sequence [(foldr1 (<|>) . map literal $ ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]), lift $ takeTill P8.isEndOfLine]
         nullVal    = ASNull <$ literal "(null)"
-        objectVal  = ASObject <$> objectIdentifier <* char '#' <*> number <* whiteSpace <*> (M.fromList <$> indentedMany pair)
-        mapVal     = ASObject T.empty <$> (literal "(Object)#" *> number) <* whiteSpace <*> (M.fromList <$> indentedMany pair)
-        arrayVal   = ASArray <$> (literal "(Array)#" *> number) <* whiteSpace <*> (V.fromList . map snd <$> indentedMany arrayPair)
+        objectVal  = ASObject <$> objectIdentifier <* char '#' <*> integer <* whiteSpace <*> (M.fromList <$> indentedMany pair)
+        mapVal     = ASObject T.empty <$> (literal "(Object)#" *> integer) <* whiteSpace <*> (M.fromList <$> indentedMany pair)
+        arrayVal   = ASArray <$> (literal "(Array)#" *> integer) <* whiteSpace <*> (V.fromList . map snd <$> indentedMany arrayPair)
 
         pair = (,) <$> (TE.decodeUtf8 <$> identifier) <* whiteSpace <* char '=' <* whiteSpace <*> value
-        arrayPair = (,) <$> (char '[' *> number) <* char ']' <* whiteSpace <*> value
+        arrayPair = (,) <$> (char '[' *> integer) <* char ']' <* whiteSpace <*> value
 
 char = lift . char8
 quote = lift . satisfy $ inClass "\""
@@ -84,7 +86,8 @@ closeParen = lift . satisfy $ inClass ")"
 space = lift . satisfy $ inClass " "
 whiteSpace = many space
 endOfLineL = lift endOfLine
-number = lift $ P8.signed P8.decimal
+number = lift P8.number -- $ P8.signed P8.decimal
+integer = lift P8.decimal
 literal = lift . string
 takeWhileL = lift . P.takeWhile
 identifier = lift . takeWhile1 $ inClass "A-Za-z0-9_-"
