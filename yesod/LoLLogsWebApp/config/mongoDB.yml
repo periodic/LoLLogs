@@ -1,0 +1,24 @@
+Default: &defaults
+  user: LoLLogsWebApp
+  password: LoLLogsWebApp
+  host: localhost
+  port: 27017
+  database: LoLLogsWebApp
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Test:
+  database: test
+  <<: *defaults
+
+Staging:
+  database: LoLLogsWebApp_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: LoLLogsWebApp_production
+  poolsize: 100
+  <<: *defaults

@@ -1,0 +1,8 @@
+<h1>Game Index
+<ul>
+    $forall game <- games
+        <li>
+            $with stats <- gameGameStats (snd game)
+                <p>DB Id: #{show (fst game)}
+                <p>Game Id: #{gsgameId stats}
+                <p>Added: #{show (gameCreated (snd game))}
