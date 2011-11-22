@@ -3,7 +3,6 @@ module Data.GameLog.Persist where
 
 import Database.Persist
 import Database.Persist.Base
-import Database.Persist.MongoDB
 import Database.Persist.TH
 import Language.Haskell.TH.Syntax (Type(..))
 import Data.GameLog.Types

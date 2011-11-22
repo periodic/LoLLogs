@@ -1,0 +1,29 @@
+Name:               lollogs
+Version:            0.1
+Synopsis:           League of Legends Log Parsing
+Description:        LoL Log parsing.
+License:            GPL
+License-file:       LICENSE
+Author:             Drew Haven
+Maintainer:         Drew Haven <drew.haven@gmail.com>
+Build-depends:      base >= 4,
+                    mtl,
+                    attoparsec,
+                    aeson,
+                    persistent,
+                    persistent-template,
+                    containers,
+                    template-haskell,
+                    text,
+                    bytestring,
+                    vector
+Build-type:         Simple
+
+Exposed-modules:    Data.ASObject,
+                    Data.GameLog
+Other-modules:      Data.GameLog.Types,
+                    Data.GameLog.Aeson,
+                    Data.GameLog.Persist,
+                    Data.ASObject.Types,
+                    Data.ASObject.Parse,
+                    Data.ASObject.Json

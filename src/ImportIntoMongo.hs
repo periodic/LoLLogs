@@ -66,7 +66,7 @@ processFile path = do
 errorLog = hPutStrLn stderr
 
 insertGames :: UTCTime -> [GameStats] -> IO ()
-insertGames time games = withMongoDBConn "test" "localhost" $ runMongoDBConn master $ do
+insertGames time games = withMongoDBConn "LoLLogsWebApp" "localhost" $ runMongoDBConn master $ do
     time <- liftIO getCurrentTime
     mapM_ (insert . Game time) games
 
