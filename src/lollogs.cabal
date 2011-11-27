@@ -24,6 +24,7 @@ Exposed-modules:    Data.ASObject,
 Other-modules:      Data.GameLog.Types,
                     Data.GameLog.Aeson,
                     Data.GameLog.Persist,
+                    Data.GameLog.PersistTH,
                     Data.ASObject.Types,
                     Data.ASObject.Parse,
                     Data.ASObject.Json

@@ -92,3 +92,7 @@ executable         LoLLogsWebApp
                  , hjsmin                        >= 0.0.14     && < 0.1
                  , lollogs
                  , time                          >= 1.2        && < 2.0
+
+                 , aeson
+                 , attoparsec
+                 , enumerator

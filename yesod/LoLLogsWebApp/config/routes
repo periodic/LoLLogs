@@ -6,3 +6,4 @@
 
 / RootR GET
 /games GameIndexR GET
+/game GameCreateR POST
