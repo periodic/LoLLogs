@@ -1,13 +1,14 @@
-{-# LANGUAGE TemplateHaskell, QuasiQuotes, TypeFamilies, GADTs, OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 module Data.GameLog.Persist where
 
-import Database.Persist
 import Database.Persist.Base
-import Database.Persist.TH
-import Language.Haskell.TH.Syntax (Type(..))
+
 import Data.GameLog.Types
-import Data.Either
+import Data.GameLog.Aeson
+import Data.GameLog.PersistTH
+
 import Control.Applicative
+import Language.Haskell.TH
 
 instance (PersistField a) => PersistField (List a) where
     toPersistValue (List vals) = PersistList . map toPersistValue $ vals
@@ -15,11 +16,10 @@ instance (PersistField a) => PersistField (List a) where
     sqlType a = sqlType $ toPersistValue a
     isNullable a = isNullable $ toPersistValue a
 
-derivePersistField "Spell"
-derivePersistField "PointsPenalty"
-derivePersistField "StatCategory"
-derivePersistField "Statistic"
-derivePersistField "PlayerStats"
-derivePersistField "GameStats"
-
-
+-- $(derivePersistFieldFromJSON ''List)
+$(derivePersistFieldFromJSON ''Spell)
+$(derivePersistFieldFromJSON ''PointsPenalty)
+$(derivePersistFieldFromJSON ''StatCategory)
+$(derivePersistFieldFromJSON ''Statistic)
+$(derivePersistFieldFromJSON ''PlayerStats)
+$(derivePersistFieldFromJSON ''GameStats)
