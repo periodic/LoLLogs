@@ -61,6 +61,8 @@ processFile path = do
                 Right (Success games) -> do
                     errorLog $ "Found " ++ show (length games) ++ " games."
                     return games
+                Right (Error msg) -> errorLog msg >> return []
+                Left msg -> errorLog msg >> return []
         else errorLog "File does not exist." >> return []
 
 errorLog = hPutStrLn stderr

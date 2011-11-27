@@ -71,7 +71,6 @@ data PlayerStats = PlayerStats  { ps_profileIconId    :: Integer
                                 , psspell2Id          :: Integer
                                 , psskinName          :: Maybe String
                                 , psstatistics        :: List Statistic
-                                , pssummonerName      :: String
                                 , psteamId            :: Integer
                                 , psuserId            :: Integer
                                 , pswins              :: Integer
