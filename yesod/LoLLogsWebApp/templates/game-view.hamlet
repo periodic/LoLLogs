@@ -1,4 +1,62 @@
 <h1>Game
-<p>#{show gameId}
 <p>Created: #{show (gameCreated game)}
-<p>#{show (gameGameStats game)}
+
+<div#stats>
+    $with stats <- gameGameStats game
+        <p>User Id: #{gsuserId stats}
+        <p>Game Id: #{gsgameId stats}
+        <p>Length: #{gsgameLength stats}
+        <p>Queue Type: #{gsqueueType stats}
+        <p>Ip Earned: #{gsipEarned stats}
+        $if gsranked stats
+            <p>Ranked #{gsranked stats}
+            <p>Elo: #{gselo stats}
+            <p>Elo Change: #{gseloChange stats}
+
+<div#players>
+    <h2>Teammates
+    $forall player <- lsource (gsteamPlayerParticipantStats (gameGameStats game))
+        <h5>
+            #{ps_summonerName player}
+            $if psbotPlayer player
+                <span.bot>(bot)
+        $if psisMe player
+            <p>Reporting Player
+        <p>Id: #{psuserId player}
+        <p>Team: #{psteamId player}
+        <p>Elo: #{pselo player}
+        <p>Level: #{pslevel player}
+        <p>Game Records: <span.wins>#{pswins player}</span>/<span.losses>#{pslosses player}</span>/<span.leaves>#{psleaves player}</span>
+        $if psleaver player
+            <p.leaver>Leaver
+        $maybe skin <- psskinName player
+            <p>Skin: #{skin}
+        $forall stat <- lsource (psstatistics player)
+            <div.stat>
+                <span.statName>#{statdisplayName stat}
+                : #
+                <span.statValue>#{statvalue stat}
+
+<div#opponents>
+    <h2>Opponents
+    $forall player <- lsource (gsotherTeamPlayerParticipantStats (gameGameStats game))
+        <h5>
+            #{ps_summonerName player}
+            $if psbotPlayer player
+                <span.bot>(bot)
+        $if psisMe player
+            <p>Reporting Player
+        <p>Id: #{psuserId player}
+        <p>Team: #{psteamId player}
+        <p>Elo: #{pselo player}
+        <p>Level: #{pslevel player}
+        <p>Game Records: <span.wins>#{pswins player}</span>/<span.losses>#{pslosses player}</span>/<span.leaves>#{psleaves player}</span>
+        $if psleaver player
+            <p.leaver>Leaver
+        $maybe skin <- psskinName player
+            <p>Skin: #{skin}
+        $forall stat <- lsource (psstatistics player)
+            <div.stat>
+                <span.statName>#{statdisplayName stat}
+                : #
+                <span.statValue>#{statvalue stat}
