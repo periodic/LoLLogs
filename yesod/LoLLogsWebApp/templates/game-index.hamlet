@@ -3,6 +3,7 @@
     $forall game <- games
         <li>
             $with stats <- gameGameStats (snd game)
-                <p>DB Id: #{show (fst game)}
                 <p>Game Id: #{gsgameId stats}
                 <p>Added: #{show (gameCreated (snd game))}
+                <p>
+                    <a href=@{GameViewR (fst game)}>View

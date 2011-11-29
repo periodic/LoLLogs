@@ -30,6 +30,7 @@ library
     other-modules:   Foundation
                      Import
                      Model
+                     Model.Game
                      Settings
                      Settings.StaticFiles
                      Handler.Root

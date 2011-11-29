@@ -1,7 +1,6 @@
 module Handler.Game where
 
 import Import
-import Data.GameLog
 
 import Data.Enumerator.List (consume)
 import qualified Data.ByteString as BS
@@ -16,6 +15,20 @@ getGameIndexR = do
     defaultLayout $ do
         setTitle "Game Index"
         $(widgetFile "game-index")
+
+getGameRankedR :: Handler RepHtml
+getGameRankedR = do
+    games <- runDB $ selectList [GameRanked ==. True] []
+    defaultLayout $ do
+        setTitle "Game Index"
+        $(widgetFile "game-index")
+
+getGameViewR :: GameId -> Handler RepHtml
+getGameViewR gameId = do
+    game <- runDB $ get404 gameId
+    defaultLayout $ do
+        setTitle "Game"
+        $(widgetFile "game-view")
 
 
 postGameCreateR :: Handler RepJson

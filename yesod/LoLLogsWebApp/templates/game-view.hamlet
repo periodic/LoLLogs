@@ -1,0 +1,4 @@
+<h1>Game
+<p>#{show gameId}
+<p>Created: #{show (gameCreated game)}
+<p>#{show (gameGameStats game)}
