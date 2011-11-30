@@ -7,4 +7,17 @@ Email
     user UserId Maybe
     verkey Text Maybe
     UniqueEmail email
+
+Champion
+    name Text
+    imageUrl Text
+    skinName Text
+    UniqueName name
+
+Item
+    name Text
+    imageUrl Text
+    number Int
+    UniqueNumber number
+
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

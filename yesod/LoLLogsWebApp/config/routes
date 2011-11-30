@@ -9,3 +9,9 @@
 /ranked GameRankedR GET
 /game GameCreateR POST
 /game/#GameId GameViewR GET
+
+/champions ChampionIndexR GET
+/champion/view/#ChampionId ChampionViewR GET
+/champion/create ChampionCreateR GET POST
+/champion/update/#ChampionId ChampionUpdateR GET POST
+/champion/delete/#ChampionId ChampionDeleteR GET POST DELETE

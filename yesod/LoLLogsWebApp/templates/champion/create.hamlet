@@ -1,0 +1,8 @@
+<h1>Create Champion
+
+<form action=@{ChampionCreateR} method=POST>
+    ^{form}
+
+    <input type="submit">
+
+<a href=@{ChampionIndexR}>Back
