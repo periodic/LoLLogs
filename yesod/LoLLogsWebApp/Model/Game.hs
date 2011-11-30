@@ -3,13 +3,11 @@ module Model.Game (module Model.Game, module Data.GameLog) where
 
 import Prelude
 import Yesod
-import Data.Text (Text)
 import Data.Time
 import Data.GameLog
 import Database.Persist.Base
 import Database.Persist.MongoDB
 import Database.Persist.TH.Library
-import Database.Persist.GenericSql
 
 data GameGeneric backend
     = Game {gameCreated :: UTCTime, gameGameStats :: GameStats}
@@ -17,11 +15,12 @@ data GameGeneric backend
 type Game = GameGeneric Action
 type GameId = Key Action Game
 instance PersistEntity (GameGeneric backend) where
-    data Unique (GameGeneric backend) backend2 = UniqueGame Text deriving (Show, Read, Eq)
+    data Unique (GameGeneric backend) backend2 = UniqueGameId Int deriving (Show, Read, Eq)
     data EntityField (GameGeneric backend) typ
         = typ ~ (Key backend (GameGeneric backend)) => GameId 
         | typ ~ UTCTime   => GameCreated
         | typ ~ Bool      => GameRanked
+        | typ ~ Int       => GameGameId
         | typ ~ GameStats => GameGameStats
     entityDef _
         = Database.Persist.Base.EntityDef
@@ -42,16 +41,12 @@ instance PersistEntity (GameGeneric backend) where
            fromPersistValue stats)
     fromPersistValues _ = Left "Invalid fromPersistValues input"
     halfDefined = Game undefined undefined
-    persistUniqueToFieldNames _
-        = error "Degenerate case, should never happen"
-    persistUniqueToValues _
-        = error "Degenerate case, should never happen"
+    persistUniqueToFieldNames UniqueGameId {}    = ["gameStats.gameId"]
+    persistUniqueToValues     (UniqueGameId gid) = [toPersistValue gid]
     persistUniqueKeys (Game _created _gameStats) = []
-    persistColumnDef GameId
-        = Database.Persist.Base.ColumnDef "id" "GameId" []
-    persistColumnDef GameCreated
-        = Database.Persist.Base.ColumnDef "created" "UTCTime" []
-    persistColumnDef GameGameStats
-        = Database.Persist.Base.ColumnDef "gameStats" "GameStats" []
-    persistColumnDef GameRanked
-        = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
+    persistColumnDef GameId         = Database.Persist.Base.ColumnDef "id" "GameId" []
+    persistColumnDef GameCreated    = Database.Persist.Base.ColumnDef "created" "UTCTime" []
+    persistColumnDef GameGameStats  = Database.Persist.Base.ColumnDef "gameStats" "GameStats" []
+    persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
+    persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
+

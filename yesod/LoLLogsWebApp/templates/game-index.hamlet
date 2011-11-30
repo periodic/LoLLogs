@@ -7,3 +7,4 @@
                 <p>Added: #{show (gameCreated (snd game))}
                 <p>
                     <a href=@{GameViewR (fst game)}>View
+<p>Found #{length games} results.

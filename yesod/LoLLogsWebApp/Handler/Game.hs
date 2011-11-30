@@ -42,5 +42,11 @@ postGameCreateR = do
     where
         insertGames games = do
             time <- liftIO getCurrentTime
-            mapM (runDB . insert . Game time) games
+            mapM_ (insertGame . Game time) games
             return . RepJson . toContent . encode . String . pack $ "Found " ++ show (length games) ++ " games."
+        insertGame game = do
+            let gameId = gsgameId . gameGameStats $ game
+            mGame <- runDB . getBy . UniqueGameId $ fromIntegral gameId
+            case mGame of 
+                Just _  -> return ()
+                Nothing -> (runDB $ insert game) >> return ()
