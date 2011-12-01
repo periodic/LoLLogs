@@ -36,6 +36,7 @@ library
                      Handler.Root
                      Handler.Game
                      Handler.Champion
+                     Handler.Chart
 
     ghc-options:   -Wall -threaded -O0
 
@@ -94,7 +95,8 @@ executable         LoLLogsWebApp
                  , hjsmin                        >= 0.0.14     && < 0.1
                  , lollogs
                  , time                          >= 1.2        && < 2.0
-
+                 , containers
+                 , Chart
                  , aeson
                  , attoparsec
                  , enumerator

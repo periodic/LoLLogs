@@ -1,0 +1,13 @@
+<h1>Game Length Analysis
+<img src="/static/img/chart-generated.png">
+<ul>
+    $forall bin <- bins
+        <ul>
+            <li>BIN: #{fst bin}
+            <ul>
+                $with games <- snd bin 
+                    $forall game <- games
+                        <li>
+                            <a href=@{GameViewR (fst game)}>
+                                #{gsgameId $ gameGameStats $ snd game}w
+                            \ #{getGameLen game}

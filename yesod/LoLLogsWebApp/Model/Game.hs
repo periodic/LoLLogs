@@ -21,6 +21,7 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ UTCTime   => GameCreated
         | typ ~ Bool      => GameRanked
         | typ ~ Int       => GameGameId
+        | typ ~ Int       => GameLength
         | typ ~ GameStats => GameGameStats
     entityDef _
         = Database.Persist.Base.EntityDef
@@ -49,4 +50,4 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameGameStats  = Database.Persist.Base.ColumnDef "gameStats" "GameStats" []
     persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
-
+    persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
