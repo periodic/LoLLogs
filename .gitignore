@@ -1,4 +1,6 @@
 dist
 *.swp
 *.swo
+*.hi
+*.o
 yesod/LoLLogsWebApp/static/tmp/
