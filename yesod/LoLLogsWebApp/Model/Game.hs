@@ -1,9 +1,11 @@
-{-# LANGUAGE Rank2Types, TemplateHaskell, QuasiQuotes, OverloadedStrings, NoImplicitPrelude, CPP, OverloadedStrings, MultiParamTypeClasses, TypeFamilies, GADTs, GeneralizedNewtypeDeriving #-}
 module Model.Game (module Model.Game, module Data.GameLog) where
 
 import Prelude
 import Yesod
 import Data.Time
+import qualified Data.List as L
+import Text.Printf
+import Data.Maybe (fromMaybe)
 import Data.GameLog
 import Database.Persist.Base
 import Database.Persist.MongoDB
@@ -51,3 +53,28 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
     persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
+
+playerKills :: PlayerStats -> Integer
+playerKills player = fromMaybe 0 $ lookupStat player "CHAMPIONS_KILLED"
+
+playerDeaths :: PlayerStats -> Integer
+playerDeaths player = fromMaybe 0 $ lookupStat player "NUM_DEATHS"
+
+playerAssists :: PlayerStats -> Integer
+playerAssists player = fromMaybe 0 $ lookupStat player "ASSISTS"
+
+playerGold :: PlayerStats -> Integer
+playerGold player = fromMaybe 0 $ lookupStat player "GOLD_EARNED"
+
+lookupStat :: PlayerStats -> String -> Maybe Integer
+lookupStat player stat = do
+    let stats = lsource $ psstatistics player
+    stat <- L.find ((== stat) . statstatTypeName) stats
+    return $ statvalue stat
+
+roundLargeNumber :: Integer -> String
+roundLargeNumber i = if i < 1000
+                     then show i
+                     else if i < 1000000
+                        then printf "%.1fk" (fromIntegral i / 1000 :: Float)
+                        else printf "%.1fM" (fromIntegral i / 1000000 :: Float)

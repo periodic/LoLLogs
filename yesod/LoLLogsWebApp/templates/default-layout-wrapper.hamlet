@@ -1,7 +1,18 @@
 !!!
 <html>
     <head
+        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
         <title>#{pageTitle pc}
         ^{pageHead pc}
     <body
-        ^{pageBody pc}
+        <section#navigation
+            <div.container
+                <ul.tabs
+                    <li :section == HomeSection:.active>
+                        <a href=@{RootR}>Home
+                    <li :section == GamesSection:.active>
+                        <a href=@{GameIndexR}>Games
+                    <li :section == ChampionsSection:.active>
+                        <a href=@{ChampionIndexR}>Champions
+        <div.container
+            ^{pageBody pc}

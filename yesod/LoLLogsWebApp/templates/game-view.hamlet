@@ -15,48 +15,34 @@
 
 <div#players>
     <h2>Teammates
-    $forall player <- lsource (gsteamPlayerParticipantStats (gameGameStats game))
-        <h5>
-            #{ps_summonerName player}
-            $if psbotPlayer player
-                <span.bot>(bot)
-        $if psisMe player
-            <p>Reporting Player
-        <p>Id: #{psuserId player}
-        <p>Team: #{psteamId player}
-        <p>Elo: #{pselo player}
-        <p>Level: #{pslevel player}
-        <p>Game Records: <span.wins>#{pswins player}</span>/<span.losses>#{pslosses player}</span>/<span.leaves>#{psleaves player}</span>
-        $if psleaver player
-            <p.leaver>Leaver
-        $maybe skin <- psskinName player
-            <p>Skin: #{skin}
-        $forall stat <- lsource (psstatistics player)
-            <div.stat>
-                <span.statName>#{statdisplayName stat}
-                : #
-                <span.statValue>#{statvalue stat}
 
-<div#opponents>
-    <h2>Opponents
-    $forall player <- lsource (gsotherTeamPlayerParticipantStats (gameGameStats game))
-        <h5>
-            #{ps_summonerName player}
-            $if psbotPlayer player
-                <span.bot>(bot)
-        $if psisMe player
-            <p>Reporting Player
-        <p>Id: #{psuserId player}
-        <p>Team: #{psteamId player}
-        <p>Elo: #{pselo player}
-        <p>Level: #{pslevel player}
-        <p>Game Records: <span.wins>#{pswins player}</span>/<span.losses>#{pslosses player}</span>/<span.leaves>#{psleaves player}</span>
-        $if psleaver player
-            <p.leaver>Leaver
-        $maybe skin <- psskinName player
-            <p>Skin: #{skin}
-        $forall stat <- lsource (psstatistics player)
-            <div.stat>
-                <span.statName>#{statdisplayName stat}
-                : #
-                <span.statValue>#{statvalue stat}
+    $forall team <- [lsource (gsteamPlayerParticipantStats (gameGameStats game)), lsource (gsotherTeamPlayerParticipantStats (gameGameStats game))]
+        $forall player <- team
+            <div.player :psisMe player:.reporting-player :psleaver player:.leaver
+                <div.player-header
+                    <div.summoner-info
+                        $maybe skin <- psskinName player
+                            $maybe champ <- lookupChamp skin champions
+                                <img src=#{championImageUrl champ}>
+                            $nothing 
+                                ?
+                        <span.summoner-name
+                            #{ps_summonerName player}
+                            $if psbotPlayer player
+                                <span.bot>(bot)
+                        $maybe skin <- psskinName player
+                            <span.champion-name>#{skin}
+                    <div.summoner-kda
+                        <span.kills>#{playerKills player}
+                        /
+                        <span.deaths>#{playerDeaths player}
+                        /
+                        <span.assists>#{playerAssists player}
+                    <div.summoner-gold
+                        #{roundLargeNumber (playerGold player)}
+                <div.player-details
+                    $forall stat <- lsource (psstatistics player)
+                        <div.stat>
+                            <span.statName>#{statdisplayName stat}
+                            : #
+                            <span.statValue>#{statvalue stat}

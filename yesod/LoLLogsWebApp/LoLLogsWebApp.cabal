@@ -31,6 +31,7 @@ library
                      Import
                      Model
                      Model.Game
+                     Model.Champion
                      Settings
                      Settings.StaticFiles
                      Handler.Root

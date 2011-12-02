@@ -9,6 +9,8 @@ import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
 import Data.Time (getCurrentTime)
 
+import Model.Champion
+
 getGameIndexR :: Handler RepHtml
 getGameIndexR = do
     games <- runDB $ selectList [] []
@@ -26,6 +28,7 @@ getGameRankedR = do
 getGameViewR :: GameId -> Handler RepHtml
 getGameViewR gameId = do
     game <- runDB $ get404 gameId
+    champions <- championsByName
     defaultLayout $ do
         setTitle "Game"
         $(widgetFile "game-view")

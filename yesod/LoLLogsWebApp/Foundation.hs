@@ -73,6 +73,29 @@ mkMessage "LoLLogsWebApp" "messages" "en"
 -- split these actions into two functions and place them in separate files.
 mkYesodData "LoLLogsWebApp" $(parseRoutesFile "config/routes")
 
+-- Sections for routes.
+data LoLLogsWebAppSection = HomeSection
+                          | GamesSection
+                          | ChampionsSection
+                          | OtherSection
+                          deriving (Show, Eq)
+
+getSection :: LoLLogsWebAppRoute -> LoLLogsWebAppSection
+getSection RootR = HomeSection
+
+getSection GameIndexR = GamesSection
+getSection GameRankedR = GamesSection
+getSection GameCreateR = GamesSection
+getSection (GameViewR _) = GamesSection
+
+getSection ChampionIndexR = ChampionsSection
+getSection ChampionCreateR = ChampionsSection
+getSection (ChampionViewR _) = ChampionsSection
+getSection (ChampionUpdateR _) = ChampionsSection
+getSection (ChampionDeleteR _) = ChampionsSection
+
+getSection _  = OtherSection
+
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
 instance Yesod LoLLogsWebApp where
@@ -89,6 +112,10 @@ instance Yesod LoLLogsWebApp where
         -- default-layout-wrapper is the entire page. Since the final
         -- value passed to hamletToRepHtml cannot be a widget, this allows
         -- you to use normal widget features in default-layout.
+
+        promote <- getRouteToMaster
+        currentRoute <-  getCurrentRoute
+        let section = maybe OtherSection (getSection . promote) currentRoute
 
         pc <- widgetToPageContent $ do
             $(widgetFile "normalize")
