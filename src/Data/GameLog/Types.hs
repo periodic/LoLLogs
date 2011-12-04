@@ -1,89 +1,94 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 module Data.GameLog.Types where
+
+import Data.Text
+import Data.Map
 
 data List a = List  { lsource :: [a]
                     } deriving (Show, Read, Eq)
-data PointsPenalty = PointsPenalty  { ptype :: String
+
+data PointsPenalty = PointsPenalty  { ptype :: Text
                                     , ppenalty :: Float
                                     } deriving (Show, Read, Eq)
 
-data Spell = Spell { spellName :: String
+data Spell = Spell { spellName :: Text
                    }
              deriving (Show, Read, Eq)
 
-data GameStats = GameStats  { gsbasePoints                        :: Integer
-                            , gsboostIpEarned                     :: Integer
-                            , gsboostXpEarned                     :: Integer
-                            , gscompletionBonusPoints             :: Integer
-                            , gsdifficulty                        :: Maybe String
-                            , gselo                               :: Integer
-                            , gseloChange                         :: Integer
-                            , gsexperienceEarned                  :: Integer
-                            , gsexperienceTotal                   :: Integer
-                            , gsexpPointsToNextLevel              :: Integer
-                            , gsfirstWinBonus                     :: Integer
-                            , gsgameId                            :: Integer
-                            , gsgameLength                        :: Integer
-                            , gsgameMode                          :: Maybe String
-                            , gsgameType                          :: String
+data GameStats = GameStats  { gsbasePoints                        :: Int
+                            , gsboostIpEarned                     :: Int
+                            , gsboostXpEarned                     :: Int
+                            , gscompletionBonusPoints             :: Int
+                            , gsdifficulty                        :: Maybe Text
+                            , gselo                               :: Int
+                            , gseloChange                         :: Int
+                            , gsexperienceEarned                  :: Int
+                            , gsexperienceTotal                   :: Int
+                            , gsexpPointsToNextLevel              :: Int
+                            , gsfirstWinBonus                     :: Int
+                            , gsgameId                            :: Int
+                            , gsgameLength                        :: Int
+                            , gsgameMode                          :: Maybe Text
+                            , gsgameType                          :: Text
                             , gsimbalancedTeamsNoPoints           :: Bool
                             , gsinvalid                           :: Bool
-                            , gsipEarned                          :: Integer
-                            , gsipTotal                           :: Integer
+                            , gsipEarned                          :: Int
+                            , gsipTotal                           :: Int
                             , gsleveledUp                         :: Bool
-                            , gslocationBoostIpEarned             :: Integer
-                            , gslocationBoostXpEarned             :: Integer
-                            , gsloyaltyBoostIpEarned              :: Integer
-                            , gsloyaltyBoostXpEarned              :: Integer
-                            , gsnewSpells                         :: List Spell
-                            , gsodinBonusIp                       :: Integer
-                            , gsotherTeamPlayerParticipantStats   :: List PlayerStats
-                            , gspointsPenalties                   :: List PointsPenalty
-                            , gspracticeMinutesLeftToday          :: Integer
-                            , gspracticeMinutesPlayedToday        :: Maybe Integer
-                            , gspracticeMsecsUntilReset           :: Integer
-                            , gsqueueBonusEarned                  :: Integer
-                            , gsqueueType                         :: String
+                            , gslocationBoostIpEarned             :: Int
+                            , gslocationBoostXpEarned             :: Int
+                            , gsloyaltyBoostIpEarned              :: Int
+                            , gsloyaltyBoostXpEarned              :: Int
+                            , gsnewSpells                         :: [Spell]
+                            , gsodinBonusIp                       :: Int
+                            , gsotherTeamPlayerParticipantStats   :: Map Text PlayerStats
+                            , gspointsPenalties                   :: [PointsPenalty]
+                            , gspracticeMinutesLeftToday          :: Int
+                            , gspracticeMinutesPlayedToday        :: Maybe Int
+                            , gspracticeMsecsUntilReset           :: Int
+                            , gsqueueBonusEarned                  :: Int
+                            , gsqueueType                         :: Text
                             , gsranked                            :: Bool
-                            , gsskinIndex                         :: Integer
-                            , gsskinName                          :: Maybe String
-                            , gstalentPointsGained                :: Integer
-                            , gsteamPlayerParticipantStats        :: List PlayerStats
-                            , gstimeUntilNextFirstWinBonus        :: Integer
-                            , gsuserId                            :: Integer
+                            , gsskinIndex                         :: Int
+                            , gsskinName                          :: Maybe Text
+                            , gstalentPointsGained                :: Int
+                            , gsteamPlayerParticipantStats        :: Map Text PlayerStats
+                            , gstimeUntilNextFirstWinBonus        :: Int
+                            , gsuserId                            :: Int
                             } deriving (Show, Read, Eq)
 
-data PlayerStats = PlayerStats  { ps_profileIconId    :: Integer
-                                , ps_summonerName     :: String
+data PlayerStats = PlayerStats  { ps_profileIconId    :: Int
+                                , ps_summonerName     :: Text
                                 , psbotPlayer         :: Bool
-                                , pselo               :: Integer
-                                , pseloChange         :: Integer
-                                , psgameId            :: Integer
-                                , psgameItems         :: List Integer
+                                , pselo               :: Int
+                                , pseloChange         :: Int
+                                , psgameId            :: Int
+                                , psgameItems         :: [Int]
                                 , psinChat            :: Bool
                                 , psisMe              :: Bool
-                                , pslevel             :: Integer
+                                , pslevel             :: Int
                                 , psleaver            :: Bool
-                                , psleaves            :: Integer
-                                , pslosses            :: Integer
-                                , psprofileIconId     :: Integer
-                                , psspell1Id          :: Integer
-                                , psspell2Id          :: Integer
-                                , psskinName          :: Maybe String
-                                , psstatistics        :: List Statistic
-                                , psteamId            :: Integer
-                                , psuserId            :: Integer
-                                , pswins              :: Integer
+                                , psleaves            :: Int
+                                , pslosses            :: Int
+                                , psprofileIconId     :: Int
+                                , psspell1Id          :: Int
+                                , psspell2Id          :: Int
+                                , psskinName          :: Maybe Text
+                                , psstatistics        :: Map Text Int
+                                , psteamId            :: Int
+                                , psuserId            :: Int
+                                , pswins              :: Int
                                 } deriving (Show, Read, Eq)
 
-data Statistic = Statistic  { statdisplayName   :: String
-                            , statpriority      :: Integer
+{-
+data Statistic = Statistic  { statdisplayName   :: Text
+                            , statpriority      :: Int
                             , statstatCategory  :: StatCategory
-                            , statstatTypeName  :: String
-                            , statvalue         :: Integer
+                            , statstatTypeName  :: Text
+                            , statvalue         :: Int
                             } deriving (Show, Read, Eq)
 
-data StatCategory = StatCategory { statCatdisplayName :: String
-                                 , statCatname        :: String
-                                 , statCatpriority    :: Integer
+data StatCategory = StatCategory { statCatdisplayName :: Text
+                                 , statCatname        :: Text
+                                 , statCatpriority    :: Int
                                  } deriving (Show, Read, Eq)
+-}
