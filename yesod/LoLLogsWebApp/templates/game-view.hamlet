@@ -16,8 +16,8 @@
 <div#players>
     <h2>Teammates
 
-    $forall team <- [lsource (gsteamPlayerParticipantStats (gameGameStats game)), lsource (gsotherTeamPlayerParticipantStats (gameGameStats game))]
-        $forall player <- team
+    $forall team <- [gsteamPlayerParticipantStats (gameGameStats game), gsotherTeamPlayerParticipantStats (gameGameStats game)]
+        $forall player <- M.elems team
             <div.player :psisMe player:.reporting-player :psleaver player:.leaver
                 <div.player-header
                     <div.summoner-info
@@ -40,9 +40,11 @@
                         <span.assists>#{playerAssists player}
                     <div.summoner-gold
                         #{roundLargeNumber (playerGold player)}
+                    <div.summoner-cs
+                        #{playerCreepScore player}
                 <div.player-details
-                    $forall stat <- lsource (psstatistics player)
+                    $forall stat <- M.toList (psstatistics player)
                         <div.stat>
-                            <span.statName>#{statdisplayName stat}
+                            <span.statName>#{fst stat}
                             : #
-                            <span.statValue>#{statvalue stat}
+                            <span.statValue>#{snd stat}

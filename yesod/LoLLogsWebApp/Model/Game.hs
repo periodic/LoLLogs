@@ -2,8 +2,9 @@ module Model.Game (module Model.Game, module Data.GameLog) where
 
 import Prelude
 import Yesod
+import Data.Text(Text)
 import Data.Time
-import qualified Data.List as L
+import qualified Data.Map as M
 import Text.Printf
 import Data.Maybe (fromMaybe)
 import Data.GameLog
@@ -54,25 +55,34 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
     persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
 
-playerKills :: PlayerStats -> Integer
-playerKills player = fromMaybe 0 $ lookupStat player "CHAMPIONS_KILLED"
+playerKills :: PlayerStats -> Int
+playerKills player = fromMaybe 0 $ lookupStat player "Champion Kills"
 
-playerDeaths :: PlayerStats -> Integer
-playerDeaths player = fromMaybe 0 $ lookupStat player "NUM_DEATHS"
+playerDeaths :: PlayerStats -> Int
+playerDeaths player = fromMaybe 0 $ lookupStat player "Deaths"
 
-playerAssists :: PlayerStats -> Integer
-playerAssists player = fromMaybe 0 $ lookupStat player "ASSISTS"
+playerAssists :: PlayerStats -> Int
+playerAssists player = fromMaybe 0 $ lookupStat player "Assists"
 
-playerGold :: PlayerStats -> Integer
-playerGold player = fromMaybe 0 $ lookupStat player "GOLD_EARNED"
+playerGold :: PlayerStats -> Int
+playerGold player = fromMaybe 0 $ lookupStat player "Gold Earned"
 
-lookupStat :: PlayerStats -> String -> Maybe Integer
+playerMinionsSlain :: PlayerStats -> Int
+playerMinionsSlain player = fromMaybe 0 $ lookupStat player "Minions Slain"
+
+playerNeutralMobs :: PlayerStats -> Int
+playerNeutralMobs player = fromMaybe 0 $ lookupStat player "Neutral Monsters Killed"
+
+playerCreepScore :: PlayerStats -> Int
+playerCreepScore player = playerNeutralMobs player + playerMinionsSlain player
+
+lookupStat :: PlayerStats -> Text -> Maybe Int
 lookupStat player stat = do
-    let stats = lsource $ psstatistics player
-    stat <- L.find ((== stat) . statstatTypeName) stats
-    return $ statvalue stat
+    let stats = psstatistics player
+    value <- M.lookup stat stats
+    return $ value
 
-roundLargeNumber :: Integer -> String
+roundLargeNumber :: (Integral i) => i -> String
 roundLargeNumber i = if i < 1000
                      then show i
                      else if i < 1000000

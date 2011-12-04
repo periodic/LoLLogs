@@ -3,8 +3,9 @@ module Handler.Game where
 import Import
 
 import Data.Enumerator.List (consume)
+import qualified Data.Map as M
 import qualified Data.ByteString as BS
-import Data.Aeson (fromJSON, json, Result(..), encode, Value(..))
+import Data.Aeson (json, Result(..), encode, Value(..))
 import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
 import Data.Time (getCurrentTime)
@@ -38,7 +39,7 @@ postGameCreateR :: Handler RepJson
 postGameCreateR = do
     bss <- lift consume
     let body = foldr1 (BS.append) bss
-    case (parseOnly (fromJSON <$> json) body :: Either String (Result [GameStats])) of
+    case (parseOnly (rawGames <$> json) body :: Either String (Result [GameStats])) of
         Right (Success games)   -> insertGames games
         Right (Error msg)       -> return . RepJson . toContent . encode . String . pack $ msg
         Left msg                -> return . RepJson . toContent . encode . String . pack $ msg

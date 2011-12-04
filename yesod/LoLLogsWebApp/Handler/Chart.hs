@@ -21,21 +21,21 @@ getGameStatsR = do
 file :: String
 file = "static/img/chart-generated.png"
 
-xs :: [(Integer, [(a,Game)])] -> [Double]
+xs :: [(Int, [(a,Game)])] -> [Double]
 xs = fmap (fromIntegral . fst)
 
-ys :: [(Integer, [(a,Game)])] -> [Double]
+ys :: [(Int, [(a,Game)])] -> [Double]
 ys = fmap (fromIntegral . length . snd)
 
-getGameLen :: (a, Game) -> Integer
+getGameLen :: (a, Game) -> Int
 getGameLen = gsgameLength . gameGameStats . snd
 
-binBy10Mins :: (a, Game) -> Integer
+binBy10Mins :: (a, Game) -> Int
 binBy10Mins s = 10 * (div (getGameLen s) 600)
 
 -- Bins a list of a's according to binning function f. Assumes
 -- a's are already sorted by binning value
-bin :: (a -> Integer) -> [a] -> Integer -> Integer -> [(Integer,[a])]
+bin :: (a -> Int) -> [a] -> Int -> Int -> [(Int,[a])]
 bin f' as' b' step' = assocs $ bin' (M.empty) f' as' b' step'
   where
     -- todo: bin lists are in reverse order

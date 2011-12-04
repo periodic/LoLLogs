@@ -12,5 +12,5 @@ championsByName = do
     champs <- (runDB $ selectList [] []) :: Handler [(ChampionId, Champion)]
     return . M.fromList . map (\(_,champ) -> (championName champ, champ)) $ champs
 
-lookupChamp :: String -> ChampionMap -> Maybe Champion
-lookupChamp = M.lookup . pack
+lookupChamp :: Text -> ChampionMap -> Maybe Champion
+lookupChamp = M.lookup
