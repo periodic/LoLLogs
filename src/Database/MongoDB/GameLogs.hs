@@ -1,11 +1,20 @@
-{-# LANGUAGE OverloadedStrings #-}
-module Database.MongoDB.GameLogs where
+{-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, GeneralizedNewtypeDeriving#-}
+module Database.MongoDB.GameLogs ( execute
+                                 , GroupOp(..)
+                                 , QueryColumn(..)
+                                 , MRQuery
+                                 , buildQuery
+                                 , addColumn
+                                 ) where
 
 import Database.MongoDB as Mongo
-import Data.GameLog
 
 import Data.Int
 import Data.List (union)
+import Data.UString as S (UString, concat)
+import qualified Data.Map as M
+
+import Control.Monad.State as St
 
 
 mapFunc = Javascript [] "function () { emit(this.gameStats.queueType, { count: 1, length: this.gameStats.gameLength}) }"
@@ -17,10 +26,10 @@ sort field = [field =: (1 :: Int32)]
 
 mr m r f = MapReduce "Game" m r [] [] 0 Inline (Just f) [] False
 
-execute :: IO (Either Failure [(Label, [(Label, Value)])])
-execute = do
+execute :: MapReduce -> IO (Either Failure [(Label, M.Map Label Value)])
+execute query = do
     conn <- runIOE . connect $ host "localhost"
-    result <- access conn UnconfirmedWrites "LoLLogsWebApp" . runMR' $ mr mapFunc reduceFunc finalizeFunc
+    result <- access conn UnconfirmedWrites "LoLLogsWebApp" . runMR' $ query
     case result of
         Left err -> return $ Left err
         Right doc -> return $ do
@@ -28,9 +37,72 @@ execute = do
             let makeRecord doc = do
                 id <- Mongo.lookup "_id" doc
                 values <- Mongo.lookup "value" doc
-                return (id, map (\(l := v) -> (l,v)) values) :: Either Failure (Label, [(Label, Value)])
+                return (id, M.fromList $ map (\(l := v) -> (l,v)) values) :: Either Failure (Label, M.Map Label Value)
             mapM makeRecord results
 
+{- | Reduce operators.
+ -}
+data GroupOp = GroupAvg
+             | GroupTotal
+             deriving (Show, Eq)
+
+{- | Return an group opperations aggregation funciton.
+ -}
+groupAggregator :: GroupOp -> UString
+groupAggregator (GroupAvg) = "+";
+groupAggregator (GroupTotal) = "+";
+
+{- | Get a group operator's finalizer expression.
+ -}
+groupFinalizer :: GroupOp -> UString -> UString
+groupFinalizer (GroupAvg)   field = S.concat ["result.", field, " = val.", field, " / val._count;"]
+groupFinalizer (GroupTotal) field = S.concat ["result.", field, " = val.", field, ";"]
+
+{- | The type class of a queryable column.
+ -}
+class QueryColumn column typ | column -> typ where
+    querySelector :: column -> UString
+    queryReduceOp :: column -> GroupOp
+    queryColumnName :: column -> UString
+
+newtype MRQuery a = Q {
+    runQuery :: State QueryState a
+} deriving(Monad, Functor, MonadState QueryState)
+
+data QueryState = QueryState
+    { keyField :: UString
+    , fields   :: M.Map UString (UString, GroupOp)
+    } deriving (Show)
+
+{- | Build a MapReduce query. -}
+buildQuery :: QueryColumn column typ => Collection -> column -> MRQuery () -> MapReduce
+buildQuery collection keyCol query = 
+    let initState = QueryState (querySelector keyCol) M.empty
+        (QueryState key fieldMap) = execState (runQuery query) initState
+        fields = M.toList fieldMap
+        mapFields = S.concat . map (\(field,(selector, _)) -> S.concat ["result.", field, " = ", selector, ";"]) $ fields
+        mapFunc = Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapFields, "emit(key, result); }"]
+
+        reduceFields = S.concat . map (\(field,(_, op)) -> S.concat ["result.", field, " = result.", field, groupAggregator op, "v.", field, ";"]) $ fields
+        reduceFunc = Javascript [] $ S.concat ["function (key, vals) { var result = vals[0]; for (var i = 1; i < vals.length; i++) { var v = vals[i]; result._count = result._count + v._count; ", reduceFields, "}; return result; }"]
+
+        finalizeFields = S.concat . map (\(field, (_, op)) -> groupFinalizer op field) $ fields
+        finalizeFunc = Javascript [] $ S.concat ["function (key, val) { var result = {_count: val._count}; ", finalizeFields, "return result; }"]
+     in MapReduce collection mapFunc reduceFunc [] [] 0 Inline (Just finalizeFunc) [] False
+
+addColumn :: QueryColumn column typ => column -> MRQuery ()
+addColumn column = do
+    let col    = queryColumnName column
+        select = querySelector column
+        op     = queryReduceOp column
+    addField col (select, op)
+    where
+        addField col dat = St.modify $ \s@(QueryState _ fields) -> s { fields = M.insert col dat fields }
+
+setKey :: QueryColumn column typ => column -> MRQuery ()
+setKey column = do
+    let select = querySelector column
+    St.modify $ (\s -> s { keyField = select })
 
 {- | Merge two documents recursively. The default merge will favor the first
  - document if there is a key conflict.  This version will merge the two values
@@ -58,21 +130,6 @@ mergeRecursive = mergeDocuments -- merge documents initially.
             ((Array a1), (Array a2)) -> Array (a1 `union` a2)
             (_         , _         ) -> a
 
-
-{- | Datatypes to represent types of Fields to search/map/fold against.
- -}
-data NumField = IntField [Label] Int
-              | FloatField [Label] Float
-data StringField = StringField [Label] String
-
-class MongoFilter a where
-    toDocument :: a -> Document
-
-instance MongoFilter NumField where
-    toDocument (IntField ls i) = nest ls i
-    toDocument (FloatField ls f) = nest ls f
-instance MongoFilter StringField where
-    toDocument (StringField ls s) = nest ls s
 
 {- | Nest some labels and put a value inside.
  -}

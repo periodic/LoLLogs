@@ -56,7 +56,7 @@ processFile path = do
     exists <- doesFileExist path
     if exists
         then do
-            parsed <- parseOnly (fromJSON <$> json) . gamesAsJSON <$> BS.readFile path
+            parsed <- parseOnly (rawGames <$> json) . gamesAsJSON <$> BS.readFile path
             case parsed of 
                 Right (Success games) -> do
                     errorLog $ "Found " ++ show (length games) ++ " games."
