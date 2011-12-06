@@ -1,16 +1,23 @@
-{-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, GeneralizedNewtypeDeriving#-}
+{-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, GeneralizedNewtypeDeriving, ExistentialQuantification #-}
 module Database.MongoDB.GameLogs ( execute
                                  , GroupOp(..)
                                  , QueryColumn(..)
                                  , MRQuery
                                  , buildQuery
                                  , addColumn
+                                 , showDocument
+                                 , (.==)
+                                 , (.<)
+                                 , (.>)
+                                 , (.<=)
+                                 , (.>=)
+                                 , exists
                                  ) where
 
 import Database.MongoDB as Mongo
 
 import Data.Int
-import Data.List (union)
+import Data.List (union, intercalate)
 import Data.UString as S (UString, concat)
 import qualified Data.Map as M
 
@@ -44,6 +51,7 @@ execute query = do
  -}
 data GroupOp = GroupAvg
              | GroupTotal
+             | GroupFirst
              deriving (Show, Eq)
 
 {- | Return an group opperations aggregation funciton.
@@ -51,19 +59,59 @@ data GroupOp = GroupAvg
 groupAggregator :: GroupOp -> UString
 groupAggregator (GroupAvg) = "+";
 groupAggregator (GroupTotal) = "+";
+groupAggregator (GroupFirst) = "||";
 
 {- | Get a group operator's finalizer expression.
  -}
 groupFinalizer :: GroupOp -> UString -> UString
 groupFinalizer (GroupAvg)   field = S.concat ["result.", field, " = val.", field, " / val._count;"]
 groupFinalizer (GroupTotal) field = S.concat ["result.", field, " = val.", field, ";"]
+groupFinalizer (GroupFirst) field = S.concat ["result.", field, " = val.", field, ";"]
 
 {- | The type class of a queryable column.
  -}
-class QueryColumn column typ | column -> typ where
+class (Val typ) => QueryColumn column typ | column -> typ where
     querySelector :: column -> UString
     queryReduceOp :: column -> GroupOp
     queryColumnName :: column -> UString
+    queryFilterSelector :: column -> UString
+    queryFilterSelector = error "No selector defined for filters on this column."
+    queryFilter :: column -> Value -> Document
+    queryFilter col v = [queryFilterSelector col := v ]
+
+data QueryFilter = forall column typ. (QueryColumn column typ) => QueryFilter FilterOp column typ
+                 | QueryAll [QueryFilter]
+                 | QueryAny [QueryFilter]
+
+data FilterOp = FilterEQ
+              | FilterLT
+              | FilterGT
+              | FilterLE
+              | FilterGE
+              | FilterExists
+
+parseFilters :: [QueryFilter] -> Document
+parseFilters []     = []
+parseFilters fs | (f:[]) <- fs = convertFilter f
+                | otherwise    = convertFilter . QueryAll $ fs
+    where
+        convertFilter f | (QueryAll fs) <- f = ["$and" =: map convertFilter fs]
+                        | (QueryAny fs) <- f = ["$or"  =: map convertFilter fs]
+                        | (QueryFilter FilterEQ col v) <- f = queryFilter col $ val v
+                        | (QueryFilter FilterLT col v) <- f = queryFilter col $ Doc ["$lt" =: v]
+                        | (QueryFilter FilterGT col v) <- f = queryFilter col $ Doc ["$gt" =: v]
+                        | (QueryFilter FilterLE col v) <- f = queryFilter col $ Doc ["$le" =: v]
+                        | (QueryFilter FilterGE col v) <- f = queryFilter col $ Doc ["$ge" =: v]
+                        | (QueryFilter FilterExists col v) <- f = queryFilter col $ Doc ["$exists" =: True]
+
+(.==) :: (Eq typ, Val typ, QueryColumn column typ) => column -> typ -> QueryFilter
+(.==) = QueryFilter FilterEQ
+(.<), (.>), (.<=), (.>=) :: (Ord typ, Val typ, QueryColumn column typ) => column -> typ -> QueryFilter
+(.<)  = QueryFilter FilterLT
+(.>)  = QueryFilter FilterGT
+(.<=) = QueryFilter FilterLE
+(.>=) = QueryFilter FilterGE
+exists col = QueryFilter FilterExists col undefined
 
 newtype MRQuery a = Q {
     runQuery :: State QueryState a
@@ -75,8 +123,8 @@ data QueryState = QueryState
     } deriving (Show)
 
 {- | Build a MapReduce query. -}
-buildQuery :: QueryColumn column typ => Collection -> column -> MRQuery () -> MapReduce
-buildQuery collection keyCol query = 
+buildQuery :: QueryColumn column typ => Collection -> column -> [QueryFilter] -> MRQuery () -> MapReduce
+buildQuery collection keyCol filters query = 
     let initState = QueryState (querySelector keyCol) M.empty
         (QueryState key fieldMap) = execState (runQuery query) initState
         fields = M.toList fieldMap
@@ -88,7 +136,7 @@ buildQuery collection keyCol query =
 
         finalizeFields = S.concat . map (\(field, (_, op)) -> groupFinalizer op field) $ fields
         finalizeFunc = Javascript [] $ S.concat ["function (key, val) { var result = {_count: val._count}; ", finalizeFields, "return result; }"]
-     in MapReduce collection mapFunc reduceFunc [] [] 0 Inline (Just finalizeFunc) [] False
+     in MapReduce collection mapFunc reduceFunc (parseFilters filters) [] 0 Inline (Just finalizeFunc) [] False
 
 addColumn :: QueryColumn column typ => column -> MRQuery ()
 addColumn column = do
@@ -140,3 +188,11 @@ nest ls v = case nestR ls v of
     where
         nestR (l:ls) v = Doc [l := nestR ls v]
         nestR []     v = val v
+
+showDocument :: Document -> String
+showDocument ls = "{" ++ (intercalate ", " $ map (\(l := v) -> show l ++ ": " ++ showDocumentR v) ls) ++ "}"
+    where
+        showDocumentR :: Value -> String
+        showDocumentR (Doc ls) = showDocument ls
+        showDocumentR (Array as) = "[" ++ (intercalate ", " $ map show as) ++ "]"
+        showDocumentR other = show other
