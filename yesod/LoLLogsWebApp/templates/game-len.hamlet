@@ -1,5 +1,5 @@
 <h1>Game Length Analysis
-<img src="/static/img/chart-generated.png">
+^{chart}
 <ul>
     $forall bin <- bins
         <ul>
