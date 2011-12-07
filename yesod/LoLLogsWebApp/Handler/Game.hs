@@ -17,14 +17,14 @@ getGameIndexR = do
     games <- runDB $ selectList [] []
     defaultLayout $ do
         setTitle "Game Index"
-        $(widgetFile "game-index")
+        $(widgetFile "game/index")
 
 getGameRankedR :: Handler RepHtml
 getGameRankedR = do
     games <- runDB $ selectList [GameRanked ==. True] []
     defaultLayout $ do
         setTitle "Game Index"
-        $(widgetFile "game-index")
+        $(widgetFile "game/index")
 
 getGameViewR :: GameId -> Handler RepHtml
 getGameViewR gameId = do
@@ -32,7 +32,7 @@ getGameViewR gameId = do
     champions <- championsByName
     defaultLayout $ do
         setTitle "Game"
-        $(widgetFile "game-view")
+        $(widgetFile "game/view")
 
 
 postGameCreateR :: Handler RepJson

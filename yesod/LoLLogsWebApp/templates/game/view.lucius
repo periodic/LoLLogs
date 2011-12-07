@@ -1,6 +1,14 @@
+.team {
+    padding: 5px;
+    border: 1px solid #d00;
+    margin-bottom: 10px;
+}
+.team.winner {
+    border: 1px solid #0d0;
+}
 .player-header {
     clear: both;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
     padding: 10px;
     height: 40px;
 
@@ -29,6 +37,7 @@
         float: left;
         width: 200px;
         font-size: 200%;
+        line-height: 40px;
 
         .kills {
             color: #090;
@@ -41,14 +50,28 @@
         }
     }
 
+    .summoner-items {
+        float: left;
+        width: 200px;
+    }
+
     .summoner-gold {
         float: left;
         width: 200px;
         color: #990;
         font-size: 200%;
+        line-height: 40px;
+    }
+
+    .summoner-cs {
+        float: left;
+        width: 200px;
+        font-size: 200%;
+        line-height: 40px;
     }
 
 }
 .player-details {
     clear: both;
+    display: none;
 }

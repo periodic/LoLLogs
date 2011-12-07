@@ -76,6 +76,9 @@ playerNeutralMobs player = fromMaybe 0 $ lookupStat player "Neutral Monsters Kil
 playerCreepScore :: PlayerStats -> Int
 playerCreepScore player = playerNeutralMobs player + playerMinionsSlain player
 
+playerVictory :: PlayerStats -> Int
+playerVictory player = fromMaybe 0 $ lookupStat player "Victories"
+
 lookupStat :: PlayerStats -> Text -> Maybe Int
 lookupStat player stat = do
     let stats = psstatistics player
@@ -88,3 +91,16 @@ roundLargeNumber i = if i < 1000
                      else if i < 1000000
                         then printf "%.1fk" (fromIntegral i / 1000 :: Float)
                         else printf "%.1fM" (fromIntegral i / 1000000 :: Float)
+
+formatGameTime :: Int -> String
+formatGameTime i = let hours = i `div` 3600
+                       min   = (i `div` 60) `mod` 60
+                       secs  = i `mod` 60
+                    in if hours > 0
+                       then printf "%02d:%02d:%02d" hours min secs
+                       else printf "%02d:%02d" min secs
+
+playerTeamWon :: M.Map Text PlayerStats -> Bool
+playerTeamWon team =
+    (> 0) . playerVictory . head . M.elems $ team
+

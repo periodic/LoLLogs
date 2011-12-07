@@ -1,0 +1,55 @@
+<h1>Game
+<p>Created: #{show (gameCreated game)}
+
+<div#stats>
+    $with stats <- gameGameStats game
+        <p>User Id: #{gsuserId stats}
+        <p>Game Id: #{gsgameId stats}
+        <p>Length: #{formatGameTime (gsgameLength stats)}
+        <p>Queue Type: #{gsqueueType stats}
+        <p>Ip Earned: #{gsipEarned stats}
+        $if gsranked stats
+            <p>Ranked #{gsranked stats}
+            <p>Elo: #{gselo stats}
+            <p>Elo Change: #{gseloChange stats}
+
+<div#players>
+    <h2>Teammates
+
+    $forall team <- [gsteamPlayerParticipantStats (gameGameStats game), gsotherTeamPlayerParticipantStats (gameGameStats game)]
+        <div.team :playerTeamWon team:class=winner>
+            $forall player <- M.elems team
+                <div.player :psisMe player:.reporting-player :psleaver player:.leaver
+                    <div.player-header
+                        <div.summoner-info
+                            $maybe skin <- psskinName player
+                                $maybe champ <- lookupChamp skin champions
+                                    <img src=#{championImageUrl champ}>
+                                $nothing 
+                                    ?
+                            <span.summoner-name
+                                #{ps_summonerName player}
+                                $if psbotPlayer player
+                                    <span.bot>(bot)
+                            $maybe skin <- psskinName player
+                                $maybe champ <- lookupChamp skin champions
+                                    <span.champion-name>#{championName champ}
+                                $nothing 
+                                    <span.champion-name>#{skin}
+                        <div.summoner-kda
+                            <span.kills>#{playerKills player}
+                            /
+                            <span.deaths>#{playerDeaths player}
+                            /
+                            <span.assists>#{playerAssists player}
+                        <div.summoner-items
+                        <div.summoner-gold
+                            #{roundLargeNumber (playerGold player)}
+                        <div.summoner-cs
+                            #{playerCreepScore player}
+                    <div.player-details
+                        $forall stat <- M.toList (psstatistics player)
+                            <div.stat>
+                                <span.statName>#{fst stat}
+                                : #
+                                <span.statValue>#{snd stat}

@@ -4,7 +4,7 @@ url=$1
 file="champions.dat"
 
 
-params=`awk -F"	" '{ printf("f2=%1$s&f3=%2$s&f4=%1$s\n", $1, $2) }' $file`
+params=`awk -F"	" '{ printf("f2=%s&f3=%s&f4=%s\n", $1, $2, $3) }' $file`
 
 IFS=$'\n'
 set -f
