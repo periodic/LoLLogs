@@ -7,6 +7,7 @@ module Data.ASObject.Parse ( parseActionScript
 
 -- Parser
 import Data.Attoparsec as P
+import qualified Data.Attoparsec.Types as PT
 import Data.Attoparsec.Char8 (char8, endOfLine)
 import qualified Data.Attoparsec.Char8 as P8
 
@@ -22,14 +23,14 @@ import qualified Data.Text.Encoding as TE
 import qualified Data.Attoparsec.Number as N
 
 -- Control flow
-import Control.Applicative hiding (many)
+import Control.Applicative
 import Control.Monad
 import Control.Monad.Reader
 
 -- ASValue
 import Data.ASObject.Types
 
-type ValueParser = ReaderT Int Parser
+type ValueParser = ReaderT Int (PT.Parser BS.ByteString)
 
 class FromAS a where
     parseAS :: ASValue -> Parser a

@@ -90,9 +90,9 @@ executable         LoLLogsWebApp
                  , bytestring                    >= 0.9        && < 0.10
                  , text                          >= 0.11       && < 0.12
                  , persistent                    >= 0.6.2      && < 0.7
-                 , persistent-mongoDB     >= 0.6        && < 0.7
+                 , persistent-mongoDB            >= 0.6        && < 0.7
                  , template-haskell
-                 , hamlet                        >= 0.10       && < 0.11
+                 , hamlet                        >= 0.10.5     && < 0.11
                  , shakespeare-css               >= 0.10       && < 0.11
                  , shakespeare-js                >= 0.10       && < 0.11
                  , shakespeare-text              >= 0.10       && < 0.11
