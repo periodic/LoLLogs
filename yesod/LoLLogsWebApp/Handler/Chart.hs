@@ -1,41 +1,66 @@
-{-# LANGUAGE TypeFamilies, QuasiQuotes, MultiParamTypeClasses,
-             TemplateHaskell, OverloadedStrings #-}
-
 module Handler.Chart where
 
 import Import
-import Data.Map as M
+import Data.List
 
-getGameStatsR :: Handler RepHtml
-getGameStatsR = do
-    games <- runDB $ selectList [] [Asc GameLength]
-    let bins = bin binBy10Mins games 0 10
-    let dataPoints = fmap (\(len,cBin) -> (show len, length cBin)) bins
-    let chart = createBarChart dataPoints
-    defaultLayout $ do
-        setTitle "Game Len Analysis"
-        $(widgetFile "game-len")
+data ChartInfo = ChartInfo {
+    title :: String
+  , xAxis :: String
+  , yAxis :: String
+}
 
--- Should probably move this elsewhere
+data SeriesInfo k v = SeriesInfo {
+    label :: String
+  , points :: [(k, v)]
+}
 
-createBarChart :: [(String, Int)] -> Widget
-createBarChart ds = do
-    let ys = getYs ds
-    let opts = "{xaxis: {ticks: " ++ getXs ds ++ "}, series: {bars: {show: true}}}"
-    callFlot ys opts
+noTitleChart :: ChartInfo
+noTitleChart = ChartInfo "" "" ""
 
+lineChartSimple :: (Num a) => [(a, a)] -> Widget
+lineChartSimple values = lineChart noTitleChart [SeriesInfo "" values]
 
-getYs :: [(String, Int)] -> String
-getYs d = fmap replaceParens . show $ getYs' (0::Int)  d
+barChartSimple :: (Num a) => [(String, a)] -> Widget
+barChartSimple values = barChart noTitleChart [SeriesInfo "" values]
+
+lineChart :: (Show k, Num v) => ChartInfo -> [SeriesInfo k v] -> Widget
+lineChart chart series = callFlot chart dataPoints opts
   where
-    getYs' i ((_,v):rest) = (i, v) : getYs' (i+1) rest
-    getYs' _ [] = []
-
-getXs :: [(String, Int)] -> String
-getXs d = fmap replaceParens . show $  getXs' (0::Int) d
+    dataPoints = renderDataPoints show series
+    opts = "{}"
+    
+barChart :: (Show k, Num v) => ChartInfo -> [SeriesInfo k v] -> Widget
+barChart chart series = callFlot chart dataPoints opts
   where
-    getXs' i ((c,_):rest) = (fromIntegral i + 0.5 :: Double, c) : getXs' (i+1) rest
-    getXs' _ [] = []
+    dataPoints = renderDataPoints showBarYs series
+    ticks = renderXTicks . points $ head series
+    opts = "{xaxis: {ticks: " ++ ticks ++ "}, series: {bars: {show: true}}}"
+
+--- 
+
+-- Turns [("Foo", 5), ("Bar", 6")] into "[(0.5, "Foo"), (1.5, "Bar")]"
+renderXTicks :: (Show k) => [(k, v)] -> String
+renderXTicks series = fmap replaceParens . show $  getXTicks' 0 series
+  where
+    getXTicks' i ((c,_):rest) = (i + 0.5 :: Double, c) : getXTicks' (i+1) rest
+    getXTicks' _ [] = []
+
+-- Returns string array of multiple series (see renderSeries)
+renderDataPoints :: (Show k, Num v) => ([(k,v)] -> String) -> [SeriesInfo k v] -> String
+renderDataPoints f series = concat $ intersperse "," $ fmap (renderSeries f) series
+
+-- Turns [SeriesInfo "Foo" [(1,2)]] into "{label: "Foo", data: [1,2]}"
+renderSeries :: (Show k, Num v) => ([(k, v)] -> String) -> SeriesInfo k v -> String
+renderSeries f series = "{label: \"" ++ label series ++ "\", data: " ++ dataPoints ++ "}"
+  where
+    dataPoints = fmap replaceParens . f $ points series
+
+-- Turns [("Foo", 5), ("Bar", 6)] into "[[0, 5], [1, 6]]"
+showBarYs :: (Num v) => [(k, v)] -> String
+showBarYs series = fmap replaceParens . show $ showBarYs' (0::Int) series
+  where
+    showBarYs' i ((_,v):rest) = (i, v) : showBarYs' (i+1) rest
+    showBarYs' _ [] = []
 
 -- Needed because flot uses arrays instead of tuples for pairs
 replaceParens :: Char -> Char
@@ -43,32 +68,23 @@ replaceParens c | c == '(' = '['
                 | c == ')' = ']'
                 | otherwise = c
 
-callFlot :: String -> String -> Widget
-callFlot plots opts = do
+callFlot :: ChartInfo -> String -> String -> Widget
+callFlot info dataPoints opts = do
     addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
     -- todo use static route for this
     addScriptRemote "/static/js/jquery.flot.min.js"
+    -- Needed because flot doesn't work well with bootstrap
+    toWidget [lucius|.flot-chart table { width: auto }|]
+    containerId <- lift newIdent
     chartId <- lift newIdent
-    toWidget [hamlet|<div id="#{chartId}" style="width:600px;height:300px;">|]
+    toWidget [hamlet|
+        <span id="#{containerId}" style="display:inline-block">
+            <p style="text-align: center"> #{title info}
+            <div id="#{chartId}" class="flot-chart" style="width:600px;height:300px;">
+            <p style="text-align: center"> #{xAxis info}
+    |]
     toWidget [julius|
         $(function() {
-            $.plot($('##{chartId}'), [#{plots}], #{opts});
+            $.plot($('##{chartId}'), [#{dataPoints}], #{opts});
         })
     |]
-
-getGameLen :: (a, Game) -> Int
-getGameLen = gsgameLength . gameGameStats . snd
-
-binBy10Mins :: (a, Game) -> Int
-binBy10Mins s = 10 * (div (getGameLen s) 600)
-
--- Bins a list of a's according to binning function f. Assumes
--- a's are already sorted by binning value
-bin :: (a -> Int) -> [a] -> Int -> Int -> [(Int,[a])]
-bin f' as' b' step' = assocs $ bin' (M.empty) f' as' b' step'
-  where
-    -- todo: bin lists are in reverse order
-    bin' m f (a:as) b step
-        | f a < b+step = bin' (M.insertWith' (++) b [a] m) f as b step
-        | otherwise = bin' (M.insertWith' (++) b [] m) f (a:as) (b+step) step
-    bin' m _ _ _ _ = m

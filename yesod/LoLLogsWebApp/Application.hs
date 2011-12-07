@@ -19,7 +19,7 @@ import qualified Database.Persist.Base
 import Handler.Root
 import Handler.Game
 import Handler.Champion
-import Handler.Chart
+import Handler.ChartExample
 
 -- This line actually creates our YesodSite instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see

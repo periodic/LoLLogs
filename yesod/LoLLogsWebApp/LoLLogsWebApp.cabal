@@ -38,6 +38,7 @@ library
                      Handler.Game
                      Handler.Champion
                      Handler.Chart
+                     Handler.ChartExample
 
     ghc-options:   -Wall -threaded -O0
 
