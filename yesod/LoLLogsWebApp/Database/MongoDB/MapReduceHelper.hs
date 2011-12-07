@@ -1,21 +1,22 @@
 {-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, GeneralizedNewtypeDeriving, ExistentialQuantification #-}
-module Database.MongoDB.GameLogs ( execute
-                                 , GroupOp(..)
-                                 , QueryColumn(..)
-                                 , MRQuery
-                                 , buildQuery
-                                 , addColumn
-                                 , showDocument
-                                 , (.==)
-                                 , (.<)
-                                 , (.>)
-                                 , (.<=)
-                                 , (.>=)
-                                 , exists
-                                 ) where
+module Database.MongoDB.MapReduceHelper ( execute
+                                        , GroupOp(..)
+                                        , QueryColumn(..)
+                                        , MRQuery
+                                        , buildQuery
+                                        , addColumn
+                                        , showDocument
+                                        , (.==)
+                                        , (.<)
+                                        , (.>)
+                                        , (.<=)
+                                        , (.>=)
+                                        , exists
+                                        ) where
 
 import Database.MongoDB as Mongo
 
+import Prelude
 import Data.Int
 import Data.List (union, intercalate)
 import Data.UString as S (UString, concat)
@@ -151,43 +152,6 @@ setKey :: QueryColumn column typ => column -> MRQuery ()
 setKey column = do
     let select = querySelector column
     St.modify $ (\s -> s { keyField = select })
-
-{- | Merge two documents recursively. The default merge will favor the first
- - document if there is a key conflict.  This version will merge the two values
- - of the key if they are either arrays or objects.
- -}
-mergeRecursive :: Document -> Document -> Document
-mergeRecursive = mergeDocuments -- merge documents initially.
-    where
-        {- | When two documents merge, we get all the labels, then merge the
-         - values for each label in the union of labels. -}
-        mergeDocuments d1 d2 =
-            let labels = map (\(l := v) -> l)
-                ls = labels d1 `union` labels d2
-             in map (\l -> l := mergeValue (look l d1) (look l d2)) ls
-
-        {- | When we get only one value, we use that.  We should always get at
-         - least one value.  Two documents require special treatment, as do
-         - arrays, but for anything else we use the first value.
-         -}
-        mergeValue (Just a) Nothing  = a
-        mergeValue Nothing  (Just a) = a
-        mergeValue Nothing  Nothing  = error "Merging two missing values."
-        mergeValue (Just a) (Just b) = case (a, b) of
-            ((Doc d1)  , (Doc d2)  ) -> Doc $ mergeDocuments d1 d2
-            ((Array a1), (Array a2)) -> Array (a1 `union` a2)
-            (_         , _         ) -> a
-
-
-{- | Nest some labels and put a value inside.
- -}
-nest :: Val a => [Label] -> a -> Document
-nest ls v = case nestR ls v of
-    Doc d -> d
-    _     -> error "Empty label list."
-    where
-        nestR (l:ls) v = Doc [l := nestR ls v]
-        nestR []     v = val v
 
 showDocument :: Document -> String
 showDocument ls = "{" ++ (intercalate ", " $ map (\(l := v) -> show l ++ ": " ++ showDocumentR v) ls) ++ "}"

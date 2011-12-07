@@ -29,8 +29,10 @@ library
     exposed-modules: Application
     other-modules:   Foundation
                      Import
+                     Database.MongoDB.MapReduceHelper
                      Model
                      Model.Game
+                     Model.Game.Query
                      Model.Champion
                      Settings
                      Settings.StaticFiles
@@ -101,3 +103,6 @@ executable         LoLLogsWebApp
                  , aeson
                  , attoparsec
                  , enumerator
+                 , mtl
+                 , bson
+                 , mongoDB

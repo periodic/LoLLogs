@@ -2,7 +2,14 @@ module Handler.ChartExample where
 
 import Import
 import Data.Map as M
+import Database.MongoDB.MapReduceHelper
+import Model.Game.Query
 import Handler.Chart
+import Data.Maybe (catMaybes)
+
+-- TODO: This really shouldn't be necessary and the BSON manipulation should be moved out to the Helper.
+import Data.Bson
+import Data.UString as US (unpack)
 
 getGameStatsR :: Handler RepHtml
 getGameStatsR = do
@@ -11,6 +18,14 @@ getGameStatsR = do
     let dataPoints = fmap (\(len,cBin) -> (show len, length cBin)) bins
     let chart = barChartSimple dataPoints
     let chart2 = sampleLineChart
+
+    queryData <- liftIO . execute $ buildQuery "Game" (QueryGameSummonerChampion "ShaperOfChaos") [] (addColumn (QueryGameSummonerAvgKills "ShaperOfChaos"))
+    let dataPoints2 = case queryData of
+                        Left _ -> []
+                        Right vals -> catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "avgKills" results >>= cast')) vals
+
+    let chart3 = barChartSimple (dataPoints2 :: [(String, Double)])
+
     defaultLayout $ do
         setTitle "Game Len Analysis"
         $(widgetFile "game-len")

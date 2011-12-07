@@ -1,4 +1,7 @@
-module Model.Game (module Model.Game, module Data.GameLog) where
+module Model.Game ( module Model.Game
+                  , module Model.Game.Query
+                  , module Data.GameLog
+                  ) where
 
 import Prelude
 import Yesod
@@ -8,6 +11,7 @@ import qualified Data.Map as M
 import Text.Printf
 import Data.Maybe (fromMaybe)
 import Data.GameLog
+import Model.Game.Query
 import Database.Persist.Base
 import Database.Persist.MongoDB
 import Database.Persist.TH.Library

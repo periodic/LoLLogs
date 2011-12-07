@@ -1,6 +1,7 @@
 <h1>Game Length Analysis
 ^{chart}
 ^{chart2}
+^{chart3}
 <ul>
     $forall bin <- bins
         <ul>
