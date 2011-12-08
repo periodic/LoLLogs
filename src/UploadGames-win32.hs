@@ -48,8 +48,8 @@ errorLog = hPutStrLn stderr
 uploadGame :: Manager -> String -> BS.ByteString -> IO ()
 uploadGame manager url jsonGames = do
     let request = def { method = methodPost
-                      , host   = "localhost"
-                      , port   = 3000
+                      , host   = "lol.casualaddict.com"
+                      , port   = 80 
                       , path   = "/game"
                       , requestBody = RequestBodyBS jsonGames
                       }
@@ -57,22 +57,23 @@ uploadGame manager url jsonGames = do
     case resp of
         Response code _ str -> putStr (show code ++ ": ") >> mapM_ BS.putStrLn (L.toChunks str)
 
-getLogFilePaths :: IO FilePath
+getLogFilePaths :: IO [FilePath]
 getLogFilePaths = do
     lolDir <- getLoLDirectory
     let versionDir = lolDir ++ "\\projects\\lol_air_client\\releases"
     versions <- getDirectoryContentsWithPrefix versionDir
-    concat <$> mapM getDirectoryContentsWithPrefix versions
+    concat <$> mapM (getDirectoryContentsWithPrefix . (++ "\\deploy\\logs")) versions
 
 getDirectoryContentsWithPrefix :: FilePath -> IO [FilePath]
-getDirectoryContentsWithPrefix path = map (path ++) <$> getDirectoryContents path
+getDirectoryContentsWithPrefix path = 
+    map ((path ++ "\\") ++ ) . filter (not . flip elem [".", ".."]) 
+    <$> getDirectoryContents path
 
 getLoLDirectory :: IO FilePath
-getLoLDirectory =
-	bracket	(regOpenKey hive path) regCloseKey $ \hkey ->
-		regQueryValue hkey (Just "LocalRootFolder")
-	where
-		hive = hKEY_CURRENT_USER
+getLoLDirectory = bracket (regOpenKey hive path) regCloseKey $ \hkey ->
+        regQueryValue hkey (Just "LocalRootFolder")
+    where
+        hive = hKEY_CURRENT_USER
         path = "Software\\Riot Games\\RADS"
 
 

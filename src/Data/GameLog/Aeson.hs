@@ -9,11 +9,12 @@ import Data.Aeson
 import Data.Aeson.Types
 import Data.Aeson.TH
 import qualified Data.Map as M
+import qualified Data.HashMap.Lazy as HM
 import qualified Data.Vector as V
 import Data.Text (Text)
 
 instance (FromJSON a) => FromJSON (List a) where
-    parseJSON (Object obj) = case M.lookup "list" obj of
+    parseJSON (Object obj) = case HM.lookup "list" obj of
                                 Just (Object obj) -> List <$> obj .: "source"
                                 v                 -> fail $ "Got an invalid type to List: " ++ show v
     parseJSON (Array arr)  = List <$> mapM parseJSON (V.toList arr)

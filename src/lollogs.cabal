@@ -8,15 +8,24 @@ Author:             Drew Haven
 Maintainer:         Drew Haven <drew.haven@gmail.com>
 Build-depends:      base >= 4,
                     mtl,
+                    aeson >= 0.4,
                     attoparsec,
-                    aeson,
                     persistent,
                     persistent-template,
                     containers,
+                    unordered-containers,
                     template-haskell,
                     text,
                     bytestring,
-                    vector
+                    vector,
+                    http-types,
+                    http-enumerator,
+                    Win32,
+                    filepath,
+                    directory,
+                    transformers,
+                    time
+
 Build-type:         Simple
 
 Exposed-modules:    Data.ASObject,
@@ -28,3 +37,6 @@ Other-modules:      Data.GameLog.Types,
                     Data.ASObject.Types,
                     Data.ASObject.Parse,
                     Data.ASObject.Json
+
+Executable:         upload-games
+Main-is:            UploadGames-win32.hs

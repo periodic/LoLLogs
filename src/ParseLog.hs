@@ -9,7 +9,7 @@ import qualified Data.ByteString.Char8 as C8
 import qualified Data.ByteString as S
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Map as M
-import Control.Applicative hiding (many)
+import Control.Applicative
 import Control.Monad
 import Control.Monad.Reader
 import Data.Maybe (catMaybes)

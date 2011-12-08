@@ -13,7 +13,8 @@ import qualified Data.Aeson.Types as P
 import Data.Text (pack, unpack)
 import qualified Data.Text.Encoding as E
 import qualified Data.Attoparsec.Number as N
-import qualified Data.Map as M
+-- import qualified Data.Map as M
+import qualified Data.HashMap.Lazy as M
 import qualified Data.Vector as V
 import Control.Monad (liftM)
 import Language.Haskell.TH
