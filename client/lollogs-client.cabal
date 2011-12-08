@@ -1,4 +1,4 @@
-Name:               lollogs
+Name:               lollogs-client
 Version:            0.1
 Synopsis:           League of Legends Log Parsing
 Description:        LoL Log parsing.
@@ -17,7 +17,14 @@ Build-depends:      base >= 4,
                     template-haskell,
                     text,
                     bytestring,
-                    vector
+                    vector,
+                    http-types,
+                    http-enumerator,
+                    Win32,
+                    filepath,
+                    directory,
+                    transformers,
+                    time
 
 Build-type:         Simple
 
@@ -30,3 +37,6 @@ Other-modules:      Data.GameLog.Types,
                     Data.ASObject.Types,
                     Data.ASObject.Parse,
                     Data.ASObject.Json
+
+Executable:         upload-games
+Main-is:            UploadGames-win32.hs
