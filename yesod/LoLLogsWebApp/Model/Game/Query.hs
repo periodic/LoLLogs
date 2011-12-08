@@ -1,22 +1,52 @@
 {-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, TypeSynonymInstances #-}
-module Model.Game.Query ( Model.Game.Query
-                        , Model.Helper.MapReduce
+module Model.Game.Query ( module Model.Game.Query
+                        , module Model.Helper.MapReduce
                         ) where
 
 import Prelude
-import Database.MongoDB.MapReduceHelper
 import Data.UString as US
 import Data.GameLog
 import Data.Text as T (Text, unpack, pack)
 import Data.Bson
 
+import Model.Game
 import Model.Helper.MapReduce
 
-data Queryable (GameGeneric backend) where
+instance Queryable (GameGeneric backend) where
     data QueryColumn (GameGeneric backend) typ
         = typ ~ Text => QGameQueueType
         | typ ~ Int  => QGameLength
+        | typ ~ Text => QGameChampion Text
+    -- querySelector       :: QueryColumn model typ -> Javascript -- ^ Used to select when used as a key.
+    queryKeyCode c@QGameQueueType = simpleKey "gameStats.queueType" c
+    queryKeyCode c@QGameLength    = simpleKey "gameStats.gameLength" c
+    queryKeyCode c@(QGameChampion champT) = 
+        let champ = t2u champT
+         in wrapJS $ US.concat [ "(this.gameStats.teamPlayerParticipantStats.", champ, ".skinName"
+                               , "|| this.gameStats.otherTeamPlayerParticipantStats.", champ, ".skinName"
+                               , ")"
+                               ]
 
+    -- queryColumnName     :: QueryColumn model typ -> UString    -- ^ The column name 
+    queryColumnName QGameQueueType = "queueType"
+    queryColumnName QGameLength    = "gameLength"
+    queryColumnName (QGameChampion _) = "champion"
+
+    -- queryMapCode        :: QueryColumn model typ -> Javascript -- ^ Should set fields on "result" from "this".  Run once for each document.
+    queryMapCode c@QGameQueueType = simpleMap "gameStats.queueType" c
+    queryMapCode c@QGameLength    = simpleMap "gameStats.gameLength" c
+    queryMapCode c@(QGameChampion champT) = summonerMapCode champT ".skinname"
+
+    --queryFilter         :: QueryColumn model typ -> Value -> Document  -- ^ Produce the document to be used as a filter when given a value.
+    queryFilter c@QGameQueueType = simpleFilter "gameStats.queueType" c
+    queryFilter c@QGameLength    = simpleFilter "gameStats.gameLength" c
+    queryFilter c@(QGameChampion champT) = summonerFilter champT ".skinname"
+
+    -- queryFinalizeCode   :: QueryColumn model typ -> Javascript -- ^ Used to finalize the result.  Should work on "result" and "v".  The value assigned
+    queryFinalizeCode c@QGameLength = simpleFinalizeAvg c
+    queryFinalizeCode c             = simpleFinalize c
+
+{-
 data QueryGameQueueType = QueryGameQueueType
 instance QueryColumn QueryGameQueueType UString where
     querySelector _ = "this.gameStats.queueType"
@@ -68,19 +98,20 @@ instance QueryColumn QueryGameSummonerAvgKills UString where
     querySelector (QueryGameSummonerAvgKills name) = summonerSelector name ".statistics['Champion Kills']"
     queryReduceOp _ = GroupAvg
     queryColumnName _ = "avgKills"
+-}
 
-summonerSelector textName subSelector = 
-        let name = US.pack (T.unpack textName)
-        in US.concat [ "(  this.gameStats.teamPlayerParticipantStats.", name
-                     , "&& this.gameStats.teamPlayerParticipantStats.", name, subSelector
-                     , ") ||"
-                     , "(  this.gameStats.otherTeamPlayerParticipantStats.", name
-                     , "&& this.gameStats.otherTeamPlayerParticipantStats.", name, subSelector
-                     , ")"
-                     ]
+summonerMapCode textName subSelector = 
+        let name = t2u textName
+        in wrapJS $ US.concat [ "(  this.gameStats.teamPlayerParticipantStats.", name
+                              , "&& this.gameStats.teamPlayerParticipantStats.", name, subSelector
+                              , ") ||"
+                              , "(  this.gameStats.otherTeamPlayerParticipantStats.", name
+                              , "&& this.gameStats.otherTeamPlayerParticipantStats.", name, subSelector
+                              , ")"
+                              ]
 
 summonerFilter textName subSelector v = 
-        let name = US.pack (T.unpack textName)
+        let name = t2u textName
         in [ "$or" =: [ [US.concat ["gameStats.teamPlayerParticipantStats.", name, ".", subSelector] := v]
                       , [US.concat ["gameStats.teamPlayerParticipantStats.", name, ".", subSelector] := v]
                       ]]

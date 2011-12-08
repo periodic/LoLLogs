@@ -29,8 +29,8 @@ library
     exposed-modules: Application
     other-modules:   Foundation
                      Import
-                     Database.MongoDB.MapReduceHelper
                      Model
+                     Model.Helper.MapReduce
                      Model.Game
                      Model.Game.Query
                      Model.Champion

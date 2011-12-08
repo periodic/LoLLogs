@@ -2,7 +2,6 @@ module Handler.ChartExample where
 
 import Import
 import Data.Map as M
-import Database.MongoDB.MapReduceHelper
 import Model.Game.Query
 import Handler.Chart
 import Data.Maybe (catMaybes)
@@ -19,10 +18,10 @@ getGameStatsR = do
     let chart = barChartSimple dataPoints
     let chart2 = sampleLineChart
 
-    queryData <- liftIO . execute $ buildQuery "Game" (QueryGameSummonerChampion "ShaperOfChaos") [] (addColumn (QueryGameSummonerAvgKills "ShaperOfChaos"))
+    queryData <- liftIO . execute $ buildQuery (QGameChampion "ShaperOfChaos") [] [QGameLength]
     let dataPoints2 = case queryData of
                         Left _ -> []
-                        Right vals -> catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "avgKills" results >>= cast')) vals
+                        Right vals -> catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "gameLength" results >>= cast')) vals
 
     let chart3 = barChartSimple (dataPoints2 :: [(String, Double)])
 
