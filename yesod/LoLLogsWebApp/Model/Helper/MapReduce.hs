@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, GeneralizedNewtypeDeriving, ExistentialQuantification #-}
 module Database.MongoDB.MapReduceHelper ( execute
                                         , GroupOp(..)
-                                        , QueryColumn(..)
+                                        , Queryable(..)
                                         , MRQuery
                                         , buildQuery
                                         , addColumn
@@ -25,15 +25,16 @@ import qualified Data.Map as M
 import Control.Monad.State as St
 
 
-mapFunc = Javascript [] "function () { emit(this.gameStats.queueType, { count: 1, length: this.gameStats.gameLength}) }"
-reduceFunc = Javascript [] "function (key, values) { var result = {count: 0, length: 0}; values.forEach(function (value) { result.count += value.count; result.length += value.length; }); return result; }"
-finalizeFunc = Javascript [] "function (key, value) { return { avg: value.length / value.count, count: value.count}; }"
+instance Queryable model where
+    data QueryColumn :: model -> typ
+    querySelector       :: QueryColumn model typ -> Javascript
+    queryReduceOp       :: QueryColumn model typ -> Javascript
+    queryColumnName     :: QueryColumn model typ -> Javascript
+    queryFilter         :: QueryColumn model typ -> Value -> Document
+    queryCastResult     :: QueryColumn model typ -> Value -> typ
 
-sort :: Label -> Order
-sort field = [field =: (1 :: Int32)]
-
-mr m r f = MapReduce "Game" m r [] [] 0 Inline (Just f) [] False
-
+{- | Execute a map-reduce query, returning a either a list of results as touples from values to maps of data, or an error.
+ -}
 execute :: MapReduce -> IO (Either Failure [(Label, M.Map Label Value)])
 execute query = do
     conn <- runIOE . connect $ host "localhost"
@@ -55,6 +56,8 @@ data GroupOp = GroupAvg
              | GroupFirst
              deriving (Show, Eq)
 
+simple group
+
 {- | Return an group opperations aggregation funciton.
  -}
 groupAggregator :: GroupOp -> UString
@@ -72,10 +75,10 @@ groupFinalizer (GroupFirst) field = S.concat ["result.", field, " = val.", field
 {- | The type class of a queryable column.
  -}
 class (Val typ) => QueryColumn column typ | column -> typ where
-    querySelector :: column -> UString
+    querySelector :: column -> Either UString Javascript
     queryReduceOp :: column -> GroupOp
-    queryColumnName :: column -> UString
-    queryFilterSelector :: column -> UString
+    queryColumnName :: column -> Either UString Javascript
+    queryFilterSelector :: column -> Either UString Javascript
     queryFilterSelector = error "No selector defined for filters on this column."
     queryFilter :: column -> Value -> Document
     queryFilter col v = [queryFilterSelector col := v ]

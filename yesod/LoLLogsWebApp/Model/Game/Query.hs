@@ -1,5 +1,7 @@
 {-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, TypeSynonymInstances #-}
-module Model.Game.Query where
+module Model.Game.Query ( Model.Game.Query
+                        , Model.Helper.MapReduce
+                        ) where
 
 import Prelude
 import Database.MongoDB.MapReduceHelper
@@ -7,6 +9,13 @@ import Data.UString as US
 import Data.GameLog
 import Data.Text as T (Text, unpack, pack)
 import Data.Bson
+
+import Model.Helper.MapReduce
+
+data Queryable (GameGeneric backend) where
+    data QueryColumn (GameGeneric backend) typ
+        = typ ~ Text => QGameQueueType
+        | typ ~ Int  => QGameLength
 
 data QueryGameQueueType = QueryGameQueueType
 instance QueryColumn QueryGameQueueType UString where
