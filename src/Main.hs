@@ -33,19 +33,20 @@ main = do
 
 processFile :: FilePath -> IO [StatsRow]
 processFile path = do
-    putStrLn $ "Parsing file " ++ path
+    hPutStrLn stderr $ "Parsing file " ++ path
     exists <- doesFileExist path
     if exists
         then do
             parsed <- parseOnly (fromJSON <$> json) . gamesAsJSON <$> BS.readFile path
             case parsed of 
                 Right (Success rows) -> do
-                    putStrLn ("Found " ++ show (length rows) ++ " games.") 
+                    hPutStrLn stderr ("Found " ++ show (length rows) ++ " games.") 
                     let stats = map (getStats "ShaperOfChaos") rows
                         successes = rights stats
                         errors = lefts stats
                     mapM_ putStrLn errors
                     return successes
-                Right (Error   msg ) -> putStrLn ("JSON error: " ++ msg) >> return []
-                Left msg             -> putStrLn msg >> return []
-        else putStrLn "File does not exist." >> return []
+                Right (Error   msg ) -> hPutStrLn stderr ("JSON error: " ++ msg) >> return []
+                Left msg             -> hPutStrLn stderr msg >> return []
+        else hPutStrLn stderr "File does not exist." >> return []
+
