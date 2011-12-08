@@ -22,10 +22,10 @@ Build-depends:      base >= 4,
 Build-type:         Simple
 
 Exposed-modules:    Data.ASObject,
-                    Data.GameLog
+                    Data.GameLog,
+                    Data.GameLog.Persist
 Other-modules:      Data.GameLog.Types,
                     Data.GameLog.Aeson,
-                    Data.GameLog.Persist,
                     Data.GameLog.PersistTH,
                     Data.ASObject.Types,
                     Data.ASObject.Parse,

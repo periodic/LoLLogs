@@ -10,6 +10,7 @@ import qualified Data.Map as M
 import Text.Printf
 import Data.Maybe (fromMaybe)
 import Data.GameLog
+import Data.GameLog.Persist
 import Database.Persist.Base
 import Database.Persist.MongoDB
 import Database.Persist.TH.Library
