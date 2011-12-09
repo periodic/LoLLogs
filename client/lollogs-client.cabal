@@ -7,17 +7,13 @@ License-file:       LICENSE
 Author:             Drew Haven
 Maintainer:         Drew Haven <drew.haven@gmail.com>
 Build-depends:      base >= 4,
+		    lollogs,
                     mtl,
                     aeson >= 0.4,
                     attoparsec,
-                    persistent,
-                    persistent-template,
                     containers,
                     unordered-containers,
-                    template-haskell,
-                    text,
                     bytestring,
-                    vector,
                     http-types,
                     http-enumerator,
                     Win32,
@@ -27,16 +23,6 @@ Build-depends:      base >= 4,
                     time
 
 Build-type:         Simple
-
-Exposed-modules:    Data.ASObject,
-                    Data.GameLog
-Other-modules:      Data.GameLog.Types,
-                    Data.GameLog.Aeson,
-                    Data.GameLog.Persist,
-                    Data.GameLog.PersistTH,
-                    Data.ASObject.Types,
-                    Data.ASObject.Parse,
-                    Data.ASObject.Json
 
 Executable:         upload-games
 Main-is:            UploadGames-win32.hs
