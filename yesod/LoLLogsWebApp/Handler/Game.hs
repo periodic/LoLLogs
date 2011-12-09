@@ -38,7 +38,7 @@ getGameViewR gameId = do
 postGameCreateR :: Handler RepJson
 postGameCreateR = do
     bss <- lift consume
-    let body = foldr1 (BS.append) bss
+    let body = foldr (BS.append) BS.empty bss
     case (parseOnly (rawGames <$> json) body :: Either String (Result [GameStats])) of
         Right (Success games)   -> insertGames games
         Right (Error msg)       -> return . RepJson . toContent . encode . String . pack $ msg
