@@ -8,6 +8,9 @@ module Model.Helper.MapReduce ( execute
                               , simpleFinalize
                               , simpleFinalizeAvg
                               , simpleFilter
+                              , simpleMapFunc
+                              , simpleReduceFunc
+                              , simpleFinalizeFunc
                               , GroupOp(..)
                               , buildQuery
                               , QuerySelect(..)
@@ -58,27 +61,37 @@ instance IsString Javascript where
     fromString = Javascript [] . S.pack
 
 class PersistEntity model => Queryable model where
+    -- Column definitions
     data QueryColumn model :: * -> *
-    -- Minimal definition
-    queryKeyCode        :: QueryColumn model typ -> Javascript -- ^ Used to select when used as a key.
     queryColumnName     :: QueryColumn model typ -> UString    -- ^ The column name
-    queryMapCode        :: QueryColumn model typ -> Javascript -- ^ Should set fields on "result" from "this".  Run once for each document.
     queryFilter         :: QueryColumn model typ -> Value -> Document  -- ^ Produce the document to be used as a filter when given a value.
 
-    -- Optional
+    -- Define the map function
+    queryKeyCode :: QueryColumn model typ -> Javascript -- ^ Used to select when used as a key.
+    queryMapCode :: QueryColumn model typ -> Javascript -- ^ Should set fields on "result" from "this".  Run once for each document.
+
+    -- Define the reduce funciton
     queryReduceCode     :: QueryColumn model typ -> Javascript -- ^ Used to merge fields from the map set.  Should merge "v" into "result", touching only its fields.
     queryReduceCode = simpleReduce GroupTotal
-
-    queryFinalizeCode   :: QueryColumn model typ -> Javascript -- ^ Used to finalize the result.  Should work on "result" and "v".  The value assigned
-                                                               -- to "result" will be what is returned.  It can make use of multiple fields
-                                                               -- or the built-in _count field.
+    -- Define the finalize function
+    queryFinalizeCode   :: QueryColumn model typ -> Javascript -- ^ Used to finalize the result.  Should work on "result" and "v". 
     queryFinalizeCode = simpleFinalize
-
-
+    -- Utilitiy functions
     queryCastResult     :: (Val typ) => QueryColumn model typ -> Value -> Maybe typ -- ^ Cast a result of type Value into the type for this column.
     queryCastResult _ v = cast' v
 
-    queryCollection     :: QueryColumn model typ -> UString
+
+    -- Model-wide definitions.
+    queryMapFunc :: QueryColumn model typ -> forall typ0. [QueryColumn model typ0] -> Javascript
+    queryMapFunc = simpleMapFunc
+
+    queryReduceFunc :: forall typ0. [QueryColumn model typ0] -> Javascript
+    queryReduceFunc = simpleReduceFunc
+
+    queryFinalizeFunc :: forall typ0. [QueryColumn model typ0] -> Javascript
+    queryFinalizeFunc = simpleFinalizeFunc
+
+    queryCollection :: QueryColumn model typ -> UString
     queryCollection _ = S.pack . entityName $ entityDef (undefined :: model)
 
 {- | Reduce operators.
@@ -181,16 +194,27 @@ buildQuery :: Queryable model => QueryColumn model typ  -- ^ The column to use a
 buildQuery keyCol filters fields =
     let collection = queryCollection keyCol
 
-        key = unJS $ queryKeyCode keyCol
-        mapCode      = unJS . catJS . map (queryMapCode) $ fields
-        reduceCode   = unJS . catJS . map (queryReduceCode) $ fields
-        finalizeCode = unJS . catJS . map (queryFinalizeCode) $ fields
-
-        mapFunc = Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapCode, "emit(key, result); }"]
-        reduceFunc = Javascript [] $ S.concat ["function (key, vals) { var result = vals[0]; for (var i = 1; i < vals.length; i++) { var v = vals[i]; result._count = result._count + v._count; ", reduceCode, "}; return result; }"]
-        finalizeFunc = Javascript [] $ S.concat ["function (key, v) { var result = {_count: v._count}; ", finalizeCode, "return result; }"]
+        mapFunc      = queryMapFunc keyCol fields
+        reduceFunc   = queryReduceFunc fields
+        finalizeFunc = queryFinalizeFunc fields
 
      in MapReduce collection mapFunc reduceFunc (parseFilters filters) [] 0 Inline (Just finalizeFunc) [] False
+
+simpleMapFunc :: Queryable model => QueryColumn model typ -> forall typ0. [QueryColumn model typ0] -> Javascript
+simpleMapFunc keyCol fields =
+    let key = unJS $ queryKeyCode keyCol
+        mapCode      = unJS . catJS . map (queryMapCode) $ fields
+     in Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapCode, "emit(key, result); }"]
+
+simpleReduceFunc :: Queryable model => forall typ. [QueryColumn model typ] -> Javascript
+simpleReduceFunc fields =
+    let reduceCode   = unJS . catJS . map (queryReduceCode) $ fields
+     in Javascript [] $ S.concat ["function (key, vals) { var result = vals[0]; for (var i = 1; i < vals.length; i++) { var v = vals[i]; result._count = result._count + v._count; ", reduceCode, "}; return result; }"]
+
+simpleFinalizeFunc :: Queryable model => forall typ. [QueryColumn model typ] -> Javascript
+simpleFinalizeFunc fields =
+    let finalizeCode = unJS . catJS . map (queryFinalizeCode) $ fields
+     in Javascript [] $ S.concat ["function (key, v) { var result = {_count: v._count}; ", finalizeCode, "return result; }"]
 
 {- | Execute a map-reduce query, returning a either a list of results as touples from values to maps of data, or an error.
  -}
