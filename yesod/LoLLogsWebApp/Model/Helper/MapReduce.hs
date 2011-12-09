@@ -1,5 +1,6 @@
 {-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, PatternGuards #-}
 module Model.Helper.MapReduce ( execute
+                              , runMapReduce
                               , Queryable(..)
                               , simpleKey
                               , simpleMap
@@ -22,23 +23,29 @@ module Model.Helper.MapReduce ( execute
                               , wrapJS
                               ) where
 
-import Database.MongoDB as Mongo
+import Database.MongoDB as Mongo hiding (selector)
 
 import Prelude
-import Data.Int
-import Data.List (union, intercalate)
-import Data.UString as S (UString, pack, unpack, concat)
 import Database.Persist.Base
+import Yesod.Handler (GGHandler)
+import Data.UString as S (pack, unpack, concat)
 import Data.Text as T (Text, unpack, pack)
 import Data.String
 import qualified Data.Map as M
 
-import Control.Monad.State as St
-
+t2u :: Text -> UString
 t2u = S.pack . T.unpack
+
+u2t :: UString -> Text
 u2t = T.pack . S.unpack
-catJS = S.concat . map unJS
+
+catJS :: [Javascript] -> Javascript
+catJS = wrapJS . S.concat . map unJS
+
+unJS :: Javascript -> UString
 unJS (Javascript _ code) = code
+
+wrapJS :: UString -> Javascript
 wrapJS = Javascript []
 
 instance Val Text where
@@ -73,22 +80,6 @@ class PersistEntity model => Queryable model where
 
     queryCollection     :: QueryColumn model typ -> UString
     queryCollection _ = S.pack . entityName $ entityDef (undefined :: model)
-
-{- | Execute a map-reduce query, returning a either a list of results as touples from values to maps of data, or an error.
- -}
-execute :: MapReduce -> IO (Either Failure [(Label, M.Map Label Value)])
-execute query = do
-    conn <- runIOE . connect $ host "localhost"
-    result <- access conn UnconfirmedWrites "LoLLogsWebApp" . runMR' $ query
-    case result of
-        Left err -> return $ Left err
-        Right doc -> return $ do
-            results <- Mongo.lookup "results" doc
-            let makeRecord doc = do
-                id <- Mongo.lookup "_id" doc
-                values <- Mongo.lookup "value" doc
-                return (id, M.fromList $ map (\(l := v) -> (l,v)) values) :: Either Failure (Label, M.Map Label Value)
-            mapM makeRecord results
 
 {- | Reduce operators.
  -}
@@ -129,11 +120,11 @@ simpleFinalizeAvg col =
      in Javascript [] $ S.concat ["result.", field, " = v.", field, " / v._count;"]
 
 simpleFilter :: Queryable model => UString -> QueryColumn model typ -> Value -> Document
-simpleFilter selector col v = [ selector := v ]
+simpleFilter selector _ v = [ selector := v ]
 
 data QueryFilter model = forall typ. Val typ => QueryFilter FilterOp (QueryColumn model typ) typ
-                 | QueryAll [QueryFilter model]
-                 | QueryAny [QueryFilter model]
+                       | QueryAll [QueryFilter model]
+                       | QueryAny [QueryFilter model]
 
 data QuerySelect model = forall typ. QuerySelect (QueryColumn model typ)
 
@@ -146,8 +137,8 @@ data FilterOp = FilterEQ
 
 parseFilters :: Queryable model => [QueryFilter model] -> Document
 parseFilters []     = []
-parseFilters fs | (f:[]) <- fs = convertFilter f
-                | otherwise    = convertFilter . QueryAll $ fs
+parseFilters filters | (f:[]) <- filters = convertFilter f
+                     | otherwise         = convertFilter . QueryAll $ filters
     where
         convertFilter f | (QueryAll fs) <- f = ["$and" =: map convertFilter fs]
                         | (QueryAny fs) <- f = ["$or"  =: map convertFilter fs]
@@ -156,15 +147,19 @@ parseFilters fs | (f:[]) <- fs = convertFilter f
                         | (QueryFilter FilterGT col v) <- f = queryFilter col $ Doc ["$gt" =: v]
                         | (QueryFilter FilterLE col v) <- f = queryFilter col $ Doc ["$le" =: v]
                         | (QueryFilter FilterGE col v) <- f = queryFilter col $ Doc ["$ge" =: v]
-                        | (QueryFilter FilterExists col v) <- f = queryFilter col $ Doc ["$exists" =: True]
+                        | (QueryFilter FilterExists col _) <- f = queryFilter col $ Doc ["$exists" =: True]
+                        | _ <- f = error "Invalid filter."
 
 (.==) :: (Eq typ, Val typ, Queryable model) => QueryColumn model typ -> typ -> QueryFilter model
 (.==) = QueryFilter FilterEQ
+
 (.<), (.>), (.<=), (.>=) :: (Ord typ, Val typ, Queryable model) => QueryColumn model typ -> typ -> QueryFilter model
 (.<)  = QueryFilter FilterLT
 (.>)  = QueryFilter FilterGT
 (.<=) = QueryFilter FilterLE
 (.>=) = QueryFilter FilterGE
+
+exists :: (Val typ, Queryable model) => QueryColumn model typ -> QueryFilter model
 exists col = QueryFilter FilterExists col undefined
 
 {-
@@ -179,43 +174,47 @@ data QueryState = QueryState
 -}
 
 {- | Build a MapReduce query. -}
-buildQuery :: Queryable model => QueryColumn model typ -- ^ The column to use a key.
-           -> [QueryFilter model]         -- ^ A list of filters.
-           -> forall typ. [QueryColumn model typ]         -- ^ A list of columns to select for the output.
+buildQuery :: Queryable model => QueryColumn model typ  -- ^ The column to use a key.
+           -> [QueryFilter model]                       -- ^ A list of filters.
+           -> forall typ0. [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
            -> MapReduce
 buildQuery keyCol filters fields =
     let collection = queryCollection keyCol
 
         key = unJS $ queryKeyCode keyCol
-        mapCode      = catJS . map (queryMapCode) $ fields
-        reduceCode   = catJS . map (queryReduceCode) $ fields
-        finalizeCode = catJS . map (queryFinalizeCode) $ fields
+        mapCode      = unJS . catJS . map (queryMapCode) $ fields
+        reduceCode   = unJS . catJS . map (queryReduceCode) $ fields
+        finalizeCode = unJS . catJS . map (queryFinalizeCode) $ fields
 
         mapFunc = Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapCode, "emit(key, result); }"]
         reduceFunc = Javascript [] $ S.concat ["function (key, vals) { var result = vals[0]; for (var i = 1; i < vals.length; i++) { var v = vals[i]; result._count = result._count + v._count; ", reduceCode, "}; return result; }"]
         finalizeFunc = Javascript [] $ S.concat ["function (key, v) { var result = {_count: v._count}; ", finalizeCode, "return result; }"]
 
      in MapReduce collection mapFunc reduceFunc (parseFilters filters) [] 0 Inline (Just finalizeFunc) [] False
-{-
-addColumn :: QueryColumn column typ => column -> MRQuery ()
-addColumn column = do
-    let col    = queryColumnName column
-        select = querySelector column
-        op     = queryReduceOp column
-    addField col (select, op)
-    where
-        addField col dat = St.modify $ \s@(QueryState _ fields) -> s { fields = M.insert col dat fields }
 
-setKey :: QueryColumn model typ -> MRQuery ()
-setKey column = do
-    let select = querySelector column
-    St.modify $ (\s -> s { keyField = select })
+{- | Execute a map-reduce query, returning a either a list of results as touples from values to maps of data, or an error.
+ -}
+execute :: MapReduce -> IO (Either Failure [(Label, M.Map Label Value)])
+execute query = do
+    conn <- runIOE . connect $ host "localhost"
+    result <- access conn UnconfirmedWrites "LoLLogsWebApp" . runMR' $ query
+    case result of
+        Left err -> return $ Left err
+        Right doc -> return $ do
+            results <- Mongo.lookup "results" doc
+            let makeRecord rec = do
+                recid <- Mongo.lookup "_id" rec
+                values <- Mongo.lookup "value" rec
+                return (recid, M.fromList $ map (\(l := v) -> (l,v)) values) :: Either Failure (Label, M.Map Label Value)
+            mapM makeRecord results
+-- runDB :: MonadIO monad => Action (GGHandler sub master IO) a -> GGHandler sub master monad a
 
-showDocument :: Document -> String
-showDocument ls = "{" ++ (intercalate ", " $ map (\(l := v) -> show l ++ ": " ++ showDocumentR v) ls) ++ "}"
-    where
-        showDocumentR :: Value -> String
-        showDocumentR (Doc ls) = showDocument ls
-        showDocumentR (Array as) = "[" ++ (intercalate ", " $ map show as) ++ "]"
-        showDocumentR other = show other
--}
+runMapReduce :: MapReduce -> Action (GGHandler sub master IO) [(Label, M.Map Label Value)]
+runMapReduce query = do
+    result <- runMR' query
+    results <- Mongo.lookup "results" result
+    let makeRecord doc = do
+        recId <- Mongo.lookup "_id" doc
+        values <- Mongo.lookup "value" doc
+        return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
+    mapM makeRecord results
