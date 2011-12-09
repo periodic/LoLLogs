@@ -21,8 +21,9 @@ import System.IO (hPutStrLn, stderr)
 
 import System.Win32.Registry
 
-import Network.HTTP.Enumerator
-import Network.HTTP.Types
+import Network.URI
+import Network.HTTP
+import Network.TCP
 
 
 import ParseLog
@@ -31,8 +32,8 @@ import Data.GameLog
 main = do
     files <- getLogFilePaths
     games <- mapM processFile files
-    manager <- newManager
-    mapM_ (uploadGame manager undefined) . catMaybes $ games
+    conn <- openStream "lol.casualaddict.com" 80
+    mapM_ (uploadGame conn) . catMaybes $ games
 
 processFile :: FilePath -> IO (Maybe BS.ByteString)
 processFile path = do
@@ -45,17 +46,20 @@ processFile path = do
 errorLog = hPutStrLn stderr
 
 
-uploadGame :: Manager -> String -> BS.ByteString -> IO ()
-uploadGame manager url jsonGames = do
-    let request = def { method = methodPost
-                      , host   = "lol.casualaddict.com"
-                      , port   = 80 
-                      , path   = "/game"
-                      , requestBody = RequestBodyBS jsonGames
-                      }
-    resp <- httpLbsRedirect request manager
-    case resp of
-        Response code _ str -> putStr (show code ++ ": ") >> mapM_ BS.putStrLn (L.toChunks str)
+uploadGame :: HandleStream BS.ByteString -> BS.ByteString -> IO ()
+uploadGame conn jsonGames = do
+    rawResponse <- sendHTTP conn request
+    respBody <- getResponseBody rawResponse
+    BS.putStrLn respBody
+    where
+        uri = maybe undefined id $ parseURI "http://lol.casualaddict.com/game"
+	request = Request { rqURI = uri
+                          , rqMethod = POST
+                          , rqHeaders = [ Header HdrContentType "application/json; charset=utf-8"
+                                        , Header HdrContentLength (show $ BS.length jsonGames)
+                                        ]
+                          , rqBody = jsonGames
+                          }
 
 getLogFilePaths :: IO [FilePath]
 getLogFilePaths = do

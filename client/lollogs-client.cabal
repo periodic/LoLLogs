@@ -14,13 +14,13 @@ Build-depends:      base >= 4,
                     containers,
                     unordered-containers,
                     bytestring,
-                    http-types,
-                    http-enumerator,
                     Win32,
                     filepath,
                     directory,
                     transformers,
-                    time
+                    time,
+                    network,
+                    HTTP
 
 Build-type:         Simple
 
