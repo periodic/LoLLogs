@@ -4,7 +4,7 @@ module Model.Game ( module Model.Game
 
 import Prelude
 -- import Yesod hiding (Unique, EntityField, PersistEntity, Key, )
-import Data.Text(Text)
+import Data.Text as T (Text, unpack)
 import Data.Time
 import qualified Data.Map as M
 import Text.Printf
@@ -59,8 +59,8 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
     persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
-    persistColumnDef (GameTeamPlayerSummoner name)      = Database.Persist.Base.ColumnDef ("gameStats.teamPlayerParticipantStats['" ++ name ++ "']") "Int" []
-    persistColumnDef (GameOtherTeamPlayerSummoner name) = Database.Persist.Base.ColumnDef ("gameStats.otherTeamPlayerParticipantStats['" ++ name ++ "']") "Int" []
+    persistColumnDef (GameTeamPlayerSummoner name)      = Database.Persist.Base.ColumnDef ("gameStats.teamPlayerParticipantStats['" ++ T.unpack name ++ "']") "Int" []
+    persistColumnDef (GameOtherTeamPlayerSummoner name) = Database.Persist.Base.ColumnDef ("gameStats.otherTeamPlayerParticipantStats['" ++ T.unpack name ++ "']") "Int" []
 
 {- | Get the list of champions on each team of a game.
  -}
