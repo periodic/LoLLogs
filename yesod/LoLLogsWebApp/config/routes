@@ -18,4 +18,5 @@
 
 /stats GameStatsR GET
 
-/summoner/#String SummonerStatsR GET
+/summoner SummonerSearchR GET
+/summoner/#Text SummonerStatsR GET

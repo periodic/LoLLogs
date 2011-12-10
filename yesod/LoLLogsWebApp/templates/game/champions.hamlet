@@ -1,0 +1,18 @@
+<span.game-champions>
+    $with (team1, team2) <- gameChampions game
+        $if gamePlayerTeamIsBlue game
+            <span.blue-team :gamePlayerTeamWon game:.winner>
+                $forall skinName <- team1
+                    ^{champPortrait skinName champions}
+            <span.vs>vs.
+            <span.purple-team :not (gamePlayerTeamWon game):.winner>
+                $forall skinName <- team2
+                    ^{champPortrait skinName champions}
+        $else 
+            <span.blue-team :not (gamePlayerTeamWon game):.winner>
+                $forall skinName <- team2
+                    ^{champPortrait skinName champions}
+            <span.vs>vs.
+            <span.purple-team :gamePlayerTeamWon game:.winner>
+                $forall skinName <- team1
+                    ^{champPortrait skinName champions}

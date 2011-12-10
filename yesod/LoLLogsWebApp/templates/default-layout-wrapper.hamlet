@@ -6,14 +6,18 @@
         <title>#{pageTitle pc}
         ^{pageHead pc}
     <body
-        <section#navigation
-            <div.container
-                <ul.tabs
-                    <li :section == HomeSection:.active>
-                        <a href=@{RootR}>Home
-                    <li :section == GamesSection:.active>
-                        <a href=@{GameIndexR}>Games
-                    <li :section == ChampionsSection:.active>
-                        <a href=@{ChampionIndexR}>Champions
+        <div#navigation.topbar>
+            <div.topbar-inner>
+                <div.container>
+                    <a.brand href=@{RootR}>Site Name
+                    <ul.nav>
+                        <li :section == HomeSection:.active>
+                            <a href=@{RootR}>Home
+                        <li :section == GamesSection:.active>
+                            <a href=@{GameIndexR}>Games
+                        <li :section == ChampionsSection:.active>
+                            <a href=@{ChampionIndexR}>Champions
+                    <form.pull-right action=@{SummonerSearchR}>
+                        <input name=q type=text placeholder=Search>
         <div.container
             ^{pageBody pc}

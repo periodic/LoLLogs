@@ -1,10 +1,15 @@
 <h1>Game Index
-<ul>
-    $forall game <- games
-        <li>
-            $with stats <- gameGameStats (snd game)
-                <p>Game Id: #{gsgameId stats}
-                <p>Added: #{show (gameCreated (snd game))}
-                <p>
+
+<table.game-list>
+    <tbody>
+        $forall game <- games
+            <tr>
+                <td>
+                    ^{portraits champions (snd game)}
+
+                <td>
+                    #{gsqueueType (gameGameStats (snd game))}
+                <td>
                     <a href=@{GameViewR (fst game)}>View
+
 <p>Found #{length games} results.

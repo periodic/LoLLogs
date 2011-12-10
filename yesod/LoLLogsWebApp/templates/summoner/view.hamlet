@@ -1,4 +1,4 @@
-<h1>#{champT}
+<h1>#{summonerName}
 
 <table.zebra-striped id=#{champTableId}>
     <thead>

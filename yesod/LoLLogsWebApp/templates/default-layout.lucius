@@ -1,3 +1,9 @@
 body {
     font-family: sans-serif;
+    padding-top: 40px;
+}
+
+img.champ-portrait {
+    width: 40px;
+    height: 40px;
 }

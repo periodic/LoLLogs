@@ -1,6 +1,7 @@
 module Handler.Game where
 
 import Import
+import Settings.StaticFiles
 
 import Data.Enumerator.List (consume)
 import qualified Data.Map as M
@@ -12,9 +13,16 @@ import Data.Time (getCurrentTime)
 
 import Model.Champion
 
+champPortrait :: Text -> ChampionMap -> Widget
+champPortrait skinName champions = $(widgetFile "game/champion-portrait")
+
+portraits :: ChampionMap -> Game -> Widget
+portraits champions game = $(widgetFile "game/champions")
+
 getGameIndexR :: Handler RepHtml
 getGameIndexR = do
     games <- runDB $ selectList [] []
+    champions <- championsByName
     defaultLayout $ do
         setTitle "Game Index"
         $(widgetFile "game/index")
@@ -22,6 +30,7 @@ getGameIndexR = do
 getGameRankedR :: Handler RepHtml
 getGameRankedR = do
     games <- runDB $ selectList [GameRanked ==. True] []
+    champions <- championsByName
     defaultLayout $ do
         setTitle "Game Index"
         $(widgetFile "game/index")

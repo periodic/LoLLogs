@@ -1,2 +1,8 @@
-<h1>_{MsgHello}
-<h2 ##{h2id}>You do not have Javascript enabled.
+
+<div#search-form-container.row>
+    <div#search-form.span8.offset4>
+        <form action=@{SummonerSearchR}>
+            <p>Find a summoner:
+            <div.row>
+                <input.span6 type=text name=q placeholder="Try your name">
+                <input.btn type=button value=Search>
