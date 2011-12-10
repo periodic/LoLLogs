@@ -2,26 +2,50 @@ module Handler.Chart where
 
 import Import
 import Data.List
+import Data.Char
+
+data ChartType = LineChart | BarChart
+    deriving (Eq)
 
 data ChartInfo = ChartInfo {
-    title :: String
-  , xAxis :: String
-  , yAxis :: String
+    ciTitle  :: String
+  , ciXTitle :: String
+  , ciYTitle :: String
+  , ciXSize  :: Int
+  , ciYSize  :: Int
+  , ciHorizontal :: Bool
+  , ciType   :: ChartType
 }
 
 data SeriesInfo k v = SeriesInfo {
-    label :: String
-  , points :: [(k, v)]
+    siLabel :: String
+  , siData  :: [(k, v)]
 }
 
-noTitleChart :: ChartInfo
-noTitleChart = ChartInfo "" "" ""
 
-lineChartSimple :: (Num a) => [(a, a)] -> Widget
-lineChartSimple values = lineChart noTitleChart [SeriesInfo "" values]
+defaultChart :: ChartInfo 
+defaultChart = ChartInfo "" "" "" 600 300 False BarChart
 
-barChartSimple :: (Num a) => [(String, a)] -> Widget
-barChartSimple values = barChart noTitleChart [SeriesInfo "" values]
+setType :: ChartType -> ChartInfo -> ChartInfo
+setType typ chart = chart{ciType=typ}
+
+setSize :: Int -> Int -> ChartInfo -> ChartInfo
+setSize x y chart = chart{ciXSize=x,ciYSize=y}
+
+setHorizontal :: Bool -> ChartInfo -> ChartInfo
+setHorizontal b chart = chart{ciHorizontal=b}
+
+setTitles :: String -> String -> String -> ChartInfo -> ChartInfo
+setTitles title xTitle yTitle chart = chart{ciTitle=title, ciXTitle=xTitle, ciYTitle=yTitle}
+
+makeChartSimple :: (Show k, Num v) => [(k, v)] -> Widget
+makeChartSimple values = makeChart defaultChart [SeriesInfo "" values]
+
+makeChart :: (Show k, Num v) => ChartInfo -> [SeriesInfo k v] -> Widget
+makeChart chart | ciType chart == BarChart = barChart chart
+                | otherwise = lineChart chart
+
+---
 
 lineChart :: (Show k, Num v) => ChartInfo -> [SeriesInfo k v] -> Widget
 lineChart chart series = callFlot chart dataPoints opts
@@ -32,9 +56,12 @@ lineChart chart series = callFlot chart dataPoints opts
 barChart :: (Show k, Num v) => ChartInfo -> [SeriesInfo k v] -> Widget
 barChart chart series = callFlot chart dataPoints opts
   where
-    dataPoints = renderDataPoints showBarYs series
-    ticks = renderXTicks . points $ head series
-    opts = "{xaxis: {ticks: " ++ ticks ++ "}, series: {bars: {show: true}}}"
+    isH = ciHorizontal chart
+    dataPoints = renderDataPoints renderFunc series
+    renderFunc = if isH then showBarYsFlipped else showBarYs
+    ticks = renderXTicks . siData $ head series
+    axis = if isH then "yaxis" else "xaxis"
+    opts = "{" ++ axis ++ ": {ticks: " ++ ticks ++ "}, series: {bars: {show: true, horizontal: " ++ map toLower (show isH) ++ "}}}"
 
 --- 
 
@@ -51,15 +78,22 @@ renderDataPoints f series = concat $ intersperse "," $ fmap (renderSeries f) ser
 
 -- Turns [SeriesInfo "Foo" [(1,2)]] into "{label: "Foo", data: [1,2]}"
 renderSeries :: (Show k, Num v) => ([(k, v)] -> String) -> SeriesInfo k v -> String
-renderSeries f series = "{label: \"" ++ label series ++ "\", data: " ++ dataPoints ++ "}"
+renderSeries f series = "{label: \"" ++ siLabel series ++ "\", data: " ++ dataPoints ++ "}"
   where
-    dataPoints = fmap replaceParens . f $ points series
+    dataPoints = fmap replaceParens . f $ siData series
 
 -- Turns [("Foo", 5), ("Bar", 6)] into "[[0, 5], [1, 6]]"
-showBarYs :: (Num v) => [(k, v)] -> String
+showBarYs :: (Show k, Num v) => [(k, v)] -> String
 showBarYs series = fmap replaceParens . show $ showBarYs' (0::Int) series
   where
     showBarYs' i ((_,v):rest) = (i, v) : showBarYs' (i+1) rest
+    showBarYs' _ [] = []
+
+-- TODO: Remove duplicate code
+showBarYsFlipped :: (Show k, Num v) => [(k, v)] -> String
+showBarYsFlipped series = fmap replaceParens . show $ showBarYs' (0::Int) series
+  where
+    showBarYs' i ((_,v):rest) = (v, i) : showBarYs' (i+1) rest
     showBarYs' _ [] = []
 
 -- Needed because flot uses arrays instead of tuples for pairs
@@ -68,10 +102,11 @@ replaceParens c | c == '(' = '['
                 | c == ')' = ']'
                 | otherwise = c
 
+-- TODO: Display Y Axis label; flip labels when horizontal
 callFlot :: ChartInfo -> String -> String -> Widget
 callFlot info dataPoints opts = do
     addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-    -- todo use static route for this
+    -- TODO: use static route for this
     addScriptRemote "/static/js/jquery.flot.min.js"
     -- Needed because flot doesn't work well with bootstrap
     toWidget [lucius|.flot-chart table { width: auto }|]
@@ -79,9 +114,9 @@ callFlot info dataPoints opts = do
     chartId <- lift newIdent
     toWidget [hamlet|
         <span id="#{containerId}" style="display:inline-block">
-            <p style="text-align: center"> #{title info}
+            <p style="text-align: center"> #{ciTitle info}
             <div id="#{chartId}" class="flot-chart" style="width:600px;height:300px;">
-            <p style="text-align: center"> #{xAxis info}
+            <p style="text-align: center"> #{ciXTitle info}
     |]
     toWidget [julius|
         $(function() {

@@ -15,24 +15,22 @@ getGameStatsR = do
     games <- runDB $ selectList [] [Asc GameLength]
     let bins = bin binBy10Mins games 0 10
     let dataPoints = fmap (\(len,cBin) -> (show len, length cBin)) bins
-    let chart = barChartSimple dataPoints
-    let chart2 = sampleLineChart
+    let chart = makeChartSimple dataPoints
 
     queryData <- runDB . runMapReduce $ buildQuery (QGameChampion "ShaperOfChaos") [] [QGameWinPct "ShaperOfChaos"]
     let dataPoints2 = catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "winPct" results >>= cast')) queryData
 
-    let chart3 = barChartSimple (dataPoints2 :: [(String, Double)])
+    let chart2 = makeChart summonerChart [SeriesInfo "Game Length" (dataPoints2 :: [(String, Double)])]
 
     defaultLayout $ do
         setTitle "Game Len Analysis"
         $(widgetFile "game-len")
 
-sampleLineChart :: Widget
-sampleLineChart = lineChart (ChartInfo "Title" "XAxis" "YAxis")
-    [ SeriesInfo "Series 1" [(1.5,2) :: (Double, Double), (2,3), (3,5), (4,6)]
-    , SeriesInfo "Series 2" [(2,3), (4,8), (6, 2)]
-    ]
-
+summonerChart :: ChartInfo
+summonerChart = 
+    setTitles "Game Length by Summoner" "" "" $
+    setHorizontal True $
+    defaultChart
 
 getGameLen :: (a, Game) -> Int
 getGameLen = gsgameLength . gameGameStats . snd
