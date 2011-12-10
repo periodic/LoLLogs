@@ -24,6 +24,7 @@ module Model.Helper.MapReduce ( execute
                               , u2t
                               , unJS
                               , wrapJS
+                              , getResultValue
                               ) where
 
 import Database.MongoDB as Mongo hiding (selector)
@@ -44,6 +45,9 @@ u2t = T.pack . S.unpack
 
 catJS :: [Javascript] -> Javascript
 catJS = wrapJS . S.concat . map unJS
+
+bracketJS :: Javascript -> Javascript
+bracketJS js = catJS ["{", js, "}"]
 
 unJS :: Javascript -> UString
 unJS (Javascript _ code) = code
@@ -203,17 +207,17 @@ buildQuery keyCol filters fields =
 simpleMapFunc :: Queryable model => QueryColumn model typ -> forall typ0. [QueryColumn model typ0] -> Javascript
 simpleMapFunc keyCol fields =
     let key = unJS $ queryKeyCode keyCol
-        mapCode      = unJS . catJS . map (queryMapCode) $ fields
+        mapCode      = unJS . catJS . map (bracketJS . queryMapCode) $ fields
      in Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapCode, "emit(key, result); }"]
 
 simpleReduceFunc :: Queryable model => forall typ. [QueryColumn model typ] -> Javascript
 simpleReduceFunc fields =
-    let reduceCode   = unJS . catJS . map (queryReduceCode) $ fields
+    let reduceCode   = unJS . catJS . map (bracketJS . queryReduceCode) $ fields
      in Javascript [] $ S.concat ["function (key, vals) { var result = vals[0]; for (var i = 1; i < vals.length; i++) { var v = vals[i]; result._count = result._count + v._count; ", reduceCode, "}; return result; }"]
 
 simpleFinalizeFunc :: Queryable model => forall typ. [QueryColumn model typ] -> Javascript
 simpleFinalizeFunc fields =
-    let finalizeCode = unJS . catJS . map (queryFinalizeCode) $ fields
+    let finalizeCode = unJS . catJS . map (bracketJS . queryFinalizeCode) $ fields
      in Javascript [] $ S.concat ["function (key, v) { var result = {_count: v._count}; ", finalizeCode, "return result; }"]
 
 {- | Execute a map-reduce query, returning a either a list of results as touples from values to maps of data, or an error.
@@ -242,3 +246,6 @@ runMapReduce query = do
         values <- Mongo.lookup "value" doc
         return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
     mapM makeRecord results
+
+getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ
+getResultValue col vals = M.lookup (queryColumnName col) vals >>= queryCastResult col

@@ -1,0 +1,21 @@
+<h1>#{champT}
+
+<table.zebra-striped id=#{champTableId}>
+    <thead>
+        <tr>
+            <th>Champion
+            <th>Win %
+            <th>Kills / Min
+            <th>Deaths / Min
+            <th>Assists / Min
+            <th>CS / Min
+            <th>Gold / Min
+    <tbody>
+        $forall (champ, stats) <- champData
+            <tr>
+                <td>#{u2t champ}
+                $forall col <- columns
+                    <td>
+                        $maybe datum <- getResultValue col stats
+                            $with formatted <- forceString (printf "%0.2f" datum)
+                                #{formatted}

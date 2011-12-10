@@ -18,8 +18,8 @@ getGameStatsR = do
     let chart = barChartSimple dataPoints
     let chart2 = sampleLineChart
 
-    queryData <- runDB . runMapReduce $ buildQuery (QGameChampion "ShaperOfChaos") [] [QGameLength]
-    let dataPoints2 = catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "gameLength" results >>= cast')) queryData
+    queryData <- runDB . runMapReduce $ buildQuery (QGameChampion "ShaperOfChaos") [] [QGameWinPct "ShaperOfChaos"]
+    let dataPoints2 = catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "winPct" results >>= cast')) queryData
 
     let chart3 = barChartSimple (dataPoints2 :: [(String, Double)])
 

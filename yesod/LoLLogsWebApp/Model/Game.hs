@@ -3,7 +3,7 @@ module Model.Game ( module Model.Game
                   ) where
 
 import Prelude
-import Yesod
+-- import Yesod hiding (Unique, EntityField, PersistEntity, Key, )
 import Data.Text(Text)
 import Data.Time
 import qualified Data.Map as M
@@ -12,7 +12,7 @@ import Data.Maybe (fromMaybe)
 import Data.GameLog
 import Data.GameLog.Persist
 import Database.Persist.Base
-import Database.Persist.MongoDB
+import Database.Persist.MongoDB (Action)
 import Database.Persist.TH.Library
 
 data GameGeneric backend
@@ -97,11 +97,11 @@ roundLargeNumber i = if i < 1000
 
 formatGameTime :: Int -> String
 formatGameTime i = let hours = i `div` 3600
-                       min   = (i `div` 60) `mod` 60
+                       mins  = (i `div` 60) `mod` 60
                        secs  = i `mod` 60
                     in if hours > 0
-                       then printf "%02d:%02d:%02d" hours min secs
-                       else printf "%02d:%02d" min secs
+                       then printf "%02d:%02d:%02d" hours mins secs
+                       else printf "%02d:%02d" mins secs
 
 playerTeamWon :: M.Map Text PlayerStats -> Bool
 playerTeamWon team =
