@@ -1,15 +1,22 @@
 <h1>Game Index
 
 <table.game-list>
+    <thead>
+        <tr>
+            <th>
+                Teams
+            <th>
+                Queue
+            <th>
+                Date Added
     <tbody>
         $forall game <- games
-            <tr>
+            <tr data-href=@{GameViewR (fst game)}>
                 <td>
                     ^{portraits champions (snd game)}
-
                 <td>
                     #{gsqueueType (gameGameStats (snd game))}
                 <td>
-                    <a href=@{GameViewR (fst game)}>View
+                    #{formatTime defaultTimeLocale "%F" (gameCreated (snd game))}
 
 <p>Found #{length games} results.

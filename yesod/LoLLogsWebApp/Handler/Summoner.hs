@@ -4,7 +4,6 @@ import Import
 
 import Settings.StaticFiles
 
-import qualified Data.Text as T
 import Model.Game.Query
 import Text.Printf
 

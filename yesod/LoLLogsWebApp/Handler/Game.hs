@@ -10,6 +10,8 @@ import Data.Aeson (json, Result(..), encode, Value(..))
 import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
 import Data.Time (getCurrentTime)
+import Data.Time.Format
+import System.Locale (defaultTimeLocale)
 
 import Model.Champion
 

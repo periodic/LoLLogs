@@ -100,6 +100,7 @@ executable         LoLLogsWebApp
                  , hjsmin                        >= 0.0.14     && < 0.1
                  , lollogs                      
                  , time                          >= 1.2        && < 2.0
+                 , old-locale                    >= 1.0        && < 1.1
                  , containers                    >= 0.4        && < 0.5
                  , aeson                         >= 0.4        && < 0.5
                  , attoparsec                    >= 0.10       && < 0.11
