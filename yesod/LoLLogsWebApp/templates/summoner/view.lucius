@@ -1,0 +1,3 @@
+##{champTableId} tfoot tr.total td {
+    font-weight: bold;
+}

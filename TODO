@@ -19,7 +19,7 @@
 * Summoner-info
     * Game list on summoner info page.
     * Ability to create charts on the summoner-view page.
-    * Summary row to the stats table.
+    - [Done] Summary row to the stats table.
 * Champions
     * Champs should not be editable publicly.
     * Champs should have a view page that lets you view some stats about them (could be complicated)

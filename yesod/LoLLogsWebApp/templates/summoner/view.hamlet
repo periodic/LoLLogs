@@ -19,3 +19,12 @@
                         $maybe datum <- getResultValue col stats
                             $with formatted <- forceString (printf "%0.2f" datum)
                                 #{formatted}
+    <tfoot>
+        $forall (title, stats) <- totals
+            <tr.total>
+                <td>Total
+                $forall col <- columns
+                    <td>
+                        $maybe datum <- getResultValue col stats
+                            $with formatted <- forceString (printf "%0.2f" datum)
+                                #{formatted}

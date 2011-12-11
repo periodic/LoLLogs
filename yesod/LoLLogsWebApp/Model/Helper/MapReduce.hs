@@ -208,7 +208,7 @@ simpleMapFunc :: Queryable model => QueryColumn model typ -> forall typ0. [Query
 simpleMapFunc keyCol fields =
     let key = unJS $ queryKeyCode keyCol
         mapCode      = unJS . catJS . map (bracketJS . queryMapCode) $ fields
-     in Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapCode, "emit(key, result); }"]
+     in Javascript [] $ S.concat ["function () { var key = ", key, "; var result = {_count: 1};", mapCode, "emit(key, result); emit('_total', result); }"]
 
 simpleReduceFunc :: Queryable model => forall typ. [QueryColumn model typ] -> Javascript
 simpleReduceFunc fields =
