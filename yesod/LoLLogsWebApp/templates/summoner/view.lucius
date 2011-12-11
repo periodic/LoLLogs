@@ -1,3 +1,9 @@
-##{champTableId} tfoot tr.total td {
-    font-weight: bold;
+##{champTableId} {
+    td.pct, td.int, td.double {
+        text-align: right;
+    }
+    tfoot tr.total td {
+        font-weight: bold;
+    }
 }
+

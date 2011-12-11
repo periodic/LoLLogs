@@ -12,8 +12,8 @@
 ## LoLLogsWebApp
 
 * Game-index
-    * Whole-row is clickable.
-    * Add creation date.
+    - [Done] Whole-row is clickable.
+    - [Done] Add creation date.
 * Game-view
     * Make the details under each summoner expandable.
 * Summoner-info

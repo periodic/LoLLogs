@@ -30,4 +30,7 @@ getSummonerStatsR summonerName = do
         setTitle "Game Index"
         $(widgetFile "summoner/view")
     where
-        forceString str = (str :: String)
+        formatPct :: Double -> String
+        formatPct d = printf "%2.1f%%" (d * 100)
+        formatDouble :: Double -> String
+        formatDouble d = printf "%0.2f" d

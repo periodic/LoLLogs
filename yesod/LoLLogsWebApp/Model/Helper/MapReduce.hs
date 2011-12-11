@@ -25,6 +25,7 @@ module Model.Helper.MapReduce ( execute
                               , unJS
                               , wrapJS
                               , getResultValue
+                              , getResultCount
                               ) where
 
 import Database.MongoDB as Mongo hiding (selector)

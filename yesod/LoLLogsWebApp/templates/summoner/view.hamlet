@@ -4,29 +4,38 @@
     <thead>
         <tr>
             <th>Champion
-            <th>Games Played
-            <th>Win %
-            <th>Kills / Min
-            <th>Deaths / Min
-            <th>Assists / Min
-            <th>CS / Min
-            <th>Gold / Min
+            <th.int>Games Played
+            <th.pct>Win %
+            <th.double>Kills / Min
+            <th.double>Deaths / Min
+            <th.double>Assists / Min
+            <th.double>CS / Min
+            <th.double>Gold / Min
     <tbody>
         $forall (champ, stats) <- champData
             <tr>
                 <td>#{u2t champ}
-                    <td>#{getResultCount stats}
-                $forall col <- columns
-                    <td>
-                        $maybe datum <- getResultValue col stats
-                            $with formatted <- forceString (printf "%0.2f" datum)
-                                #{formatted}
+                <td.int>#{getResultCount stats}
+                $with (colPct, colDouble) <- splitAt 1 columns
+                    $forall col <- colPct
+                        <td.pct>
+                            $maybe datum <- getResultValue col stats
+                                #{formatPct datum}
+                    $forall col <- colDouble
+                        <td.double>
+                            $maybe datum <- getResultValue col stats
+                                #{formatDouble datum}
     <tfoot>
-        $forall (title, stats) <- totals
+        $forall (_, stats) <- totals
             <tr.total>
                 <td>Total
-                $forall col <- columns
-                    <td>
-                        $maybe datum <- getResultValue col stats
-                            $with formatted <- forceString (printf "%0.2f" datum)
-                                #{formatted}
+                <td.int>#{getResultCount stats}
+                $with (colPct, colDouble) <- splitAt 1 columns
+                    $forall col <- colPct
+                        <td.pct>
+                            $maybe datum <- getResultValue col stats
+                                #{formatPct datum}
+                    $forall col <- colDouble
+                        <td.double>
+                            $maybe datum <- getResultValue col stats
+                                #{formatDouble datum}

@@ -17,6 +17,6 @@
                 <td>
                     #{gsqueueType (gameGameStats (snd game))}
                 <td>
-                    #{formatTime defaultTimeLocale "%F" (gameCreated (snd game))}
+                    #{gameFormattedCreateTime (snd game)}
 
 <p>Found #{length games} results.
