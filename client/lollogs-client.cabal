@@ -1,28 +1,31 @@
 Name:               lollogs-client
-Version:            0.1
+Version:            0.0.1
 Synopsis:           League of Legends Log Parsing
 Description:        LoL Log parsing.
 License:            GPL
 License-file:       LICENSE
 Author:             Drew Haven
 Maintainer:         Drew Haven <drew.haven@gmail.com>
-Build-depends:      base >= 4,
-		    lollogs,
-                    mtl,
-                    aeson >= 0.4,
-                    attoparsec,
-                    containers,
-                    unordered-containers,
-                    bytestring,
-                    Win32,
-                    filepath,
-                    directory,
-                    transformers,
-                    time,
-                    network,
-                    HTTP
-
 Build-type:         Simple
+Cabal-Version:      >= 1.2
 
-Executable:         upload-games
-Main-is:            UploadGames-win32.hs
+Executable upload-games
+    Main-is:            UploadGames-win32.hs
+    ghc-options:        -Wall -O1
+    Build-depends:      base >= 4,
+                        lollogs,
+                        mtl,
+                        aeson >= 0.4,
+                        attoparsec,
+                        containers,
+                        unordered-containers,
+                        bytestring,
+                        Win32,
+                        filepath,
+                        directory,
+                        transformers,
+                        time,
+                        network,
+                        HTTP
+
+

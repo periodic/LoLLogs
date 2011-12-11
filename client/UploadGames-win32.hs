@@ -1,34 +1,25 @@
 {-# LANGUAGE TemplateHaskell, OverloadedStrings, QuasiQuotes, TypeFamilies, GADTs #-}
 module Main where
 
-import Data.Attoparsec
-import Data.Aeson 
-import Data.Time.Clock (getCurrentTime, UTCTime)
 import qualified Data.ByteString as BS
-import qualified Data.ByteString.Lazy as L
 import Data.Maybe (catMaybes)
 
 import Control.Applicative
-import Control.Monad
-import Control.Monad.IO.Class (liftIO)
-import Control.Exception (bracket)
+import Control.Exception (SomeException(..), bracket, handle)
 
 
-import System.Directory (getCurrentDirectory, getDirectoryContents, doesFileExist, doesDirectoryExist)
-import System.Environment (getArgs)
-import System.FilePath (takeFileName, replaceExtension)
+import System.Directory (getDirectoryContents, doesFileExist)
 import System.IO (hPutStrLn, stderr)
 
 import System.Win32.Registry
+import System.Win32.Types (HKEY)
 
-import Network.URI
+import Network.URI hiding (path)
 import Network.HTTP
-import Network.TCP
-
 
 import ParseLog
-import Data.GameLog
 
+main :: IO ()
 main = do
     files <- getLogFilePaths
     games <- mapM processFile files
@@ -43,6 +34,7 @@ processFile path = do
         then (Just . gamesAsJSON) <$> BS.readFile path
         else errorLog "File does not exist." >> return Nothing
 
+errorLog :: String -> IO ()
 errorLog = hPutStrLn stderr
 
 
@@ -74,10 +66,19 @@ getDirectoryContentsWithPrefix path =
     <$> getDirectoryContents path
 
 getLoLDirectory :: IO FilePath
-getLoLDirectory = bracket (regOpenKey hive path) regCloseKey $ \hkey ->
-        regQueryValue hkey (Just "LocalRootFolder")
-    where
-        hive = hKEY_CURRENT_USER
-        path = "Software\\Riot Games\\RADS"
+getLoLDirectory = getKey paths
+    where 
+        value = Just "LocalRootFolder"
+        getKey [] = error "Unable to find LoL install directory from registry."
+        getKey ((hive,path):ps) = 
+            handle (\(SomeException _) -> getKey ps) $
+                bracket (regOpenKey hive path) regCloseKey $ \hkey ->
+                    regQueryValue hkey value
 
+paths :: [(HKEY, String)]
+paths = [ (hKEY_CURRENT_USER, "Software\\Riot Games\\RADS")
+        , (hKEY_CURRENT_USER, "Software\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\Riot Games\\RADS")
+        , (hKEY_CURRENT_USER, "Software\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\Wow6432Node\\Riot Games\\RADS")
+        , (hKEY_CLASSES_ROOT,  "VirtualStore\\MACHINE\\SOFTWARE\\Wow6432Node\\Riot Games\\RADS")
+        ]
 
