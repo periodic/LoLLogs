@@ -4,3 +4,6 @@ dist
 *.hi
 *.o
 yesod/LoLLogsWebApp/static/tmp/
+/json
+/logs
+yesod/LoLLogsWebApp/.static-cache/
