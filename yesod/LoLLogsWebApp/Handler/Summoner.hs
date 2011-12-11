@@ -22,7 +22,7 @@ getSummonerStatsR summonerName = do
                   , QGameCSPM     summonerName
                   , QGameGPM      summonerName
                   ]
-    champData <- runDB . runMapReduce $ buildQuery (QGameChampion summonerName) [] columns
+    champData <- runDB . runMapReduce $ buildQuery (QGameChampion summonerName) [exists $ QGameSummoner summonerName] columns
     defaultLayout $ do
         addScript $ StaticR js_jquery_tablesorter_min_js -- for a pretty table.
         champTableId <- lift newIdent
