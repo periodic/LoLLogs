@@ -4,6 +4,7 @@
     <thead>
         <tr>
             <th>Champion
+            <th>Games Played
             <th>Win %
             <th>Kills / Min
             <th>Deaths / Min
@@ -14,6 +15,7 @@
         $forall (champ, stats) <- champData
             <tr>
                 <td>#{u2t champ}
+                    <td>#{getResultCount stats}
                 $forall col <- columns
                     <td>
                         $maybe datum <- getResultValue col stats

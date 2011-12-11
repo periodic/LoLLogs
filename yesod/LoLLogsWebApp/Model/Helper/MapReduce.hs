@@ -247,5 +247,13 @@ runMapReduce query = do
         return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
     mapM makeRecord results
 
+-- | Get a result value from the result set, and make sure it is cast to the appropriate type.
 getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ
 getResultValue col vals = M.lookup (queryColumnName col) vals >>= queryCastResult col
+
+-- | Get the count of documents that went into a result set
+getResultCount :: M.Map Label Value -> Int
+getResultCount vals = case (M.lookup "_count" vals >>= cast') of
+    Just c  -> c
+    Nothing -> 0
+
