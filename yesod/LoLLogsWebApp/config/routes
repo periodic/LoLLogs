@@ -6,7 +6,6 @@
 
 / RootR GET
 /games GameIndexR GET
-/ranked GameRankedR GET
 /game GameCreateR POST
 /game/#GameId GameViewR GET
 

@@ -19,4 +19,4 @@
                 <td>
                     #{gameFormattedCreateTime (snd game)}
 
-<p>Found #{length games} results.
+^{pager pagerOpts}

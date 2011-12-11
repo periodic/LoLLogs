@@ -85,7 +85,6 @@ getSection :: LoLLogsWebAppRoute -> LoLLogsWebAppSection
 getSection RootR = HomeSection
 
 getSection GameIndexR = GamesSection
-getSection GameRankedR = GamesSection
 getSection GameCreateR = GamesSection
 getSection (GameViewR _) = GamesSection
 
@@ -115,7 +114,7 @@ instance Yesod LoLLogsWebApp where
         -- you to use normal widget features in default-layout.
 
         promote <- getRouteToMaster
-        currentRoute <-  getCurrentRoute
+        currentRoute <- getCurrentRoute
         let section = maybe OtherSection (getSection . promote) currentRoute
 
         pc <- widgetToPageContent $ do

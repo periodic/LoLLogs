@@ -2,7 +2,7 @@
 
 ## lollogs
 
-* Separate out the Action script stuff from the game logs stuff.  Game logs should really be moved to the yesod app because they aren't needed for any other component.
+* Separate out the ActionScript stuff from the game logs stuff.  Game logs should really be moved to the yesod app because they aren't needed for any other component.
 
 ## lollogs-client
 
@@ -18,7 +18,7 @@
     * Make the details under each summoner expandable.
 * Summoner-info
     * Game list on summoner info page.
-    * Ability to create charts on the summoner-view page.
+    * Ability to create custom charts/tables on the summoner-view page.
     - [Done] Summary row to the stats table.
 * Champions
     * Champs should not be editable publicly.

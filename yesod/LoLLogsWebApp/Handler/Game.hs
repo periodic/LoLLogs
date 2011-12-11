@@ -11,6 +11,8 @@ import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
 import Data.Time (getCurrentTime)
 
+import Yesod.Widget.Pager
+
 import Model.Champion
 
 champPortrait :: Text -> ChampionMap -> Widget
@@ -21,16 +23,9 @@ portraits champions game = $(widgetFile "game/champions")
 
 getGameIndexR :: Handler RepHtml
 getGameIndexR = do
-    games <- runDB $ selectList [] []
-    champions <- championsByName
-    defaultLayout $ do
-        setTitle "Game Index"
-        $(widgetFile "game/index")
-
-getGameRankedR :: Handler RepHtml
-getGameRankedR = do
-    games <- runDB $ selectList [GameRanked ==. True] []
-    champions <- championsByName
+    --gameData <- runDB $ selectList [] []
+    (games, pagerOpts) <- paginateSelectList 10 [] []
+    champions  <- championsByName
     defaultLayout $ do
         setTitle "Game Index"
         $(widgetFile "game/index")
