@@ -41,6 +41,7 @@ library
                      Handler.Champion
                      Handler.Chart
                      Handler.ChartExample
+                     Handler.Summoner
 
     ghc-options:   -Wall -threaded -O0
 
@@ -97,12 +98,11 @@ executable         LoLLogsWebApp
                  , shakespeare-js                >= 0.10       && < 0.11
                  , shakespeare-text              >= 0.10       && < 0.11
                  , hjsmin                        >= 0.0.14     && < 0.1
-                 , lollogs
+                 , lollogs                      
                  , time                          >= 1.2        && < 2.0
-                 , containers
-                 , aeson
-                 , attoparsec
-                 , enumerator
-                 , mtl
-                 , bson
-                 , mongoDB
+                 , containers                    >= 0.4        && < 0.5
+                 , aeson                         >= 0.4        && < 0.5
+                 , attoparsec                    >= 0.10       && < 0.11
+                 , enumerator                    >= 0.4        && < 0.5
+                 , bson                          >= 0.1.6      && < 0.2
+                 , mongoDB                       >= 1.1.1      && < 1.2

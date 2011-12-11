@@ -26,6 +26,7 @@ import Yesod.Logger (Logger, logLazyText)
 import qualified Settings
 import qualified Data.ByteString.Lazy as L
 import qualified Database.Persist.Base
+import Data.Text (Text)
 import Database.Persist.MongoDB
 import Settings (widgetFile)
 import Model
@@ -118,7 +119,7 @@ instance Yesod LoLLogsWebApp where
         let section = maybe OtherSection (getSection . promote) currentRoute
 
         pc <- widgetToPageContent $ do
-            $(widgetFile "normalize")
+            -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 

@@ -1,7 +1,6 @@
 module Model.Champion where
 
 import Import
-import Data.Text (pack)
 
 import qualified Data.Map as M
 

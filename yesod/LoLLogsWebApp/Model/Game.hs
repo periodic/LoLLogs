@@ -3,8 +3,8 @@ module Model.Game ( module Model.Game
                   ) where
 
 import Prelude
-import Yesod
-import Data.Text(Text)
+-- import Yesod hiding (Unique, EntityField, PersistEntity, Key, )
+import Data.Text as T (Text, unpack)
 import Data.Time
 import qualified Data.Map as M
 import Text.Printf
@@ -12,7 +12,7 @@ import Data.Maybe (fromMaybe)
 import Data.GameLog
 import Data.GameLog.Persist
 import Database.Persist.Base
-import Database.Persist.MongoDB
+import Database.Persist.MongoDB (Action)
 import Database.Persist.TH.Library
 
 data GameGeneric backend
@@ -29,6 +29,8 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ Int       => GameGameId
         | typ ~ Int       => GameLength
         | typ ~ GameStats => GameGameStats
+        | typ ~ PlayerStats => GameTeamPlayerSummoner Text
+        | typ ~ PlayerStats => GameOtherTeamPlayerSummoner Text
     entityDef _
         = Database.Persist.Base.EntityDef
             "Game"
@@ -57,33 +59,52 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
     persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
+    persistColumnDef (GameTeamPlayerSummoner name)      = Database.Persist.Base.ColumnDef ("gameStats.teamPlayerParticipantStats['" ++ T.unpack name ++ "']") "Int" []
+    persistColumnDef (GameOtherTeamPlayerSummoner name) = Database.Persist.Base.ColumnDef ("gameStats.otherTeamPlayerParticipantStats['" ++ T.unpack name ++ "']") "Int" []
 
+{- | Get the list of champions on each team of a game.
+ -}
+gameChampions :: Game -> ([Text], [Text])
+gameChampions stats =
+    let team1 = map (fromMaybe "" . psskinName) . M.elems . gsteamPlayerParticipantStats . gameGameStats $ stats
+        team2 = map (fromMaybe "" . psskinName) . M.elems . gsotherTeamPlayerParticipantStats . gameGameStats $ stats
+     in (team1, team2)
+
+-- | Return whether the reporting player's team is the blue team.
+gamePlayerTeamIsBlue :: Game -> Bool
+gamePlayerTeamIsBlue = (==100) . psteamId . head . M.elems . gsteamPlayerParticipantStats . gameGameStats
+
+-- | Return whether the reporting player's team won.
+gamePlayerTeamWon :: Game -> Bool
+gamePlayerTeamWon = (> 0) . playerVictory . head . M.elems . gsteamPlayerParticipantStats . gameGameStats
+
+-- | Get the kill-count for the player.
 playerKills :: PlayerStats -> Int
-playerKills player = fromMaybe 0 $ lookupStat player "Champion Kills"
+playerKills = fromMaybe 0 . lookupStat "Champion Kills"
 
 playerDeaths :: PlayerStats -> Int
-playerDeaths player = fromMaybe 0 $ lookupStat player "Deaths"
+playerDeaths = fromMaybe 0 . lookupStat "Deaths"
 
 playerAssists :: PlayerStats -> Int
-playerAssists player = fromMaybe 0 $ lookupStat player "Assists"
+playerAssists = fromMaybe 0 . lookupStat "Assists"
 
 playerGold :: PlayerStats -> Int
-playerGold player = fromMaybe 0 $ lookupStat player "Gold Earned"
+playerGold = fromMaybe 0 . lookupStat "Gold Earned"
 
 playerMinionsSlain :: PlayerStats -> Int
-playerMinionsSlain player = fromMaybe 0 $ lookupStat player "Minions Slain"
+playerMinionsSlain = fromMaybe 0 . lookupStat "Minions Slain"
 
 playerNeutralMobs :: PlayerStats -> Int
-playerNeutralMobs player = fromMaybe 0 $ lookupStat player "Neutral Monsters Killed"
+playerNeutralMobs = fromMaybe 0 . lookupStat "Neutral Monsters Killed"
 
 playerCreepScore :: PlayerStats -> Int
 playerCreepScore player = playerNeutralMobs player + playerMinionsSlain player
 
 playerVictory :: PlayerStats -> Int
-playerVictory player = fromMaybe 0 $ lookupStat player "Victories"
+playerVictory = fromMaybe 0 . lookupStat "Victories"
 
-lookupStat :: PlayerStats -> Text -> Maybe Int
-lookupStat player stat = do
+lookupStat :: Text -> PlayerStats -> Maybe Int
+lookupStat stat player = do
     let stats = psstatistics player
     value <- M.lookup stat stats
     return $ value
@@ -97,11 +118,11 @@ roundLargeNumber i = if i < 1000
 
 formatGameTime :: Int -> String
 formatGameTime i = let hours = i `div` 3600
-                       min   = (i `div` 60) `mod` 60
+                       mins  = (i `div` 60) `mod` 60
                        secs  = i `mod` 60
                     in if hours > 0
-                       then printf "%02d:%02d:%02d" hours min secs
-                       else printf "%02d:%02d" min secs
+                       then printf "%02d:%02d:%02d" hours mins secs
+                       else printf "%02d:%02d" mins secs
 
 playerTeamWon :: M.Map Text PlayerStats -> Bool
 playerTeamWon team =

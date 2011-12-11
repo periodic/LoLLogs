@@ -17,3 +17,6 @@
 /champion/delete/#ChampionId ChampionDeleteR GET POST DELETE
 
 /stats GameStatsR GET
+
+/summoner SummonerSearchR GET
+/summoner/#Text SummonerStatsR GET
