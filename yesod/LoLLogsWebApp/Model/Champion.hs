@@ -13,3 +13,4 @@ championsByName = do
 
 lookupChamp :: Text -> ChampionMap -> Maybe Champion
 lookupChamp = M.lookup
+

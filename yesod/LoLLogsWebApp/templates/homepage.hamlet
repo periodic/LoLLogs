@@ -2,7 +2,7 @@
 <div#search-form-container.row>
     <div#search-form.span8.offset4>
         <form action=@{SummonerSearchR}>
-            <p>Find a summoner:
+            <h2>Search
             <div.row>
-                <input.span6 type=text name=q placeholder="Try your name">
+                <input.span6 type=text name=q placeholder="Summoner Name">
                 <input.btn type=button value=Search>

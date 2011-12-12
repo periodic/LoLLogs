@@ -118,6 +118,7 @@ instance Yesod LoLLogsWebApp where
         let section = maybe OtherSection (getSection . promote) currentRoute
 
         pc <- widgetToPageContent $ do
+            setTitle "Casual Addict"
             -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")

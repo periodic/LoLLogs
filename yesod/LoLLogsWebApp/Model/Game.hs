@@ -31,8 +31,8 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ Int       => GameGameId
         | typ ~ Int       => GameLength
         | typ ~ GameStats => GameGameStats
-        | typ ~ PlayerStats => GameTeamPlayerSummoner Text
-        | typ ~ PlayerStats => GameOtherTeamPlayerSummoner Text
+        | typ ~ Text => GameTeamPlayerSummoner Text
+        | typ ~ Text => GameOtherTeamPlayerSummoner Text
     entityDef _
         = Database.Persist.Base.EntityDef
             "Game"
@@ -61,8 +61,8 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
     persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
-    persistColumnDef (GameTeamPlayerSummoner name)      = Database.Persist.Base.ColumnDef ("gameStats.teamPlayerParticipantStats['" ++ T.unpack name ++ "']") "Int" []
-    persistColumnDef (GameOtherTeamPlayerSummoner name) = Database.Persist.Base.ColumnDef ("gameStats.otherTeamPlayerParticipantStats['" ++ T.unpack name ++ "']") "Int" []
+    persistColumnDef (GameTeamPlayerSummoner name)      = Database.Persist.Base.ColumnDef ("gameStats.teamPlayerParticipantStats." ++ T.unpack name ++ "._summonerName") "Int" []
+    persistColumnDef (GameOtherTeamPlayerSummoner name) = Database.Persist.Base.ColumnDef ("gameStats.otherTeamPlayerParticipantStats." ++ T.unpack name ++ "._summonerName") "Int" []
 
 {- | Get the list of champions on each team of a game.
  -}

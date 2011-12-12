@@ -18,6 +18,6 @@
                         <li :section == ChampionsSection:.active>
                             <a href=@{ChampionIndexR}>Champions
                     <form.pull-right action=@{SummonerSearchR}>
-                        <input name=q type=text placeholder=Search>
+                        <input name=q type=text placeholder="Search for a summoner">
         <div.container
             ^{pageBody pc}

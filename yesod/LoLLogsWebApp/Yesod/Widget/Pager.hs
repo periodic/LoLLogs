@@ -45,8 +45,10 @@ defaultUrlGenerator i = toHtml $ "?p=" ++ show i
 paginateSelectList pSize filters opts = do
     page <- fromMaybe 1 <$> (runInputGet $ iopt intField "p")
     let offset = max ((page - 1) * pSize) 0
-    results <- runDB $ selectList filters (LimitTo pSize : OffsetBy offset : opts)
-    totalCount <- runDB $ count filters
+    (results, totalCount) <- runDB $ do -- Single transaction by using one runDB call.
+        results <- selectList filters (LimitTo pSize : OffsetBy offset : opts)
+        totalCount <- count filters
+        return (results, totalCount)
     let pagerOpts = defaultPagerOptions { pageSize = pSize, currentPage = page, maxPage = totalCount `div` pSize + 1}
     return (results, pagerOpts)
 

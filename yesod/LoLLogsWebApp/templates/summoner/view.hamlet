@@ -39,3 +39,5 @@
                         <td.double>
                             $maybe datum <- getResultValue col stats
                                 #{formatDouble datum}
+
+^{gameList}

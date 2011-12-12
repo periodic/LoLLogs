@@ -1,0 +1,21 @@
+
+<table.game-list>
+    <thead>
+        <tr>
+            <th>
+                Teams
+            <th>
+                Queue
+            <th>
+                Date Added
+    <tbody>
+        $forall game <- games
+            <tr data-href=@{GameViewR (fst game)}>
+                <td>
+                    ^{portraits champions (snd game)}
+                <td>
+                    #{gsqueueType (gameGameStats (snd game))}
+                <td>
+                    #{gameFormattedCreateTime (snd game)}
+
+^{pager pagerOpts}
