@@ -1,5 +1,0 @@
-$(function () {
-    $("table.game-list tbody tr").click(function () {
-        window.location = $(this).attr('data-href');
-    });
-});

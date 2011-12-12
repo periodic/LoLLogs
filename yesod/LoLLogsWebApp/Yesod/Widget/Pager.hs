@@ -9,7 +9,6 @@ import Data.Text (Text)
 import Data.Maybe (fromMaybe)
 import Control.Applicative ((<$>), (<*>), pure)
 
-
 data PagerOptions = PagerOptions
     { showNext :: Bool
     , showPrev :: Bool
@@ -46,7 +45,7 @@ paginateSelectList pSize filters opts = do
     page <- fromMaybe 1 <$> (runInputGet $ iopt intField "p")
     let offset = max ((page - 1) * pSize) 0
     (results, totalCount) <- runDB $ do -- Single transaction by using one runDB call.
-        results <- selectList filters (LimitTo pSize : OffsetBy offset : opts)
+        results    <- selectList filters (LimitTo pSize : OffsetBy offset : opts)
         totalCount <- count filters
         return (results, totalCount)
     let pagerOpts = defaultPagerOptions { pageSize = pSize, currentPage = page, maxPage = totalCount `div` pSize + 1}

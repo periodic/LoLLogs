@@ -97,19 +97,39 @@ instance Queryable (GameGeneric backend) where
         let champ = t2u sNameT
             field = queryColumnName c
          in wrapJS $ US.concat [ "result.", field, " = "
-                               , "(this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
-                               , "+ this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed'])"
-                               , "|| (this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
-                               , "+ this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed'])"
+                               , "(  this.gameStats.teamPlayerParticipantStats['", champ, "']"
+                               , "&& (this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
+                               ,     "+ this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed']"
+                               ,     ")"
+                               , ")"
+                               , "||" 
+                               , "(  this.gameStats.otherTeamPlayerParticipantStats['", champ, "']"
+                               , "&& (this.gameStats.otherTeamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
+                               ,    "+ this.gameStats.otherTeamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed']"
+                               ,    ")"
+                               , ")"
                                ]
     queryMapCode c@(QGameCSPM sNameT) = -- CS/min
         let champ = t2u sNameT
             field = queryColumnName c
          in wrapJS $ US.concat [ "result.", field, " = "
-                               , "(this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
-                               , "+ this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed']) * 60 / this.gameStats.gameLength"
-                               , "|| (this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
-                               , "+ this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed']) * 60 / this.gameStats.gameLength"
+                               , "(  this.gameStats.teamPlayerParticipantStats['", champ, "']"
+                               , "&& ("
+                               ,       "( this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
+                               ,       "+ this.gameStats.teamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed']"
+                               ,       ")"
+                               ,     "* 60 / this.gameStats.gameLength"
+                               ,     ")"
+                               , ")"
+                               , "||" 
+                               , "(  this.gameStats.otherTeamPlayerParticipantStats['", champ, "']"
+                               , "&& ("
+                               ,      "(this.gameStats.otherTeamPlayerParticipantStats['", champ, "'].statistics['Minions Slain']"
+                               ,      "+ this.gameStats.otherTeamPlayerParticipantStats['", champ, "'].statistics['Neutral Monsters Killed']"
+                               ,      ")"
+                               ,    "* 60 / this.gameStats.gameLength"
+                               ,    ")"
+                               , ")"
                                ]
 
     --queryFilter         :: QueryColumn model typ -> Value -> Document  -- ^ Produce the document to be used as a filter when given a value.
@@ -138,8 +158,11 @@ instance Queryable (GameGeneric backend) where
 summonerKeyCode :: Text -> UString -> Javascript
 summonerKeyCode textName subSelector = 
         let name = t2u textName
-         in wrapJS $ US.concat [ "(this.gameStats.teamPlayerParticipantStats['", name, "']", subSelector
-                               , "|| this.gameStats.otherTeamPlayerParticipantStats['", name, "']", subSelector
+         in wrapJS $ US.concat [ "(  this.gameStats.teamPlayerParticipantStats['", name, "']"
+                               , "&& this.gameStats.teamPlayerParticipantStats['", name, "']", subSelector
+                               , ") ||"
+                               , "(  this.gameStats.otherTeamPlayerParticipantStats['", name, "']"
+                               , "&& this.gameStats.otherTeamPlayerParticipantStats['", name, "']", subSelector
                                , ")"
                                ]
 
