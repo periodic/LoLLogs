@@ -1,7 +1,6 @@
 module Handler.Game where
 
 import Import
-import Settings.StaticFiles
 
 import Data.Enumerator.List (consume)
 import qualified Data.Map as M
@@ -11,6 +10,7 @@ import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
 import Data.Time (getCurrentTime)
 
+import Yesod.Widget.AjaxFrame
 import Yesod.Widget.Pager
 
 import Model.Champion

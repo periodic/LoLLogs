@@ -13,3 +13,8 @@ getRootR :: Handler RepHtml
 getRootR = do
     defaultLayout $ do
         $(widgetFile "homepage")
+
+getDownloadR :: Handler RepHtml
+getDownloadR = do
+    defaultLayout $ do
+        $(widgetFile "download")

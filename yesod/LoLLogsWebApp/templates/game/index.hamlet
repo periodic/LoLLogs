@@ -1,2 +1,4 @@
 <h1>Game Index
-^{gameList}
+
+
+^{ajaxFrame gameList}

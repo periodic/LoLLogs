@@ -28,7 +28,7 @@
                                 $nothing 
                                     ?
                             <span.summoner-name
-                                #{ps_summonerName player}
+                                <a href=@{SummonerStatsR (ps_summonerName player)}>#{ps_summonerName player}
                                 $if psbotPlayer player
                                     <span.bot>(bot)
                             $maybe skin <- psskinName player

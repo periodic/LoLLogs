@@ -2,8 +2,6 @@ module Handler.Summoner where
 
 import Import
 
-import Settings.StaticFiles
-
 import Model.Game.Query
 import Text.Printf
 import Data.Text as T (append)

@@ -5,6 +5,8 @@
 /robots.txt RobotsR GET
 
 / RootR GET
+/download DownloadR GET
+
 /games GameIndexR GET
 /game GameCreateR POST
 /game/#GameId GameViewR GET

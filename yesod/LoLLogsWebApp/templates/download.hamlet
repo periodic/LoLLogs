@@ -1,0 +1,20 @@
+<h1>Game Uploader
+
+<p>Download the log-parser/uploader.  It pre-processes your logs into a simple format, and then uploads those logs to our servers where they can show up in our database immediately.
+
+<p>
+    <span.label.important>Important #
+    You must close the League of Legends client before running the uploader.  League of Legends locks the logs while it is open, so we can't read them while it is running.
+
+<p>
+    <a.btn.primary href=@{StaticR upload_games_exe}>Download
+
+
+<h2>FAQ
+
+<dl>
+    <dt>I ran the uploader, but only a few games show up.
+    <dd>The League of Legends client only keeps up to five days of logs on your system, and it wipes out the logs every time it patches.  Right after a patch, or if you haven't played in a while, there will be almost no data.  Just keep uploading your logs and we'll make sure the records are never deleted.
+
+    <dt>When I run the uploader I get a message saying "Permission Denied".
+    <dd>This is what happens when the League of Legends client is open when you run the uploader.  Close the client and try again. The client locks the log files while it is open, which prevents the uploader from reading them.
