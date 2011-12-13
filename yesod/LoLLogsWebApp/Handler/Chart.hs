@@ -20,7 +20,7 @@ data ChartInfo = ChartInfo {
 data SeriesInfo k v = SeriesInfo {
     siLabel :: String
   , siData  :: [(k, v)]
-}
+} deriving (Show)
 
 
 defaultChart :: ChartInfo 

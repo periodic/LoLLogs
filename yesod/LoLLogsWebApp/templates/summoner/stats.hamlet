@@ -1,0 +1,45 @@
+<table.zebra-striped id=#{champTableId}>
+    <thead>
+        <tr>
+            <th>Champion
+            <th.int>Games Played
+            $if wp query
+                <th.pct>Win %
+            $if kpm query
+                <th.double>Kills / Min
+            $if dpm query
+                <th.double>Deaths / Min
+            $if apm query
+                <th.double>Assists / Min
+            $if cspm query
+                <th.double>CS / Min
+            $if gpm query
+                <th.double>Gold / Min
+    <tbody>
+        $forall (champ, stats) <- champData
+            <tr>
+                <td>#{u2t champ}
+                <td.int>#{getResultCount stats}
+                $with (colPct, colDouble) <- splitAt 1 cols
+                    $forall col <- colPct
+                        <td.pct>
+                            $maybe datum <- getResultValue col stats
+                                #{formatPct datum}
+                    $forall col <- colDouble
+                        <td.double>
+                            $maybe datum <- getResultValue col stats
+                                #{formatDouble datum}
+    <tfoot>
+        $forall (_, stats) <- totals
+            <tr.total>
+                <td>Total
+                <td.int>#{getResultCount stats}
+                $with (colPct, colDouble) <- splitAt 1 cols
+                    $forall col <- colPct
+                        <td.pct>
+                            $maybe datum <- getResultValue col stats
+                                #{formatPct datum}
+                    $forall col <- colDouble
+                        <td.double>
+                            $maybe datum <- getResultValue col stats
+                                #{formatDouble datum}
