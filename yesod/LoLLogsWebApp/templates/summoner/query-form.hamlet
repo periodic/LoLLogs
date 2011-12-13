@@ -1,0 +1,9 @@
+#{extra}
+Win Pct: ^{fvInput wpView} <br>
+Kills / Min: ^{fvInput kpmView} <br>
+Deaths / Min: ^{fvInput dpmView} <br>
+Assists / Min: ^{fvInput apmView} <br>
+CS / Min: ^{fvInput cspmView} <br>
+Gold / Min: ^{fvInput gpmView} <br>
+Type: ^{fvInput typeView} <br>
+<input type=submit />
