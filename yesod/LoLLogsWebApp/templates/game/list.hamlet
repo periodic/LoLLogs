@@ -1,21 +1,25 @@
+<div.game-list>
+    $if null games
+        No games found.
+    $else
+        ^{pager pagerOpts}
 
-<table.game-list>
-    <thead>
-        <tr>
-            <th>
-                Teams
-            <th>
-                Queue
-            <th>
-                Date Added
-    <tbody>
-        $forall game <- games
-            <tr data-href=@{GameViewR (fst game)}>
-                <td>
-                    ^{portraits champions (snd game)}
-                <td>
-                    #{gsqueueType (gameGameStats (snd game))}
-                <td>
-                    #{gameFormattedCreateTime (snd game)}
+        <table.game-list>
+            <thead>
+                <tr>
+                    <th>
+                        Teams
+                    <th>
+                        Queue
+                    <th>
+                        Date Added
+            <tbody>
+                $forall game <- games
+                    <tr data-href=@{GameViewR (fst game)}>
+                        <td.champs>
+                            ^{portraits champions (snd game)}
+                        <td.queueType>
+                            #{gsqueueType (gameGameStats (snd game))}
+                        <td.created>
+                            #{gameFormattedCreateTime (snd game)}
 
-^{pager pagerOpts}

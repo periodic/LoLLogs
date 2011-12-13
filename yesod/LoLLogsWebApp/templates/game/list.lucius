@@ -6,6 +6,10 @@ table.game-list {
         tr:hover {
             background-color: rgba(141, 192, 219, 0.25);
         }
+
+        td.queueType {
+            width: 200px;
+        }
     }
 }
 

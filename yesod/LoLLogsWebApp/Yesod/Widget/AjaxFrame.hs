@@ -1,9 +1,9 @@
 module Yesod.Widget.AjaxFrame 
     ( ajaxFrame
     , FrameOptions(..)
+    , defaultFrameOptions
     ) where
 
-import Prelude
 import Yesod
 import Data.Text (Text)
 
@@ -19,12 +19,36 @@ defaultFrameOptions = FrameOptions
     , formSelector  = "form"
     }
 
-ajaxFrame :: GWidget sub master () -> GWidget sub master ()
-ajaxFrame content = do
+--ajaxFrame :: GWidget sub master () -> GWidget sub master ()
+ajaxFrame options content = do
     frameId <- lift newIdent
-    [julius|
+    toWidget [julius|
         $(function () {
-            alert("Foo");
+            var $container = $('##{frameId}');
+            $container.delegate('#{linkSelector options}', 'click', function (e) {
+                $container.addClass('loading');
+
+                e.preventDefault();
+
+                var href = $(this).attr('href');
+
+                ajaxUpdate(href);
+
+            }).end();
+
+            function ajaxUpdate(href) {
+                $.ajax({
+                    url: href,
+                    success: function (data, textStatus, jqXHR) {
+                        $container.html( $("##{frameId}", data).html() );
+                        $container.removeClass('loading');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $container.removeClass('loading');
+                        alert("an error occured.");
+                    }
+                });
+            }
         });
     |]
     [whamlet|

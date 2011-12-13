@@ -14,7 +14,7 @@
 
     .summoner-info {
         float: left;
-        width: 200px;
+        width: 300px;
 
         img {
             width: 40px;

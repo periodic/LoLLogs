@@ -1,5 +1,7 @@
 <h1>#{summonerName}
 
+<h2>Stats
+
 <table.zebra-striped id=#{champTableId}>
     <thead>
         <tr>
@@ -40,4 +42,5 @@
                             $maybe datum <- getResultValue col stats
                                 #{formatDouble datum}
 
+<h2>Games
 ^{gameList}

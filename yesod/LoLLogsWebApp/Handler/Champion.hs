@@ -35,7 +35,7 @@ postChampionCreateR = do
 getChampionUpdateR :: ChampionId -> Handler RepHtml
 getChampionUpdateR modelId = do
     item <- runDB $ get404 modelId
-    ((_, form), enctype) <- generateFormPost (championForm Nothing)
+    ((_, form), enctype) <- generateFormPost (championForm $ Just item)
     defaultLayout $(widgetFile "champion/update")
 
 postChampionUpdateR :: ChampionId -> Handler RepHtml
