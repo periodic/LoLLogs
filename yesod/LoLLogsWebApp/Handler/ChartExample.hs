@@ -3,7 +3,7 @@ module Handler.ChartExample where
 import Import
 import Data.Map as M
 import Model.Game.Query
-import Handler.Chart
+import Yesod.Widget.Flot
 import Data.Maybe (catMaybes)
 
 -- TODO: This really shouldn't be necessary and the BSON manipulation should be moved out to the Helper.

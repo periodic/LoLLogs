@@ -5,8 +5,8 @@ import Import
 import Model.Game.Query
 import Text.Printf
 import Data.Text as T (append)
-import Handler.Chart
 
+import Yesod.Widget.Flot
 import Yesod.Widget.Pager
 
 import Model.Champion

@@ -39,11 +39,11 @@ library
                      Handler.Root
                      Handler.Game
                      Handler.Champion
-                     Handler.Chart
                      Handler.ChartExample
                      Handler.Summoner
                      Yesod.Widget.AjaxFrame
                      Yesod.Widget.Pager
+                     Yesod.Widget.Flot
 
     ghc-options:   -Wall -threaded -O0
 
