@@ -26,6 +26,8 @@ Executable upload-games
                         transformers,
                         time,
                         network,
-                        HTTP
-
+                        HTTP,
+                        wx,
+                        wxcore,
+                        stm
 
