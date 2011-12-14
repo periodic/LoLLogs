@@ -9,7 +9,7 @@ Maintainer:         Drew Haven <drew.haven@gmail.com>
 Build-type:         Simple
 Cabal-Version:      >= 1.2
 
-Executable upload-games
+Executable upload-games-windwos
     Main-is:            UploadGames-win32.hs
     ghc-options:        -Wall -O1
     Build-depends:      base >= 4,
@@ -28,4 +28,22 @@ Executable upload-games
                         network,
                         HTTP
 
+
+Executable upload-games-linux
+    Main-is:            UploadGames-win32.hs
+    ghc-options:        -Wall -O1
+    Build-depends:      base >= 4,
+                        lollogs,
+                        mtl,
+                        aeson >= 0.4,
+                        attoparsec,
+                        containers,
+                        unordered-containers,
+                        bytestring,
+                        filepath,
+                        directory,
+                        transformers,
+                        time,
+                        network,
+                        HTTP
 
