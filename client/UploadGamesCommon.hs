@@ -41,6 +41,9 @@ handleLogIO handler task = do
     conf <- ask
     lift $ handle (flip runReaderT conf . handler) (flip runReaderT conf task)
 
+liftLog :: IO a -> LogIO a
+liftLog = lift
+
 runGUI :: [LogIO (Maybe FilePath)] -> IO ()
 runGUI dirOptions = do
     tidMVar <- newEmptyMVar -- Holds tid of the actual processing thread.
