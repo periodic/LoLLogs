@@ -3,17 +3,17 @@
         <tr>
             <th>Champion
             <th.int>Games Played
-            $if wp query
+            $if elem "winPct" colNames
                 <th.pct>Win %
-            $if kpm query
+            $if elem "kpm" colNames
                 <th.double>Kills / Min
-            $if dpm query
+            $if elem "dpm" colNames
                 <th.double>Deaths / Min
-            $if apm query
+            $if elem "apm" colNames
                 <th.double>Assists / Min
-            $if cspm query
+            $if elem "cspm" colNames
                 <th.double>CS / Min
-            $if gpm query
+            $if elem "gpm" colNames
                 <th.double>Gold / Min
     <tbody>
         $forall (champ, stats) <- champData

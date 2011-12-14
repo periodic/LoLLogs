@@ -23,40 +23,28 @@ portraits :: ChampionMap -> Game -> Widget
 portraits champions game = $(widgetFile "game/champions")
 
 data Query = Query
-  { wp  :: Bool
-  , kpm :: Bool
-  , dpm :: Bool
-  , apm :: Bool
-  , cspm :: Bool
-  , gpm :: Bool
-  , typ :: RenderType
+  { qCols :: [UString]
+  , qType :: RenderType
   } deriving (Show, Eq)
+
+colsSelect = [("Win Percent", "winPct"), ("Kills / Min", "kpm"), ("Deaths / Min", "dpm"),
+              ("Assists / Min", "apm"), ("CS / Min", "cspm"), ("Gold / Min", "gpm")]
 
 data RenderType = Chart | Table
     deriving (Show, Eq)
-
-getSelectedCols :: Query -> [UString]
-getSelectedCols query = catMaybes [l "winPct" wp, l "kpm" kpm, l "dpm" dpm, l "apm" apm, l "cspm" cspm, l "gpm" gpm]
-  where
-    l v getter = if getter query then Just v else Nothing
 
 getQuery :: FormResult Query -> Query
 getQuery res =
     case res of
         FormSuccess query -> query
-        _ -> Query True True True True True True Table
+        _ -> Query ["winPct", "kpm", "dpm", "apm", "cspm", "gpm"] Table
 
 summonerForm :: Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Query, Widget)
 summonerForm extra = do
     let types = [("Chart", Chart), ("Table", Table)]
-    (wpRes, wpView) <- mreq boolField "" (Just True)
-    (kpmRes, kpmView) <- mreq boolField "" (Just True)
-    (dpmRes, dpmView) <- mreq boolField "" (Just True)
-    (apmRes, apmView) <- mreq boolField "" (Just True)
-    (cspmRes, cspmView) <- mreq boolField "" (Just False)
-    (gpmRes, gpmView) <- mreq boolField "" (Just False)
+    (colsRes, colsView) <- mreq (multiSelectField colsSelect) "" Nothing
     (typeRes, typeView) <- mreq (selectField types) "" (Just Table)
-    let q = Query <$> wpRes <*> kpmRes <*> dpmRes <*> apmRes <*> cspmRes <*> gpmRes <*> typeRes
+    let q = Query <$> colsRes <*> typeRes
     let widget = do
         -- Needed because of bootstrap
         toWidget [lucius|
@@ -107,7 +95,7 @@ getSummonerStatsR summonerName = do
     -- Form Data
     ((res, widget), enctype) <- runFormGet summonerForm
     let query = getQuery res
-    let colNames = getSelectedCols query
+    let colNames = qCols query
     let cols = fmap snd $ Import.filter (\(a,_) -> a `elem` colNames) $ queryCols summonerName
 
     -- DB Calls
@@ -127,7 +115,8 @@ getSummonerStatsR summonerName = do
         addScript $ StaticR js_jquery_tablesorter_min_js -- for a pretty table.
         champTableId <- lift newIdent
         setTitle . toHtml $ T.append "Stats for " summonerName
-        let stats = if typ query == Table then $(widgetFile "summoner/stats") else makeChart summonerChart series
+        prettyMultiSelect
+        let stats = if qType query == Table then $(widgetFile "summoner/stats") else makeChart summonerChart series
         $(widgetFile "summoner/view")
 
     where
@@ -135,3 +124,13 @@ getSummonerStatsR summonerName = do
         formatPct d = printf "%2.1f%%" (d * 100)
         formatDouble :: Double -> String
         formatDouble d = printf "%0.2f" d
+
+prettyMultiSelect = do
+        addScript $ StaticR js_jquery_asmselect_js
+        addStylesheet $ StaticR css_jquery_asmselect_css
+        toWidget [julius|
+            $(function() {
+                $(".multi select").attr("title", "Please select columns").asmSelect()
+            });
+        |]
+    
