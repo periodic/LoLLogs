@@ -116,7 +116,6 @@ replaceParens c | c == '(' = '['
 -- TODO: Display Y Axis label; flip labels when horizontal
 callFlot :: ChartInfo -> String -> String -> Widget
 callFlot info dataPoints opts = do
-    addScriptRemote "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
     -- TODO: use static route for this
     addScriptRemote "/static/js/jquery.flot.min.js"
     -- Needed because flot doesn't work well with bootstrap

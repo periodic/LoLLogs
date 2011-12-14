@@ -27,6 +27,7 @@ data Query = Query
   , qType :: RenderType
   } deriving (Show, Eq)
 
+colsSelect :: [(Text, UString)]
 colsSelect = [("Win Percent", "winPct"), ("Kills / Min", "kpm"), ("Deaths / Min", "dpm"),
               ("Assists / Min", "apm"), ("CS / Min", "cspm"), ("Gold / Min", "gpm")]
 
@@ -125,6 +126,7 @@ getSummonerStatsR summonerName = do
         formatDouble :: Double -> String
         formatDouble d = printf "%0.2f" d
 
+prettyMultiSelect :: Widget
 prettyMultiSelect = do
         addScript $ StaticR js_jquery_asmselect_js
         addStylesheet $ StaticR css_jquery_asmselect_css
