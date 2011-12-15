@@ -1,4 +1,4 @@
-{-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, PatternGuards #-}
+{-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, PatternGuards, FlexibleContexts #-}
 module Model.Helper.MapReduce ( execute
                               , runMapReduce
                               , Queryable(..)
@@ -36,6 +36,7 @@ import Yesod.Handler (GGHandler)
 import Data.UString as S (pack, unpack, concat)
 import Data.Text as T (Text, unpack, pack)
 import Data.String
+import Control.Applicative (Applicative(..))
 import qualified Data.Map as M
 
 t2u :: Text -> UString
@@ -238,7 +239,7 @@ execute query = do
             mapM makeRecord results
 -- runDB :: MonadIO monad => Action (GGHandler sub master IO) a -> GGHandler sub master monad a
 
-runMapReduce :: MapReduce -> Action (GGHandler sub master IO) [(Label, M.Map Label Value)]
+runMapReduce :: (PersistBackend Action m, Applicative m) => MapReduce -> Action m [(Label, M.Map Label Value)]
 runMapReduce query = do
     result <- runMR' query
     results <- Mongo.lookup "results" result
@@ -247,6 +248,13 @@ runMapReduce query = do
         values <- Mongo.lookup "value" doc
         return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
     mapM makeRecord results
+
+mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
+           => QueryColumn model typ                     -- ^ The column to use a key.
+           -> [QueryFilter model]                       -- ^ A list of filters.
+           -> forall typ0. [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
+           -> Action m [(Label, M.Map Label Value)]
+mapReduce keyCol filters fields = runMapReduce $ buildQuery keyCol filters fields
 
 -- | Get a result value from the result set, and make sure it is cast to the appropriate type.
 getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ
