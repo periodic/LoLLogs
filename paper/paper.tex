@@ -74,6 +74,52 @@ Yesod~\cite{yesod} is one of several Web frameworks written in Haskell. Features
 
 Yesod's type safety allows X. This can prevent XSS attacks. Prevents bad URLs (tells you when they're broken at compile time).
 
+\begin{figure}[]
+\begin{verbatim}
+getGameIndexR :: Handler RepHtml
+getGameIndexR = do
+  (games, opts) <- paginateSelectList 10 [] []
+  defaultLayout $ do
+    let list = $(widgetFile "game/list")
+    setTitle "Game Index"
+    toWidget [cassius|
+      ##header {
+        float: left;
+        color = #{color}}
+    |] 
+    $(widgetFile "game/index")
+\end{verbatim}
+    \caption{Sample Yesod Controller}
+    \label{controller}
+\end{figure}
+
+\begin{figure}[]
+\begin{verbatim}
+^{pager opts}
+
+<table.game-list>
+<thead>
+  <tr>
+    <th>
+      Teams
+    <th>
+      Queue
+    <th>
+      Date Added
+<tbody>
+  $forall game <- games
+    <tr data-href=@{GameViewR (fst game)}>
+      <td.champs>
+        ^{portraits champions (snd game)}
+      <td.queueType>
+        #{gsqueueType (gameGameStats (snd game))}
+      <td.created>
+        #{gameFormattedCreateTime (snd game)}
+\end{verbatim}
+    \caption{Sample Hamlet File}
+    \label{hamlet}
+\end{figure}
+
 \subsection{MongoDB}
 
 Our backend used MongoDB~\cite{mongo}, a documented-oriented database. MongoDB stores data in BSON, a data format similar to JSON. MongoDB allows the execution of Javascript queries against the database. Although MongoDB is schemaless, you can use Haskell's type safety to ensure that only valid data is stored. We chose MongoDB becuase of X.
@@ -105,18 +151,34 @@ Talk about the Query API
 
 Queries generate javascript code which is executed by mongo.
 
-Generate mapreduce queries.
+Generate mapreduce queries. See figure \ref{mrapi}.
 
-\begin{figure}[]
+\begin{figure*}[t]
 \begin{verbatim}
-    some query goes here
-    filler
-    filler
-    filler
+type Game = GameGeneric backend
+type GameId = Key backend Game
+GameCreated :: EntityField Game UTCTime
+GameGameStats :: EntityField Game GameStats
+
+selectList :: (PersistEntity val, PersistBackend b m) => [Filter val] ->
+              [SelectOpt val] -> b m [(Key b val, val)]
+selectList [GameCreated <. time] [LimitTo 10] :: PersistBackend b m => b m [(GameId, Game)]
 \end{verbatim}
-    \caption{Query API}
-    \label{api}
-\end{figure}
+    \caption{Query stuff}
+    \label{querycode}
+\end{figure*}
+
+\begin{figure*}[t]
+\begin{verbatim}
+mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
+  => QueryColumn model typ                 -- ^ The column to use a key.
+  -> [QueryFilter model]                   -- ^ A list of filters.
+  -> forall typ0. [QueryColumn model typ0] -- ^ A list of columns to select for the output.
+  -> Action m [(Label, M.Map Label Value)]
+\end{verbatim}
+    \caption{MapReduce API}
+    \label{mrapi}
+\end{figure*}
 
 \subsection{Chart generation}
 
@@ -155,9 +217,21 @@ myChart =
     \label{chart}
 \end{figure}
 
-\subsection{League of Legends Data}
+\subsection{League of Legends Logs}
+
+\begin{figure}[]
+\begin{verbatim}
+parseActionScript :: Parser ByteString ASValue
+\end{verbatim}
+    \caption{ActionScript parser API}
+    \label{asapi}
+\end{figure}
 
 Data is parsed from LoL data files. Our parser uses attoparsec.
+
+Figure \ref{asapi} shows the API.
+
+\subsection{League of Legends Client}
 
 Then it is uploaded using our client which monitors the file system for log files, parses them, and uploads them to the website. 
 
@@ -189,15 +263,15 @@ In Figure \ref{list}, we can see a list of games. Probably want a more interesti
 \section{Future Work}
 \label{future}
 
-There is still lots of work that we could do with our project.
+What would be needed to bring this site to a production level?
 
-Our project has the limitations A, B, and C. 
+* More work!
 
-We could do X.
+* Static file handling.  Yesod is not optimized for it.
 
-We could do Y.
+* Load balancing and clustering.
 
-Maybe even Z.
+* User accouts/permissions.  Fortunately most of this work has already been done.
 
 \section{Analysis}
 \label{analysis}
