@@ -26,7 +26,7 @@ Project components:
 Motivations for this project
 ================================
 
-I love data.  Hopefully this doesn't look familiar to anyone.
+I love data.
 
 ![](spreadsheet.png)
 
@@ -42,6 +42,11 @@ Data analysis + Haskell = loads of fun(?)
 ## Being practical
 
 Haskell is great at generalizations, but it's often easiest to start with a practical case.  I (Drew) have been collecting this data for a few months now, and it is complex enough to supply an interesting test-set.
+
+Demo
+================================
+
+<iframe src='http://lol.casualaddict.com/' width='100%' height='80%'></iframe>
 
 Yesod
 ================================
@@ -901,11 +906,6 @@ For the GUI we chose to go with wxWidgets.
 * Not functional (need to run certain functions before other functions in the IO monad)
 * Built as a layer to interface with the C++ classes.
 * But it mostly worked.
-
-Demo
-================================
-
-<iframe src='http://lol.casualaddict.com/' width='100%' height='80%'></iframe>
 
 
 Future directions
