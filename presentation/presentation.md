@@ -53,7 +53,7 @@ Chart generation
 Working with Data
 ================================
 
-## Database 
+## Database
 
 <img src="mongo-db-logo.png" width="400"/>
 
@@ -701,7 +701,7 @@ Working with Data
 The Yesod team developed a package for database abstraction and access called Persistent.
 
 > Persistent follows the guiding principles of type safety and concise, declarative syntax. Some other nice features are: 3 comments
-> 
+>
 > * Database-agnostic. There is first class support for PostgreSQL, SQLite and MongoDB.
 > * By being non-relational in nature, we simultaneously are able to support a wider number of storage layers and are not constrained by some of the performance bottlenecks incurred through joins.
 > * A major source of frustration in dealing with SQL databases is changes to the schema. Persistent can automatically perform database migrations.
@@ -711,14 +711,7 @@ Working with Data
 
 ### Syntax Example
 
-Through quasi-quotes:
-
 ~~~
-User
-    ident Text
-    password Text Maybe
-    UniqueUser ident
-
 Email
     email Text
     user UserId Maybe
@@ -726,13 +719,14 @@ Email
     UniqueEmail email
 ~~~
 
-Limited, yet powerful, operations.  It uses phantom types, type classes, and type families to ensure type safety.
+Limited, yet powerful, operations.  It uses phantom types, type classes, and type families to ensure type safety.  TemplateHaskell and QuasiQuotes for easy development.
 
 ~~~ {.haskell}
 type Game = GameGeneric backend
 type GameId = Key backend Game
 GameCreated :: EntityField Game UTCTime
 GameGameStats :: EntityField Game GameStats
+
 selectList :: (PersistEntity val, PersistBackend b m) => [Filter val] -> [SelectOpt val] -> b m [(Key b val, val)]
 selectList [GameCreated <. time] [LimitTo 10] :: PersistBackend b m => b m [(GameId, Game)]
 ~~~
@@ -767,34 +761,54 @@ Behind the scenes, `Queryable` defines functions for transforming a map-reduce r
 Other parts of the project
 ================================
 
-In the interest of making this into a usable site, we need to get data into the database, and preferably from public users.  To do this we set out to write a program that can be run on Windows (yes, Windows) systems and would parse the game client's logs.
+In the interest of making this into a usable site, we need to get data into the database, and preferably from public users.
+
+To do this we set out to write a program that can be run on Windows (yes, Windows) systems and would parse the game client's logs.
+
+Other parts of the project
+================================
 
 ## Parsing Logs
 
-The logs are just a format for line-based log messages, where the interesting data is produced by an object-dumping function of ActionScript (the client users Adobe Air) and the structure is provided by indention levels.  Parsing `ActionScript -> GameStats` was a daunting problem.  However, we had an idea: `ActionScript -> JSON` is essentially a 1-to-1 mapping, and from there we can build a two-stage parser and let the JSON be handled by the wonderful Aeson package.  JSON also serves as a convenient transmission format and ensures our server API is very general.
+The logs are:
+
+* Line-based text log messages
+* Interesting data is produced by an object-dumping function of ActionScript (the client uses Adobe Air)
+* Object structure is provided by indention levels.
+
+Parsing `ActionScript -> GameStats` is a daunting problem.
+
+We'll use JSON!
+
+`ActionScript -> JSON` is essentially a 1-to-1 mapping, and we already have the wonderful Aeson package.
+
+Other parts of the project
+================================
 
 ## ASObject
 
 The `ASObject` package is modeled on Aeson, as such, it provides the following parsing function:
+
 ~~~ {.haskell}
 parseActionScript :: Parser ByteString ASValue
 ~~~
 
-From here, it is a simple matter of mapping to JSON, which can then be uploaded.
-
-## `JSON -> GameStats`
-
-On the server-side we use aeson and the `FromJSON` typeclass to parse the provided JSON into the GameStats that we save, doing a few transformations along the way to remove unnecessary data, duplicate data, and make it easier to query.
+From here, it is a simple matter of mapping to JSON, which can then be uploaded.  On the server-side we use aeson and the `FromJSON` typeclass to parse the provided JSON into the GameStats that we save, doing a few transformations along the way to remove unnecessary data, duplicate data, and make it easier to query.
 
 The Client
 ================================
 
 To build the client, we had two major issues:
 
-* Locating the correct directory
+* Locating the correct directory (Win32 Registry)
 * Building a GUI for Windows users who aren't comfortable with a terminal.
 
-[TODO]
+For the gui we chose to go with wxWidgets.
+
+* Bad idea.
+* Not functional (need to run certain functions before other functions in the IO monad)
+* Built as a layer to interface with the C++ classes.
+* But it mostly worked.
 
 Demo
 ================================
@@ -804,6 +818,13 @@ Progress made
 
 Future directions
 ================================
+
+What would be needed to bring this site to a production level?
+
+* More work!
+* Static file handling.  Yesod is not optimized for it.
+* Load balancing and clustering.
+* User accouts/permissions.  Fortunately most of this work has already been done.
 
 Questions?
 ================================
