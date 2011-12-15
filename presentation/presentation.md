@@ -15,7 +15,9 @@ We wrote a data query package to run map reduce queries on MongoDB
 
 We built a site using Yesod that analyzes League of Legends data
 
-> Project components:
+Project components:
+
+> 
 >
 > * Website
 > * Chart creation
@@ -64,7 +66,7 @@ getGameIndexR = do
         let gameList = $(widgetFile "game/list")
         setTitle "Game Index"
         toWidget [cassius|
-            #header { float: left}
+            ##header { float: left; color = #{color}}
         |] 
         $(widgetFile "game/index")
 ~~~
@@ -891,7 +893,7 @@ To build the client, we had two major issues:
 * Locating the correct directory (Win32 Registry)
 * Building a GUI for Windows users who aren't comfortable with a terminal.
 
-For the gui we chose to go with wxWidgets.
+For the GUI we chose to go with wxWidgets.
 
 * Bad idea.
 * Not functional (need to run certain functions before other functions in the IO monad)
