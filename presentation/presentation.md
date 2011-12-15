@@ -11,10 +11,6 @@
 * We wrote a package that does this
 * We build a site that analyzes League of Legends data
 
-# What is Yesod
-
-[TODO]
-
 # Motivations for this project
 
 I love data.  Hopefully this doesn't look familiar to anyone.
@@ -33,15 +29,94 @@ Data analysis + Haskell = loads of fun(?)
 
 Haskell is great at generalizations, but it's often easiest to start with a practical case.  I (Drew) have been collecting this data for a few months now, and it is complex enough to supply an interesting test-set.
 
+# What is Yesod
+
+* MVC RESTful Web Framework
+* Uses type safety to ensure correctness and prevents security vulnerabilities
+* Includes template languages for HTML, CSS, and Javascript
+* Uses Haskell extensions like QuasiQuotes, TemplateHaskell, TypeFamilies, and MultiParamTypeClasses
+
+
 # Yesod site
-* Build site using Yesod, a Haskell framework
-* Cool things about Yesod
-    * A
-    * B
+
+`Game.hs`
+
+~~~ {.haskell}
+getGameIndexR :: Handler RepHtml
+getGameIndexR = do
+    (games, pagerOpts) <- paginateSelectList 10 [] []
+    champions  <- championsByName
+    defaultLayout $ do
+        let gameList = $(widgetFile "game/list")
+        setTitle "Game Index"
+        toWidget [casius|
+            #header { float: left}
+        |] 
+        $(widgetFile "game/index")
+~~~
+
+`game/list.hamlet`
+
+~~~ {.html}
+<div.game-list>
+    $if null games
+        No games found.
+    $else
+        ^{pager pagerOpts}
+
+        <table.game-list>
+            <thead>
+                <tr>
+                    <th>
+                        Teams
+                    <th>
+                        Queue
+                    <th>
+                        Date Added
+            <tbody>
+                $forall game <- games
+                    <tr data-href=@{GameViewR (fst game)}>
+                        <td.champs>
+                            ^{portraits champions (snd game)}
+                        <td.queueType>
+                            #{gsqueueType (gameGameStats (snd game))}
+                        <td.created>
+                            #{gameFormattedCreateTime (snd game)}
+
+~~~
 
 # Chart generation
 * Created Haskell bindings to create Javascript based charts using Flot
-* Pretty picture goes here
+
+![](chart.png)
+
+Generated with 
+
+~~~ {.haskell}
+
+getSummonerStatsR :: Text -> Handler RepHtml
+getSummonerStatsR summonerName = do
+    -- DB Calls
+    dataRows <- runDB . runMapReduce $ buildQuery (QGameChampion summonerName)
+        [exists $ QGameSummoner summonerName] columns
+
+    -- Intermediate data
+    let champData = Import.filter ((/= "_total") . fst) dataRows
+    let series = getSeries champData colNames
+
+    -- Widget
+    defaultLayout $ do
+        setTitle . toHtml $ T.append "Stats for " summonerName
+        let stats = makeChart summonerChart series
+        $(widgetFile "summoner/view")
+
+summonerChart :: ChartInfo
+summonerChart =
+    setTitles "Summoner Statistics" "" "" $
+    setHorizontal True $
+    setSize 600 400
+    barChart
+~~~
 
 # Working with Data
 
