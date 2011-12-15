@@ -35,11 +35,11 @@ colsSelect = [("Win Percent", "winPct"), ("Kills / Min", "kpm"), ("Deaths / Min"
 data RenderType = Chart | Table
     deriving (Show, Eq)
 
-getQuery :: FormResult Query -> Query
+getQuery :: FormResult Query -> (Bool, Query)
 getQuery res =
     case res of
-        FormSuccess query -> query
-        _ -> Query ["winPct", "kpm", "dpm", "apm", "cspm", "gpm"] Table
+        FormSuccess query -> (False, query)
+        _                 -> (True, Query ["winPct", "kpm", "dpm", "apm", "cspm", "gpm"] Table)
 
 summonerForm :: Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Query, Widget)
 summonerForm extra = do
@@ -47,12 +47,7 @@ summonerForm extra = do
     (colsRes, colsView) <- mreq (multiSelectField colsSelect) "" Nothing
     (typeRes, typeView) <- mreq (selectField types) "" (Just Table)
     let q = Query <$> colsRes <*> typeRes
-    let widget = do
-        -- Needed because of bootstrap
-        toWidget [lucius|
-            .summoner-form label { float: none;}
-        |]
-        $(widgetFile "summoner/query-form")
+    let widget = $(widgetFile "summoner/query-form")
     return (q, widget)
 
 summonerChart :: ChartInfo
@@ -99,7 +94,7 @@ getSummonerStatsR summonerName = do
 
     -- Form Data
     ((res, widget), enctype) <- runFormGet summonerForm
-    let query = getQuery res
+    let (isDefault, query) = getQuery res
     let colNames = qCols query
     let cols = fmap snd $ Import.filter (\(a,_) -> a `elem` colNames) $ queryCols summonerName
 
@@ -136,7 +131,9 @@ prettyMultiSelect = do
         addStylesheet $ StaticR css_jquery_asmselect_css
         toWidget [julius|
             $(function() {
-                $(".multi select").attr("title", "Please select columns").asmSelect()
+                $(".multi select").attr("title", "Please select columns").asmSelect({
+                    removeClass: "asmListItemRemove btn danger",
+                })
             });
         |]
     

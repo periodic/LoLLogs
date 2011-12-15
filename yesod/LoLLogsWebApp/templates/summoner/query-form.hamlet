@@ -1,4 +1,12 @@
 #{extra}
-<span class=multi> ^{fvInput colsView} <br>
-Type: ^{fvInput typeView} <br>
-<input type=submit />
+<div.clear-fix>
+    <label>Type
+    <div.input>
+        ^{fvInput typeView}
+<div.clear-fix>
+    <label>Columns
+    <div.input>
+        <span class=multi> ^{fvInput colsView} <br>
+<div.clear-fix>
+    <div.input>
+        <input.btn.primary type=submit />

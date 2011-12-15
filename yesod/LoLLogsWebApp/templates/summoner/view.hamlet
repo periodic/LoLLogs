@@ -1,8 +1,18 @@
 <h1>#{summonerName}
 
-<h2>Stats
+<h2>
+    Stats
 
-<form class=summoner-form enctype=#{enctype}>
+<span#customize-toggle>
+    <a.btn.info>
+        Customize #
+        <span.plusminus>
+            $if isDefault
+                +
+            $else
+                -
+
+<form#summoner-form.summoner-form :isDefault:style="display: none" enctype=#{enctype}>
     ^{widget}
 
 ^{stats}

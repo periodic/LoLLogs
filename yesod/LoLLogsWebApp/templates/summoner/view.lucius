@@ -1,5 +1,25 @@
+#summoner-form.default-form {
+    display: none;
+}
+
+#summoner-form {
+    .asmListItem {
+        line-height: 1.5em;
+        background: #fff;
+        border-right-width: 0;
+        border-left-width: 0;
+    }
+}
+
+#customize-toggle {
+    font-size: 50%;
+    a {
+        width: 80px;
+    }
+}
+
 ##{champTableId} {
-    td.pct, td.int, td.double {
+    .pct, .int, .double {
         text-align: right;
     }
     tfoot tr.total td {
