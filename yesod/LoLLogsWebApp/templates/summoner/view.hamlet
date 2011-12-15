@@ -8,4 +8,4 @@
 ^{stats}
 
 <h2>Games
-^{gameList}
+^{ajaxFrame defaultFrameOptions gameList}

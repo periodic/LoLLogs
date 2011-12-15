@@ -8,6 +8,7 @@ import Data.Text as T (unpack, append)
 
 import Yesod.Widget.Flot
 import Yesod.Widget.Pager
+import Yesod.Widget.AjaxFrame
 
 import Model.Champion
 
