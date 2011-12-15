@@ -35,7 +35,7 @@ data SeriesInfo k v = SeriesInfo {
 
 
 defaultChart :: ChartInfo 
-defaultChart = ChartInfo "" "" "" 600 300 False BarChart
+defaultChart = ChartInfo "" "" "" 600 500 False BarChart
 
 setType :: ChartType -> ChartInfo -> ChartInfo
 setType typ chart = chart{ciType=typ}
@@ -72,7 +72,8 @@ barChart chart series = callFlot chart dataPoints opts
     renderFunc = if isH then showBarYsFlipped else showBarYs
     ticks = renderXTicks . siData $ head series
     axis = if isH then "yaxis" else "xaxis"
-    opts = "{" ++ axis ++ ": {ticks: " ++ ticks ++ "}, series: {bars: {show: true, horizontal: " ++ map toLower (show isH) ++ "}}}"
+    barLen = show $ (1.0 / fromIntegral (1 + length series) :: Double)
+    opts = "{" ++ axis ++ ": {ticks: " ++ ticks ++ "}, series: {bars: {barWidth:" ++ barLen ++", order: 0, show: true, horizontal: " ++ map toLower (show isH) ++ "}}}"
 
 --- 
 
@@ -80,7 +81,7 @@ barChart chart series = callFlot chart dataPoints opts
 renderXTicks :: (Show k) => [(k, v)] -> String
 renderXTicks series = fmap replaceParens . show $  getXTicks' 0 series
   where
-    getXTicks' i ((c,_):rest) = (i + 0.5 :: Double, c) : getXTicks' (i+1) rest
+    getXTicks' i ((c,_):rest) = (i :: Double, c) : getXTicks' (i+1) rest
     getXTicks' _ [] = []
 
 -- Returns string array of multiple series (see renderSeries)
@@ -118,6 +119,7 @@ callFlot :: ChartInfo -> String -> String -> Widget
 callFlot info dataPoints opts = do
     -- TODO: use static route for this
     addScriptRemote "/static/js/jquery.flot.min.js"
+    addScriptRemote "/static/js/jquery.flot.orderBars.js"
     -- Needed because flot doesn't work well with bootstrap
     toWidget [lucius|.flot-chart table { width: auto }|]
     containerId <- lift newIdent
@@ -125,7 +127,7 @@ callFlot info dataPoints opts = do
     toWidget [hamlet|
         <span id="#{containerId}" style="display:inline-block">
             <p style="text-align: center"> #{ciTitle info}
-            <div id="#{chartId}" class="flot-chart" style="width:600px;height:300px;">
+            <div id="#{chartId}" class="flot-chart" style="width:#{ciXSize info}px;height:#{ciYSize info}px;">
             <p style="text-align: center"> #{ciXTitle info}
     |]
     toWidget [julius|
