@@ -17,8 +17,6 @@ We built a site using Yesod that analyzes League of Legends data
 
 Project components:
 
-> 
->
 > * Website
 > * Chart creation
 > * Data analysis
@@ -796,6 +794,8 @@ The Yesod team developed a package for database abstraction and access called Pe
 > * By being non-relational in nature, we simultaneously are able to support a wider number of storage layers and are not constrained by some of the performance bottlenecks incurred through joins.
 > * A major source of frustration in dealing with SQL databases is changes to the schema. Persistent can automatically perform database migrations.
 
+-- From the Yesod Book
+
 Working with Data
 ================================
 
@@ -885,8 +885,10 @@ parseActionScript :: Parser ByteString ASValue
 
 From here, it is a simple matter of mapping to JSON, which can then be uploaded.  On the server-side we use aeson and the `FromJSON` typeclass to parse the provided JSON into the GameStats that we save, doing a few transformations along the way to remove unnecessary data, duplicate data, and make it easier to query.
 
-The Client
+Other parts of the project
 ================================
+
+## The Client
 
 To build the client, we had two major issues:
 
@@ -903,7 +905,7 @@ For the GUI we chose to go with wxWidgets.
 Demo
 ================================
 
-<iframe src='http://lol.casualaddict.com/' width='100%' height='100%'></iframe>
+<iframe src='http://lol.casualaddict.com/' width='100%' height='80%'></iframe>
 
 
 Future directions
@@ -915,3 +917,5 @@ What would be needed to bring this site to a production level?
 * Static file handling.  Yesod is not optimized for it.
 * Load balancing and clustering.
 * User accouts/permissions.  Fortunately most of this work has already been done.
+* Development branch of Persistent has abstracted the query interface, making this work easier.
+* Yesod itself still needs more development to be considered mature.
