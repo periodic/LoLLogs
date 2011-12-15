@@ -1,4 +1,5 @@
-# Web-Based Data Analytics in Haskell
+Web-Based Data Analytics in Haskell
+================================
 
 ## CS240H project
 
@@ -6,22 +7,26 @@
 * Eric Stratmann
 
 
-# Introduction
+Introduction
+================================
 * Wanted to create an easy way to write sites to analyze data
 * We wrote a package that does this
 * We build a site that analyzes League of Legends data
 
-# What is Yesod
+What is Yesod
+================================
 
 [TODO]
 
-# Motivations for this project
+Motivations for this project
+================================
 
 I love data.  Hopefully this doesn't look familiar to anyone.
 
 ![](spreadsheet.png)
 
-# Motivations for this project
+Motivations for this project
+================================
 
 Data analysis is fun.
 
@@ -33,17 +38,20 @@ Data analysis + Haskell = loads of fun(?)
 
 Haskell is great at generalizations, but it's often easiest to start with a practical case.  I (Drew) have been collecting this data for a few months now, and it is complex enough to supply an interesting test-set.
 
-# Yesod site
+Yesod site
+================================
 * Build site using Yesod, a Haskell framework
 * Cool things about Yesod
     * A
     * B
 
-# Chart generation
+Chart generation
+================================
 * Created Haskell bindings to create Javascript based charts using Flot
 * Pretty picture goes here
 
-# Working with Data
+Working with Data
+================================
 
 ## Database 
 
@@ -55,7 +63,8 @@ We chose MongoDB for our database.
 * *Scalable* for managing millions of potential data points.
 * *Built-in Map-Reduce* for running complex queries across documents.
 
-# Working with Data
+Working with Data
+================================
 
 ## The data
 
@@ -684,7 +693,8 @@ This is an example of one of our records:
 }
 ~~~
 
-# Working with Data
+Working with Data
+================================
 
 ## Integrating with Yesod
 
@@ -696,7 +706,8 @@ The Yesod team developed a package for database abstraction and access called Pe
 > * By being non-relational in nature, we simultaneously are able to support a wider number of storage layers and are not constrained by some of the performance bottlenecks incurred through joins.
 > * A major source of frustration in dealing with SQL databases is changes to the schema. Persistent can automatically perform database migrations.
 
-# Working with Data
+Working with Data
+================================
 
 ### Syntax Example
 
@@ -732,7 +743,8 @@ Note that:
 * `PersistEntity` defines columns and functions to transform the data to and from a database format.
 * The return type of `selectList` is uniquely determined by the filters and options passed.  No where do you have to specify what type of data you are fetching.
 
-# Working with Data
+Working with Data
+================================
 
 ## Building a Map-Reduce framework
 
@@ -752,7 +764,8 @@ mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
 
 Behind the scenes, `Queryable` defines functions for transforming a map-reduce request into the requisite JavaScript to pass to MongoDB.
 
-# Other parts of the project
+Other parts of the project
+================================
 
 In the interest of making this into a usable site, we need to get data into the database, and preferably from public users.  To do this we set out to write a program that can be run on Windows (yes, Windows) systems and would parse the game client's logs.
 
@@ -773,7 +786,8 @@ From here, it is a simple matter of mapping to JSON, which can then be uploaded.
 
 On the server-side we use aeson and the `FromJSON` typeclass to parse the provided JSON into the GameStats that we save, doing a few transformations along the way to remove unnecessary data, duplicate data, and make it easier to query.
 
-# The Client
+The Client
+================================
 
 To build the client, we had two major issues:
 
@@ -782,10 +796,14 @@ To build the client, we had two major issues:
 
 [TODO]
 
-# Demo
+Demo
+================================
 
-# Progress made
+Progress made
+================================
 
-# Future directions
+Future directions
+================================
 
-# Questions?
+Questions?
+================================
