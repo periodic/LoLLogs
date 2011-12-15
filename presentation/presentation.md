@@ -9,9 +9,19 @@ Web-Based Data Analytics in Haskell
 
 Introduction
 ================================
-* Wanted to create an easy way to write sites to analyze data
-* We wrote a package that does this
-* We build a site that analyzes League of Legends data
+Goal: make it easy to write Websites to analyze arbitrary data
+
+We wrote a data query package to run map reduce queries on MongoDB
+
+We built a site using Yesod that analyzes League of Legends data
+
+> Project components:
+>
+> * Website
+> * Chart creation
+> * Data analysis
+> * Log parser
+> * Log client
 
 Motivations for this project
 ================================
@@ -33,13 +43,13 @@ Data analysis + Haskell = loads of fun(?)
 
 Haskell is great at generalizations, but it's often easiest to start with a practical case.  I (Drew) have been collecting this data for a few months now, and it is complex enough to supply an interesting test-set.
 
-What is Yesod
+Yesod
 ================================
 
 
 * MVC RESTful Web Framework
 * Uses type safety to ensure correctness and prevents security vulnerabilities
-* Includes template languages for HTML, CSS, and Javascript
+* Includes DSLs/templates for HTML, CSS, and Javascript
 * Uses Haskell extensions like QuasiQuotes, TemplateHaskell, TypeFamilies, and MultiParamTypeClasses
 
 # Yesod site
@@ -50,11 +60,10 @@ What is Yesod
 getGameIndexR :: Handler RepHtml
 getGameIndexR = do
     (games, pagerOpts) <- paginateSelectList 10 [] []
-    champions  <- championsByName
     defaultLayout $ do
         let gameList = $(widgetFile "game/list")
         setTitle "Game Index"
-        toWidget [casius|
+        toWidget [cassius|
             #header { float: left}
         |] 
         $(widgetFile "game/index")
@@ -92,9 +101,15 @@ getGameIndexR = do
 
 Chart generation
 ================================
-* Created Haskell bindings to create Javascript based charts using Flot
+Created Haskell bindings to create Javascript based charts using Flot
+
+Allows developers to specify chart formatting and data 
 
 ![](chart.png)
+
+
+Chart generation
+================================
 
 Generated with 
 
@@ -107,8 +122,7 @@ getSummonerStatsR summonerName = do
         [exists $ QGameSummoner summonerName] columns
 
     -- Intermediate data
-    let champData = Import.filter ((/= "_total") . fst) dataRows
-    let series = getSeries champData colNames
+    let series = getSeries dataRows
 
     -- Widget
     defaultLayout $ do
@@ -120,7 +134,7 @@ summonerChart :: ChartInfo
 summonerChart =
     setTitles "Summoner Statistics" "" "" $
     setHorizontal True $
-    setSize 600 400
+    setSize 600 400 $
     barChart
 ~~~
 
@@ -774,7 +788,7 @@ Working with Data
 
 The Yesod team developed a package for database abstraction and access called Persistent.
 
-> Persistent follows the guiding principles of type safety and concise, declarative syntax. Some other nice features are: 3 comments
+> Persistent follows the guiding principles of type safety and concise, declarative syntax. Some other nice features are:
 >
 > * Database-agnostic. There is first class support for PostgreSQL, SQLite and MongoDB.
 > * By being non-relational in nature, we simultaneously are able to support a wider number of storage layers and are not constrained by some of the performance bottlenecks incurred through joins.
@@ -887,8 +901,8 @@ For the gui we chose to go with wxWidgets.
 Demo
 ================================
 
-Progress made
-================================
+<iframe src='http://lol.casualaddict.com/' width='100%' height='100%'></iframe>
+
 
 Future directions
 ================================
@@ -899,6 +913,3 @@ What would be needed to bring this site to a production level?
 * Static file handling.  Yesod is not optimized for it.
 * Load balancing and clustering.
 * User accouts/permissions.  Fortunately most of this work has already been done.
-
-Questions?
-================================
