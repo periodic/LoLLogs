@@ -4,7 +4,7 @@ import Import
 
 import Model.Game.Query
 import Text.Printf
-import Data.Text as T (append)
+import Data.Text as T (unpack, append)
 
 import Yesod.Widget.Flot
 import Yesod.Widget.Pager
@@ -62,7 +62,10 @@ summonerChart =
 
 getSeries :: [(UString, Map UString Value)] -> [UString] -> [SeriesInfo String Double]
 getSeries dataRows cols = fmap f cols
-  where f col = SeriesInfo (US.unpack col) (findCol col dataRows)
+  where
+    f col = SeriesInfo (T.unpack $ prettyName col) (findCol col dataRows)
+    prettyName col = fst . head $ Import.filter (\x -> snd x == col) colsSelect
+    
 
 findCol :: UString -> [(UString, Map UString Value)] -> [(String, Double)]
 findCol col dat= (catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup col results >>= cast')) dat)
