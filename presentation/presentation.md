@@ -11,18 +11,9 @@
 * We wrote a package that does this
 * We build a site that analyzes League of Legends data
 
-# Demo
-* Show a demo here
+# What is Yesod
 
-# Data stuff
-* Perform queries on MongoDB, a JSON based datastore
-
-    ~~~ {.haskell}
-        query = doQueryStuff [QueryQueryQuery]
-    ~~~
-
-* Define columns in Haskell using type families
-* Etc., etc. 
+# Motivations for this project
 
 # Yesod site
 * Build site using Yesod, a Haskell framework
@@ -34,8 +25,24 @@
 * Created Haskell bindings to create Javascript based charts using Flot
 * Pretty picture goes here
 
+# Data stuff
+* Perform queries on MongoDB, a JSON based datastore
+
+    ~~~ {.haskell}
+        query = doQueryStuff [QueryQueryQuery]
+    ~~~
+
+* Define columns in Haskell using type families
+* Etc., etc. 
+
 # Other parts of the project
 * Parser
 * Uploader / GUI
+
+# Demo
+
+# Progress made
+
+# Future directions
 
 # Questions?
