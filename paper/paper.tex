@@ -120,9 +120,57 @@ getGameIndexR = do
     \label{hamlet}
 \end{figure}
 
+\subsection{Persistent}
+
+Persistent is a library developed for Yesod to facilitate data access.  It attempts to make data access type safe, concise, declarative and independent of the underlying data store.  It uses a mixture of type-classes to achieve this, as well as various language extensions to make some of tricks possible.  The three major pieces of the puzzle are the typeclasses \code{PersistBackend b m}, \code{PersistField val}, and \code{PersistEntity val}.
+
+The core of Persistent is the \code{PersistBackend b m} typeclass, which defines the basic operations on the database such as \code{insert}, \code{update}, \code{delete}, and \code{get}.  An interesting point is it encodes the backend type in the \code{b} parameter, but also specifies the constraints \code{Monad m}, \code{Monad (b m)}, \code{MonadIO m} and \code{MonadIO (b m)}.  This forces the backend type to provide the mechanism for accessing IO to get to interface with the database without making any specific statements about how or where \code{PersistBackend} instances can be used, as they all return values in the \code{b m} monad.
+
+Persistent deals with types by having a restricted set of types that it uses to interface with the database, the \code{PersistValue} type.  These types closely resemble JSON or BSON types, as it includes a few primatives, null, and the two collection types \code{PersistList [PersistValue]} and \code{PersistMap [(Text, PersistValue)].  The library ensures that the backend can store values of these types to limit dependencies and coupling between the application data types and the database's internal representation.
+
+Any datatype that can be stored as a database column needs to be an instance of the \code{PersistField} typeclass.  This typeclass handles the marshalling to and from \code{PersistValue}s.  The close resemblance of \code{PersistValue} to JSON types, specifically \code{Data.Aeson.Value}, allowed us to write code to do an instance of \code{PersistField} for \code{Data.Aeson.Value}, and from that we could utilize the same \code{FromJSON} and \code{ToJSON} instances we wrote from the parsing code to implement a \code{PersistField GameType} instance that we could use to store the game statistics data in the database.  The library understands how to represent \code{PersistValue}s in MongoDB in a way that preserves their structure, which gave us the ability to do deep inspection of the data in the database, which was essential for our query filters and map reduce code.
+
+The final piece of the puzzle is the \code{PersistEntity val} typeclass, which is the one we worked with the most.  This typeclass defines the code for converting a top-level data type to or from column data, the columns present on the data type and unique key constraints.  The interesting piece are the columns, which are defined through the \code{EntityField} data type, which is a type family parameterized by the type of \code{val}.  \code{TypeFamilies} is an extension I haven't seen used often, but is used well in this context.  In this case it is used to allow different constructors of the datatype to take on different types.  This is one of the more interesting examples of how Yesod uses typeclasses to ensure type safey.  See \ref{EntityField} for an example definition.
+
+\begin{figure}[]
+\begin{verbatim}
+data EntityField (GameGeneric backend) typ
+    = typ ~ (Key backend (GameGeneric backend)) => GameId 
+    | typ ~ UTCTime   => GameCreated
+    | typ ~ Bool      => GameRanked
+    | typ ~ Int       => GameGameId
+    | typ ~ Int       => GameLength
+    | typ ~ GameStats => GameGameStats
+    | typ ~ Text      => GameTeamPlayerSummoner Text
+    | typ ~ Text      => GameOtherTeamPlayerSummoner Text
+\end{verbatim}
+    \caption{EntityField declarations for GameGeneric backend}
+    \label{EntityField}
+\end{figure}
+
+When put together these components create a very declarative way to define data and queries.  Much of the definition can be done through Template Haskell functions, such as \code{derivePersistField} or \code{mkPersist}.  These will define the datatypes and their instances for the most common case.  For our case we wanted to define query columns that inspect the data more deeply than the first layer.  To do that we had write our own \code{PersistEntity} definitions.  It was surprisingly easy to add additional columns, however the details of how Persistent builds queries restricted them to only be simple column comparisons in MongoDB, multi-column functions may be possible in SQL.
+
+Filters are created through comparison functions, which are analogs for familiar comparison functions, such as less-than, equals and set membership.  They are defined by the \code{PersistFilter} data type, and Yesod provides more convenient creation functions.  The Filters also encode type-safety of the comparison \ref{Filter}.  Note the Rank2Type for \code{typ} which enforces a match between the value and the field's type.  Also note that \code{v} represents the model type, which ensures all filters correspond to columns on the same data type.
+\begin{figure}[]
+\begin{verbatim}
+    data Filter v = forall typ . PersistField typ => 
+        Filter { filterField :: EntityField v typ
+               , filterValue :: Either typ [typ]
+               , filterFilter :: PersistFilter
+               }
+        | FilterAnd [Filter v]
+        | FilterOr [Filter v]
+\end{verbatim}
+    \caption{EntityField declarations for GameGeneric backend}
+    \label{EntityField}
+\end{figure}
+Select queries naturally follow from their filters, which encode almost all information needed to make the query.  The select only requires a few additional options such as limits and offsets before it can be executed.
+
+Persistent is a very elegant system for database access, and was a pleasure to work with on this project.  It does make a few assumptions about your data to enable its optimizations.  Examples include an inability to model relational data and a restricted set of operations.  Current work on Persistent is attempting to address this by splitting the backend from the query interface so more complex queries can be executed on backends that support them.
+
 \subsection{MongoDB}
 
-Our backend used MongoDB~\cite{mongo}, a documented-oriented database. MongoDB stores data in BSON, a data format similar to JSON. MongoDB allows the execution of Javascript queries against the database. Although MongoDB is schemaless, you can use Haskell's type safety to ensure that only valid data is stored. We chose MongoDB becuase of X.
+Our backend used MongoDB~\cite{mongo}, a documented-oriented database. MongoDB stores data in BSON, a binary-encoded serialization of JSON-like documents, with a few extenstions for additional data types.  The MongoDB query system includes a simple query system that allows for simple operations analogous to non-relational SQL statements.  This is how all basic CRUD operations are performed.  It also has a second query system that utilizes map-reduce.  The map-reduce system uses JavaScript functions to run queries across documents and shared databases.  MongoDB is schemaless in that the documents have no defined structure or types.  This creates a burden on the client to ensure data is consistent and well-formed.
 
 \subsection{Flot}
 
