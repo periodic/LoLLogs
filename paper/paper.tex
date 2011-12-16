@@ -21,6 +21,9 @@ breaklinks=true,
 \definecolor{Orange}{rgb}{1,0.5,0}
 \newcommand{\todo}[1]{\textsf{\textbf{\textcolor{Orange}{[[#1]]}}}}
 
+% For representing code in paragraphs.
+\newcommand{\code}[1]{\texttt{#1}}
+
 \pagenumbering{arabic}  % Arabic page numbers for submission.  Remove this line to eliminate page numbers for the camera ready copy
 
 \begin{document}
@@ -126,7 +129,7 @@ Persistent is a library developed for Yesod to facilitate data access.  It attem
 
 The core of Persistent is the \code{PersistBackend b m} typeclass, which defines the basic operations on the database such as \code{insert}, \code{update}, \code{delete}, and \code{get}.  An interesting point is it encodes the backend type in the \code{b} parameter, but also specifies the constraints \code{Monad m}, \code{Monad (b m)}, \code{MonadIO m} and \code{MonadIO (b m)}.  This forces the backend type to provide the mechanism for accessing IO to get to interface with the database without making any specific statements about how or where \code{PersistBackend} instances can be used, as they all return values in the \code{b m} monad.
 
-Persistent deals with types by having a restricted set of types that it uses to interface with the database, the \code{PersistValue} type.  These types closely resemble JSON or BSON types, as it includes a few primatives, null, and the two collection types \code{PersistList [PersistValue]} and \code{PersistMap [(Text, PersistValue)].  The library ensures that the backend can store values of these types to limit dependencies and coupling between the application data types and the database's internal representation.
+Persistent deals with types by having a restricted set of types that it uses to interface with the database, the \code{PersistValue} type.  These types closely resemble JSON or BSON types, as it includes a few primatives, null, and the two collection types \code{PersistList [PersistValue]} and \code{PersistMap [(Text, PersistValue)]}.  The library ensures that the backend can store values of these types to limit dependencies and coupling between the application data types and the database's internal representation.
 
 Any datatype that can be stored as a database column needs to be an instance of the \code{PersistField} typeclass.  This typeclass handles the marshalling to and from \code{PersistValue}s.  The close resemblance of \code{PersistValue} to JSON types, specifically \code{Data.Aeson.Value}, allowed us to write code to do an instance of \code{PersistField} for \code{Data.Aeson.Value}, and from that we could utilize the same \code{FromJSON} and \code{ToJSON} instances we wrote from the parsing code to implement a \code{PersistField GameType} instance that we could use to store the game statistics data in the database.  The library understands how to represent \code{PersistValue}s in MongoDB in a way that preserves their structure, which gave us the ability to do deep inspection of the data in the database, which was essential for our query filters and map reduce code.
 
