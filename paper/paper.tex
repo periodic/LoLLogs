@@ -75,7 +75,14 @@ The rest of the paper is organized as follows. Section \ref{background} provides
 
 Yesod~\cite{yesod} is one of several Web frameworks written in Haskell. Features of Yesod include templates, a persistence model, etc. Writing a Website in a Haskell framework allows developers to take advantage of Haskell features, such as type safety, which helps them write secure sites.
 
-Yesod's type safety allows X. This can prevent XSS attacks. Prevents bad URLs (tells you when they're broken at compile time).
+Yesod uses both MVC and REST. MVC is a paradigm for writing Websites that separates data and data logic (model) from the presentation of the data (view). REST is a convention for URLs so that sites can have a consistent pattern for accessing resources. 
+
+To write controllers, developers can use Yesod's monads, Handler and Widget. These build up HTML, CSS, and Javascript, and allow modifying and reading HTTP headers. These monads are instance of MonadIO which allows controller pages to execute arbitrary IO actions as well as generating the page. See Figure \ref{controller} for an example controller 
+
+Like most other frameworks, Yesod provides templates to make writing HTML, CSS, and Javascript easier. The templates provide basic variable substition and and control statements, as well as support for simplified stuff. See Figure \ref{hamlet} for an example of Hamlet, Yesod's HTML tempalting system, which is used in the controller in Figure \ref{controller}.
+
+Yesod uses Haskell's types to provide functionality that often are impossible in other languages. Type safety prevents many security vulnerabilities by ensuring that malicious code isn't used. Type inference allows more concise code by automatically detecting what model the developer is querying.
+
 
 \begin{figure}[]
 \begin{verbatim}
@@ -185,10 +192,6 @@ League of Legends~\cite{lol} in an on-line Real Time Strategy game. Although the
 
 Particularly interesting statistics could arise from comparisons, such as win-rate compared to game length, or across many players you could look at the number of secondary objectives completed compared to the average match-making rating of the team.
 
-\subsection{Analytics packages}
-
-There are lots of existing software that does similiar stuff. Here are a few of them. 
-
 \section{Description of our project}
 \label{package}
 
@@ -256,13 +259,11 @@ There are three major drawbacks.  The first is that the user has to directly spe
 
 \subsection{Chart generation}
 
-FOOBAR displays appropriate information using Javascript charts. While some data is best presented in tabular form, charts can visually display the relationship of different variables in a way that is easy for people to understand.
+Our Website displays appropriate information using Javascript charts. While some data is best presented in tabular form, charts can visually display the relationship of different variables in a way that is easy for people to understand. In particular, we thought viewing a chart would help users view correlations between two different variables. Figure \ref{chart} shows a sample chart.
 
-We use the Flot Javascript charting package. Flot charts are generated using Javascript and displayed on an HTML Canvas element. 
+We used the Flot Javascript charting package. Flot charts are generated using Javascript and displayed on an HTML Canvas element. While we had originally tried generating static chrats, that did not give us the same level of functionality as the Javascript charts. Although we didn't end up using any of this functionality, it would have allowed users to sort charts in the browser, click on different elements to go to the appropriate page, etc. 
 
-While it is possible for developers to manually generate Javascript to create Flot charts, we created a Haskell API that allows developers to specify their charts in Haskell. The API seperates display options of the chart from the chart data.
-
-Figure \ref{chartcode} shows a page that uses the chart API. The code creates a chart with the given options and uses the data retrieved from the query. The chart automatically takes care of including any necessary HTML, Javascript, and CSS and can simply be included anywhere in the page. Figure \ref{chart} shows a sample chart that shows information about X.
+While it is possible for developers to manually generate Javascript to create Flot charts, we created a Haskell API that allows developers to specify their charts in Haskell. The API takes a list of display parameters (such as titles, chart size, orientation, etc.) and a list of data points in the form \code{[(key, value)]} .The chart automatically takes care of including any necessary HTML, Javascript, and CSS and can simply be included anywhere in the page. Figure \ref{chartcode} shows a page that uses the chart API. \code{myChart} sets a few chart options and the data is queried from the database. 
 
 \begin{figure}[]
 \begin{verbatim}
@@ -271,7 +272,7 @@ getFooR = do
     data <- runDB blah buildQuery blah
         (QuerySomething foo) []
         [Query Something])
-    let chart = myChart data
+    let chart = makeChart myChart data
     ...
 
 myChart :: Widget
@@ -343,13 +344,11 @@ Then it is uploaded using our client which monitors the file system for log file
 \section{League of Legends Site}
 \label{site}
 
-To test our data analytics package, we wrote a Website to display League of Legends statistics.
+To test our data analytics package, we wrote a Website to display League of Legends statistics. Although the Website is fairly simple for an analysis Website, building the site helped us in developing our query interface. The Website allows users to upload games, view information about games, viwe champion data, and perform analyzis on summoner data.
 
-On the Websites, users can do X, Y, and Z. 
+Our summoner page, seen in \ref{todo}, displays aggregate information about a summoner across all uploaded games the summoner played in. The data is viewable in both table and chart format, and the columns are customizable about the user.
 
-The site provides a variety of statistics on different summoners. Users can view statistics by different champions for any summoners, either in table or chart form. This allows users to do things like check correlations between different variables. 
-
-In Figure \ref{chart}, we can see a chart (replace with more up to date chart). The chart shows some statistics for Summoner Foo. 
+Our backend is capable of performing more powerful queries, but we did not have enough time to code more pages to display this functionality. Ideally, users would be able to specify arbitrary queries, giving custom filters, keys, etc. 
 
 In Figure \ref{list}, we can see a list of games. Probably want a more interesting picture though.
 
@@ -368,15 +367,15 @@ In Figure \ref{list}, we can see a list of games. Probably want a more interesti
 \section{Future Work}
 \label{future}
 
-What would be needed to bring this site to a production level?
-
-* More work!
+Although we are happy with the progress we made on our project, neither the backend nor the Website are production quality. To bring our project to that level, we would need to make a few changes. 
 
 * Static file handling.  Yesod is not optimized for it.
 
-* Load balancing and clustering.
+Our website does not include user accounts. Although user accounts are not neccessary to simply analyze existing data, we need some sort of permissions to disallow the unauthorized modification of data.
 
-* User accounts/permissions.  Fortunately most of this work has already been done.
+Development branch of Persistent has abstracted the query interface, making this work easier.
+
+We had mixed feelings about working with Yesod. Although the framework takes advantage of serveral Haskell features, the framework is not as mature as those available for other languages. For example, there was little documentation except for the most basic features. This is not too surprising since Yesod is less than two years old and has only a few core developers. 
 
 \section{Analysis}
 \label{analysis}
