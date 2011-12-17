@@ -325,21 +325,44 @@ myChart =
 
 \begin{figure}[]
 \begin{verbatim}
-parseActionScript :: Parser ByteString ASValue
+type Object      = M.Map T.Text ASValue
+
+data ASValue = ASNumber N.Number
+             | ASString T.Text
+             | ASBoolean !Bool
+             | ASNull
+             | ASDate T.Text
+             | ASArray !Integer (V.Vector ASValue)
+             | ASObject T.Text !Integer Object
+             deriving (Show, Eq)
 \end{verbatim}
-    \caption{ActionScript parser API}
-    \label{asapi}
+    \caption{ActionScript object descriptions}
+    \label{asvalue}
 \end{figure}
 
-The League of Legends client is written in Adobe Air and runs in the background while games are in progress. Data from the League of Legends game client is dumped to log files.  It has a standardized format, but the most interesting data for our case are the end-of-game stats, which are dumped out by an object dumping routine.  Data types in these dumps are fairly straight-forward and can be mapped onto JSON data types \todo{Finish this}
+The League of Legends client is written in Adobe Air and runs in the background while games are in progress. Data from the League of Legends game client is dumped to log files.  It has a standardized format, but the most interesting data for our case are the end-of-game stats, which are dumped out by an object dumping routine.  Data types in these dumps are fairly straight-forward and can be mapped onto JSON data types, but to do so requires parsing the structure of the dump, which is based on indentation.
 
-Data is parsed from LoL data files. Our parser uses attoparsec.
+The first phase of our parsing is to parse object dumps into an \code{ASValue} datatype, which is modeled after \code{Data.Aeson.Value} and described in figure \ref{asvalue}.  The parsing code is written with Attoparsec, and is straightforward other than the indentation.
 
-Figure \ref{asapi} shows the API.
+Indentation is tracked by wrapping the \code{Parse} monad in a reader transformer that stores the number of spaces on the current indentation.  Every key-value pair of an object or entry in an array first checks for the corresponding level of indentation.  When a new object or array is encountered, the indentation is incremented for the recursive call, and if the indentation fails to parse it simply signifies the end of the object and the \code{many} combinator will return the results parsed so far.
 
-\subsection{League of Legends Client}
+Once the end-of-game log messages have been extracted and the data parsed into \code{ASValue} it can be converted one-to-one into \code{Data.Aeson.Value} through an appropriate \code{ToJSON} instance.
 
-Then it is uploaded using our client which monitors the file system for log files, parses them, and uploads them to the website. 
+Since we want to represent the data internally in a form different from that of the logs---note the awkward \code{ArrayCollection} and \code{ArrayList} objects in the sample that are essentially just a list or vector---we needed to write two functions to parse the JSON.  For the database store we used the TemplateHaskell derivied \code{FromJSON} and \code{ToJSON} instances.  For parsing the raw data we hand-wrote a more complicated parser that does a few minor data transformations along the way, such as indexing some arrays by a key and removing some unnecessary layers of data and duplicate fields.
+
+In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the uploader client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
+
+\subsection{League of Legends Log-Upload Client}
+
+The first implementation of the uploader used the parsing code mentioned above and \code{Network.HTTP} to upload the resultant JSON to a server.  This portion of the code is fairly straight-forward Haskell.  However, this required the user to run the command from a terminal and provide the directory of the logs as an argument to the program, which is outside the comfort zone of many potential users.
+
+The first revision involved querying the windows registry through the \code{System.Win32} library.  This proved useful, creating a binary that could be simply double-clicked to perform the uploading, though the output was still displayed in a console.  When distributing the program to alpha testers we found that the registry keys used were not consistent across systems.  This was solved by querying multiple keys until one yielded a result, but even that was insufficient as some users were running the program without having run the installer process and so had no registry keys, and at least one of our alpha testers was also using a non-default directory.
+
+The solution is to prompt the user for the location of the program which forces us to move towards a GUI.  Some brief research suggested wxWidgets as a good cross-platform GUI system.  We set up a system which built a GUI and ran the UI in one thread after doing a directory look up and prompting the user if necessary, then spawned a worker thread to do the parsing and uploading.  The worker thread appended its log messages to a \code{Control.Concurrent.STM.TVar}, which is polled by the GUI to update its display and give the user easier access to error messages and progress information.  We used a \code{ReaderT} wrapper around IO to run actions in a way that they would have access to the log.
+
+The program compiled, but we had difficulty distributing it due to DLL dependencies.  GHC statically links most libraries by default, which was desired for distribution, however when compiling the wx code, it attempts to link many things dynamically including \code{libstdc++}.  Even locating the libraries and placing them in path, other libraries such as \code{libgcc\_s\_dw2-1} were requested by the binary, but weren't present in the Haskell Platform, wxPack (the wxWidgets distribution), or MinGW (providing gcc).  After going through a few hours of tracking down DLLs, adding static compilation flags, and recompiling, we abandoned the GUI for windows users due to time constraints. 
+
+At this time I believe a better approach to a cross platform GUI would be to use another language such as Java which has a track-record of creating cross-platform GUIs. Other GUI libraries for Haskell such as GTK are worth a look to determine if they suffer the same problems as wxWidgets.
 
 \section{League of Legends Site}
 \label{site}
