@@ -4,8 +4,8 @@
 % For representing code in paragraphs.
 \newcommand{\code}[1]{\texttt{#1}}
 
-
 \begin{document}
+\vspace{-5cm}
 \title{\Large \bf Web-based Data Analytics in Haskell}
 
 %don't want date printed
@@ -26,23 +26,22 @@
 
 
 \begin{abstract}
-Many people are interested in statistics, but providing an easy to use Website to analyze statistics can be difficult. We wanted to make it simple to create Websites to analyze arbitrary data, so we created a Haskell package that makes it easy to do this. We also wrote an example site using our package that analyzes data from the popular on-line game League of Legends. The Website allows users to lookup a variety of statistics and perform queries on the data.
+Many people are interested in statistics, but providing an easy to use Website to analyze statistics can be difficult. We wanted to make it simple to create Websites to analyze arbitrary data. Our project explored data analytics using the Haskell Web framework, Yesod. We wrote a proof-of-concept site that analyzes information from the popular on-line game League of Legends. The Website allows users to lookup a variety of statistics and perform queries on the data while presenting the results in a graphical format.
 \end{abstract}
 
 \section{Introduction}
 
-Analyzing statistics can be rewarding and insightful, but without an easy way to analyze new datasets doing so can be difficult. Statistics are useful in a verity of fields. For example, although no knowledge of statistics is required to play baseball, many fans of the sport love to analyze them. Since baseball is popular there are many Websites to analyze baseball data, but what about less popular data? Creating a site to analyze new sets of data can be time consuming.
+Analyzing statistics can be rewarding and insightful, but without an easy way to analyze new datasets doing so can be difficult. Statistics are useful in a verity of fields. For example, although no knowledge of statistics is required to play baseball, many fans of the sport love to analyze them. Since baseball is popular there are many Websites to analyze baseball data, but what about less popular data? Creating a site to analyze new sets of data can be time consuming. Although there are many existing statistics packages, they are often hard to use and do not provide a Website for others to browse. Users are often left managing large spreadsheets to keep track of their data.
 
-Although the data being analyzed across different datasets may differ considerably, the sorts of queries that people are interested in are often similar. People would like to correlate different variables, filter on certain conditions, and retrieve subsets of the data. They would like to do calculations on the data (sums, averages, counts) and display this information in tables or charts.
+% While the data being analyzed across different datasets may differ considerably, the sorts of queries that people are interested in are often similar. People would like to correlate different variables, filter on certain conditions, and retrieve subsets of the data. They would like to do calculations on the data (sums, averages, counts) and display this information in tables or charts. 
 
-We have created FOOBAR~\cite{foobar}, a data analytics package written in Haskell that makes it convenient to write Websites to analyze arbitrary data. Our package allows developers to easily create a Website that allows users to query data from any dataset of their choosing and do other neat things. Since it is written in Haskell, our package takes advantage of Haskell features such as type safety.
+We created a demo application using data from the on-line video game, League of Legends~\cite{lol}. League of Legends is a competitive Real Time Strategy games where teams of players compete against each other. The site allows users to view player information and analyze various gameplay statistics. Users can look at their own data to learn about their behavior in the game or look at more general data to see trends in gameplay. To create the site, we also had to write software to parse and upload League of Legends data. 
 
-We created  a demo application using data from the on-line video game, League of Legends~\cite{lol}. League of Legends is a competitive Real Time Strategy games where teams of players compete against each other. The site allows users to view player information, analyze different variables, and other neat stuff. Users can analyze their own data to learn about their behavior in the game or look at more general data to see trends in game play.
+Our aim in creating this application was to determine what sort of database interface would help us write this Website. We used the MongoDB\cite{mongo} database as our backend, and wrote code to automatically generate MongoDB queries based on columns defined on our dataset. Our paper discusses the issues, limitations, and advantages of our approach.
 
-Todo: References don't work.
-The rest of the paper is organized as follows. Section \ref{background} provides some background. We discuss our package in section \ref{package}. Section \ref{site} looks at our example site. In section \ref{future} we discuss possible future directions of our work. We provide an analysis of our results in section \ref{analysis}. Finally, section \ref{conflusion} concludes.
+The rest of the paper is organized as follows. Section \ref{sec:background} provides some background. We discuss our package in section \ref{package}. Section \ref{site} looks at our example site. In section \ref{future} we discuss possible future directions of our work. Finally, section \ref{conclusion} concludes.
 
-\section{Background, Technologies Used, Related Work, etc.}
+\section{Background}
 \label{sec:background}
 
 \subsection{Yesod}
@@ -174,7 +173,7 @@ League of Legends~\cite{lol} is an on-line real-time strategy game. Although the
 
 Particularly interesting statistics could arise from comparisons across many players.  For example, the number of secondary objectives completed compared to the average match-making rating of the team, or how secondary objectives impact game length.
 
-\section{Description of our project}
+\section{Our project}
 \label{package}
 
 \subsection{Data backend}
