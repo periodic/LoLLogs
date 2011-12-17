@@ -112,6 +112,14 @@ Any datatype that can be stored as a database column needs to be an instance of 
 
 The final piece of the puzzle is the \code{PersistEntity val} typeclass, which is the one we worked with the most.  This typeclass defines the code for converting a top-level data type to or from column data, the columns present on the data type and unique key constraints.  The most interesting part was the column definitions. These are defined through the \code{EntityField} data type, a type family parameterized by the type \code{val} and the column data type.  \code{TypeFamilies} is an extension that is not commonly used, but is used well in this context.  In this case it is used to allow different constructors of the datatype to take on different types.  This is one of the more interesting examples of how Yesod uses Haskell language features to ensure type safety.  See Figure \ref{EntityField} for an example definition. Note that only \code{GameCreated} and \code{GameGameStats} represent first-level data columns and the others inspect sub-objects.
 
+When put together these components create a declarative way to define data and queries.  Much of the definition can be done through Template Haskell functions, such as \code{derivePersistField} or \code{mkPersist}.  These will define the datatypes and their instances for most common cases.  We wanted to define query columns that inspect the data more deeply than the defaults allow, necessitating writing our own \code{PersistEntity} definitions.  It was surprisingly easy to add additional columns, however the details of how Persistent builds queries restricted them to simple column comparisons in MongoDB. Multi-column functions may be possible in SQL.
+
+Filters are created through comparison functions, which are analogs for familiar comparison functions, such as less-than, equals and set membership.  They are defined by the \code{PersistFilter} data type, and Yesod provides more convenient creation functions such as \code{<.} and \code{==.}.  The filters also ensure type-safety of the comparison (Figure \ref{Filter}).  Note the Rank2Type for \code{typ} which enforces a match between the value and the field's type.  Also note that \code{v} represents the model type, which ensures all filters correspond to columns on the same data type.
+
+Select queries naturally follow from their filters, which encode almost all information needed to make the query.  The select only requires a few additional options such as limits and offsets before it can be executed.
+
+Persistent is a very elegant system for database access, and was a pleasure to work with on this project.  It makes a few assumptions about the data to enable its elegance.  Examples include an inability to model relational data and a restricted set of operations.  Current work on Persistent is attempting to address this by splitting the backend from the query interface so more complex queries can be executed on backends that support them.
+
 \begin{figure}[]
 \scriptsize{
 \begin{verbatim}
@@ -130,9 +138,6 @@ data EntityField (GameGeneric backend) typ
     \label{EntityField}
 \end{figure}
 
-When put together these components create a declarative way to define data and queries.  Much of the definition can be done through Template Haskell functions, such as \code{derivePersistField} or \code{mkPersist}.  These will define the datatypes and their instances for most common cases.  We wanted to define query columns that inspect the data more deeply than the defaults allow, necessitating writing our own \code{PersistEntity} definitions.  It was surprisingly easy to add additional columns, however the details of how Persistent builds queries restricted them to simple column comparisons in MongoDB. Multi-column functions may be possible in SQL.
-
-Filters are created through comparison functions, which are analogs for familiar comparison functions, such as less-than, equals and set membership.  They are defined by the \code{PersistFilter} data type, and Yesod provides more convenient creation functions such as \code{<.} and \code{==.}.  The filters also ensure type-safety of the comparison (Figure \ref{Filter}).  Note the Rank2Type for \code{typ} which enforces a match between the value and the field's type.  Also note that \code{v} represents the model type, which ensures all filters correspond to columns on the same data type.
 \begin{figure}[]
 \footnotesize{
 \begin{verbatim}
@@ -148,9 +153,6 @@ data Filter v = forall typ . PersistField typ =>
     \caption{Filter typeclass}
     \label{Filter}
 \end{figure}
-Select queries naturally follow from their filters, which encode almost all information needed to make the query.  The select only requires a few additional options such as limits and offsets before it can be executed.
-
-Persistent is a very elegant system for database access, and was a pleasure to work with on this project.  It makes a few assumptions about the data to enable its elegance.  Examples include an inability to model relational data and a restricted set of operations.  Current work on Persistent is attempting to address this by splitting the backend from the query interface so more complex queries can be executed on backends that support them.
 
 \subsection{MongoDB}
 
@@ -172,6 +174,12 @@ The game statistics are represented by a small collection of data types, the maj
 The largest single portion of our Yesod code was written for our map-reduce query interface.  The interface is modeled on Persistent, and is designed to be an alternate query interface.  One major difference is that we want the map-reduce queries to return semi-arbitrary data with respect to the underlying data model, so we cannot return a clear type.  For example, one column that might be requested could be an average of many \code{Int} columns which is represented as a \code{Float}.  Since the number of potential columns is infinite we rely on the programmer to specify them.  Queries also need to be dynamically definable so that users can specify what data they want to access.  We compromised by returning the opaque \code{Value} type, which corresponds to BSON values, and provided a casting operation to safely coerce the value to the correct type.  This puts a burden on the programmer to keep track of which columns are which, but it was deemed acceptable for the prototype.
 
 The query API essentially comes down to two pieces (Figure \ref{mrapi}).  The \code{mapReduce} function is similar to the \code{selectList} function of Persistent.  The \code{Queryable} typeclass (Figure \ref{queryable}) defines the functions for transforming columns into filters and map-reduce code.  The goal is to make it easy to define new columns on whatever your data might be.  To achieve this, most of the functions in \code{Queryable} have default implementations and there is a suite of helper functions which work with the default implementations to limit the amount that needs to be explicitly stated. For example, \code{simpleMap} takes a MongoDB selector fragment and produces the proper code to be inserted into the default map function to extract that item.  There is also an implicit \code{\_count} column which stores the number of documents contributing to the data which is used for building averages.
+
+The implementation allows the JavaScript to be arbitrary, through \code{queryMapFunc}, \code{queryReduceFunc} and \code{queryFinalizeFunc}.  We created a default form which we used in our project while providing the ability to define arbitrary code.  The limits what we were able to do with the system, but constrained the problem space so we could more efficiently implement.  The map step extracts the key with \code{queryKeyCode}, then for each column it runs \code{queryMapCode} which adds the value to the result object which is then emitted with the key.  The reduce code merges two records by iterating over every column and using the corresponding code which can be defined through \code{simpleReduce} by providing just an operator.  The finalize step is run after all the reductions have been performed, and also iterates over all the columns; there are simple helper functions for either totals or averages.  The filtering function works very similarly to Persistent's filters.
+
+The advantage of this interface is that control of the columns is in the hands of the programmer and can theoretically be anything the user could write in a direct MongoDB call, and once written they can be composed, combined, and reused easily.  The queries are also declarative and type-safe, preventing the programmer from mixing columns for different models or providing the wrong type to a filter.
+
+There are three major drawbacks.  The first is that the user has to directly specify JavaScript which is error prone and breaks the abstraction provided by Persistent; the helper functions alleviated some of this, but even for our simple queries we were unable to avoid writing JavaScript expressions.  There may be a way around this, but we were unable to find one that could be implemented in our time constraints.  The second drawback is that each new column may require defining a pattern-match in many functions to deal with the new case; this depends on how complex the JavaScript is and can be fixed by defining some additional functions to reduce repetition.  The final drawback is that the results are returned as BSON \code{Value}s; requiring the programmer to cast the value to a \code{Maybe typ} through \code{getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ}.
 
 \begin{figure*}[t]
 \footnotesize{
@@ -209,12 +217,6 @@ class PersistEntity model => Queryable model where
     \caption{Queryable Typeclass}
     \label{queryable}
 \end{figure*}
-
-The implementation allows the JavaScript to be arbitrary, through \code{queryMapFunc}, \code{queryReduceFunc} and \code{queryFinalizeFunc}.  We created a default form which we used in our project while providing the ability to define arbitrary code.  The limits what we were able to do with the system, but constrained the problem space so we could more efficiently implement.  The map step extracts the key with \code{queryKeyCode}, then for each column it runs \code{queryMapCode} which adds the value to the result object which is then emitted with the key.  The reduce code merges two records by iterating over every column and using the corresponding code which can be defined through \code{simpleReduce} by providing just an operator.  The finalize step is run after all the reductions have been performed, and also iterates over all the columns; there are simple helper functions for either totals or averages.  The filtering function works very similarly to Persistent's filters.
-
-The advantage of this interface is that control of the columns is in the hands of the programmer and can theoretically be anything the user could write in a direct MongoDB call, and once written they can be composed, combined, and reused easily.  The queries are also declarative and type-safe, preventing the programmer from mixing columns for different models or providing the wrong type to a filter.
-
-There are three major drawbacks.  The first is that the user has to directly specify JavaScript which is error prone and breaks the abstraction provided by Persistent; the helper functions alleviated some of this, but even for our simple queries we were unable to avoid writing JavaScript expressions.  There may be a way around this, but we were unable to find one that could be implemented in our time constraints.  The second drawback is that each new column may require defining a pattern-match in many functions to deal with the new case; this depends on how complex the JavaScript is and can be fixed by defining some additional functions to reduce repetition.  The final drawback is that the results are returned as BSON \code{Value}s; requiring the programmer to cast the value to a \code{Maybe typ} through \code{getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ}.
 
 \subsection{Chart generation}
 
@@ -259,6 +261,16 @@ summonerChart =
 \end{figure}
 
 \subsection{League of Legends Logs}
+
+The League of Legends client is written in Adobe Air and runs in the background while games are in progress. Data from the League of Legends game client is dumped to log files.  It has a standardized format that includes fields such as time, log level, and message type, but the most interesting data for our case are the end-of-game stats, which are dumped out by an object dumping routine.  Data in these dumps is very similar to BSON , but structure is based on based on indentation (See Figure \ref{samplelog}).
+
+The first phase of our parsing is to parse object dumps into an \code{ASValue} datatype, which is modeled after \code{Data.Aeson.Value} and described in Figure \ref{asvalue}.  The parsing code is written with Attoparsec, and is straightforward other than the indentation.  Indentation is tracked by wrapping the \code{Parse} monad in a reader transformer that stores the number of spaces on the current indentation.  Every key-value pair of an object or entry in an array first checks for the corresponding level of indentation.  When a new object or array is encountered, the indentation is incremented for the recursive call, and if the indentation fails to parse it simply signifies the end of the object and the \code{many} combinator will return the results parsed so far.
+
+Once the end-of-game log messages have been extracted and the data parsed into \code{ASValue} it can be converted one-to-one into JSON through an appropriate \code{ToJSON} instance.  All our JSON manipulation uses the excellent Aeson library.
+
+Since we want to represent the data internally in a form different from that of the logs we needed to write two functions to parse the JSON; note the awkward \code{ArrayCollection} and \code{ArrayList} objects in the sample that are essentially just a list or vector and the repeated object \#4.  For the database representation we used the TemplateHaskell derivied \code{FromJSON} and \code{ToJSON} instances.  For parsing the raw data we hand-wrote a more complicated parser that does a few minor data transformations along the way, such as indexing some arrays by a key and removing some unnecessary layers of data and duplicate fields.
+
+In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the log-parsing client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
 
 \begin{figure}[btp]
 \footnotesize{
@@ -307,16 +319,6 @@ data ASValue =
     \caption{ActionScript object descriptions}
     \label{asvalue}
 \end{figure}
-
-The League of Legends client is written in Adobe Air and runs in the background while games are in progress. Data from the League of Legends game client is dumped to log files.  It has a standardized format that includes fields such as time, log level, and message type, but the most interesting data for our case are the end-of-game stats, which are dumped out by an object dumping routine.  Data in these dumps is very similar to BSON , but structure is based on based on indentation (See Figure \ref{samplelog}).
-
-The first phase of our parsing is to parse object dumps into an \code{ASValue} datatype, which is modeled after \code{Data.Aeson.Value} and described in Figure \ref{asvalue}.  The parsing code is written with Attoparsec, and is straightforward other than the indentation.  Indentation is tracked by wrapping the \code{Parse} monad in a reader transformer that stores the number of spaces on the current indentation.  Every key-value pair of an object or entry in an array first checks for the corresponding level of indentation.  When a new object or array is encountered, the indentation is incremented for the recursive call, and if the indentation fails to parse it simply signifies the end of the object and the \code{many} combinator will return the results parsed so far.
-
-Once the end-of-game log messages have been extracted and the data parsed into \code{ASValue} it can be converted one-to-one into JSON through an appropriate \code{ToJSON} instance.  All our JSON manipulation uses the excellent Aeson library.
-
-Since we want to represent the data internally in a form different from that of the logs we needed to write two functions to parse the JSON; note the awkward \code{ArrayCollection} and \code{ArrayList} objects in the sample that are essentially just a list or vector and the repeated object \#4.  For the database representation we used the TemplateHaskell derivied \code{FromJSON} and \code{ToJSON} instances.  For parsing the raw data we hand-wrote a more complicated parser that does a few minor data transformations along the way, such as indexing some arrays by a key and removing some unnecessary layers of data and duplicate fields.
-
-In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the log-parsing client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
 
 \subsection{League of Legends Log-Upload Client}
 
