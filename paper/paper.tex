@@ -1,55 +1,29 @@
-\documentclass{chi2009}
-\usepackage{times}
-\usepackage{url}
-\usepackage{graphics}
-\usepackage{color}
-\usepackage[pdftex]{hyperref}
-\hypersetup{%
-pdftitle={Web-based Data Analytics in Haskell},
-pdfauthor={Drew Haven, Eric Stratmann},
-pdfkeywords={haskell, analytics},
-bookmarksnumbered,
-pdfstartview={FitH},
-colorlinks,
-citecolor=black,
-filecolor=black,
-linkcolor=black,
-urlcolor=black,
-breaklinks=true,
-}
-\newcommand{\comment}[1]{}
-\definecolor{Orange}{rgb}{1,0.5,0}
-\newcommand{\todo}[1]{\textsf{\textbf{\textcolor{Orange}{[[#1]]}}}}
+\documentclass[letterpaper,twocolumn,9pt]{article}
+\usepackage{usenix,epsfig,endnotes,url,verbatim,array,fancyvrb,graphicx,grffile}
 
 % For representing code in paragraphs.
 \newcommand{\code}[1]{\texttt{#1}}
 
-\pagenumbering{arabic}  % Arabic page numbers for submission.  Remove this line to eliminate page numbers for the camera ready copy
 
 \begin{document}
-% to make various LaTeX processors do the right thing with page size
-\special{papersize=8.5in,11in}
-\setlength{\paperheight}{11in}
-\setlength{\paperwidth}{8.5in}
-\setlength{\pdfpageheight}{\paperheight}
-\setlength{\pdfpagewidth}{\paperwidth}
+\title{\Large \bf Web-based Data Analytics in Haskell}
 
-% use this command to override the default ACM copyright statement 
-% (e.g. for preprints). Remove for camera ready copy.
-\toappear{CS240 Class Project}
+%don't want date printed
+\date{}
+%make title bold and 14 pt font (Latex default is non-bold, 16 pt)
 
-\title{FOOBAR: Web-based Data Analytics in Haskell}
-\numberofauthors{2}
+%for single author (just remove % characters)
 \author{
-  \alignauthor Drew Haven\\
-    \affaddr{Stanford University}\\
-    \email{drew.haven@gmail.com}
-  \alignauthor Eric Stratmann\\
-    \affaddr{Stanford University}\\
-    \email{eric.stratmann@gmail.com}
-}
+{\rm Drew Haven, Eric Stratmann}\\
+\{drew.haven, eric.stratmann\}@gmail.com
+% copy the following lines to add more authors
+% \and
+% {\rm Name}\\
+%Name Institution
+} % end author
 
 \maketitle
+
 
 \begin{abstract}
 Many people are interested in statistics, but providing an easy to use Website to analyze statistics can be difficult. We wanted to make it simple to create Websites to analyze arbitrary data, so we created a Haskell package that makes it easy to do this. We also wrote an example site using our package that analyzes data from the popular on-line game League of Legends. The Website allows users to lookup a variety of statistics and perform queries on the data.
@@ -418,7 +392,7 @@ Data analytics can be fun and exciting. We created a Website to analyze League o
 
 Our project shows that Haskell is a good/ok/bad language for data analytics, although X. 
 
-\bibliographystyle{abbrv}
-\bibliography{paper}
+{\footnotesize \bibliographystyle{acm}
+\bibliography{paper.bib}}
 
 \end{document}
