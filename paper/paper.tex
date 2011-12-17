@@ -364,18 +364,18 @@ In Figure \ref{list}, we can see a list of games. Probably want a more interesti
 \section{Future Work}
 \label{future}
 
-Although we are happy with the progress we made on our project, neither the backend nor the Website are production quality. To bring our project to that level, we would need to make a few changes. 
+Although we are happy with the progress we made on our project, neither the backend nor the Website are production quality.   The project has the potential to be a production-level site, but will require a few more changes.  Specifically, there are some additional features and bugs that need to be fixed in the site itself, it needs to be properly deployed and optimized for performance, and the uploader client needs to be polished and finished.
 
-* Static file handling.  Yesod is not optimized for it.
+The site itself has enough features to be considered a minimum-viable product, suitable for testing business hypotheses.  There are a few display bugs that simply require a little time to fix.  The more pressing issue is securing permissions of auxilliary data, such as the reference data for Champions and Items.  These are primarly used to commonly configure display names, images, and descriptions of these entities that referenced over many games.  Yesod has support for users and has built-in code for authentication through methods such as the database, Facebook, and Google.  User accounts and permissions were outside the scope and focus of this project.
 
-Our website does not include user accounts. Although user accounts are not neccessary to simply analyze existing data, we need some sort of permissions to disallow the unauthorized modification of data.
+Yesod does attempt to optimize for performance.  It chose to use the Warp WAI server and Blaze HTML for their speed.  It has made some conscious trade-offs though, such as not optimizing static file handling as that is reasoned to be better achieved through offloading it to an external server such as Apache or Nginx.  These are minor considerations of the specific deployment.  The largest issue is the performance of our code.  Passing our data through an intermediary JSON representation on every save or load may be $O(n)$, but it may add unnecessary overhead.  Our map-reduce framework does not take into account any of the performance peculiarities of MongoDB and was not tested on a sufficiently large dataset for performance issues to manifest.  Yesod's non-relational setup may introduce additional considerations related to the number of queries made to the database, but these were also not tested on a large enough dataset for those latencies to manifest visibly.  In a production deployment of the site, all of these issues would need to be investigated.
 
-Development branch of Persistent has abstracted the query interface, making this work easier.
-
-We had mixed feelings about working with Yesod. Although the framework takes advantage of serveral Haskell features, the framework is not as mature as those available for other languages. For example, there was little documentation except for the most basic features. This is not too surprising since Yesod is less than two years old and has only a few core developers. 
+Yesod is not finished.  The development team is working towards a 1.0 release, and until then has been updating the interface to accomodate new use cases.  One feature in the development branch that would be beneficial to us is that Persistent has worked to separate the backend and the querying interface, better supporting alternate query interfaces such as our map-reduce interface.  We plan to continue to work with the Yesod development team in the future.
 
 \section{Analysis}
 \label{analysis}
+
+We had mixed feelings about working with Yesod. Although the framework takes advantage of serveral Haskell features, the framework is not as mature as those available for other languages. For example, there was little documentation except for the most basic features. This is not too surprising since Yesod is less than two years old and has only a few core developers.  However, we were able to accomplish many of the things we would expect in a modern web framework and Yesod has a lot of potential due to the conciseness and expressivity of Haskell.
 
 We learned X.
 
