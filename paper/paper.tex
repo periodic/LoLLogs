@@ -53,7 +53,7 @@ Yesod uses both MVC and REST. MVC is a paradigm for writing Websites that separa
 
 To write controllers, developers can use Yesod's monads, Handler and Widget. These build up HTML, CSS, and Javascript, and allow modifying and reading HTTP headers. These monads are instance of MonadIO which allows controller pages to execute arbitrary IO actions as well as generating the page. See Figure \ref{controller} for an example controller 
 
-Like most other frameworks, Yesod provides templates to make writing HTML, CSS, and Javascript easier. The templates provide basic variable substition and and control statements, as well as support for simplified stuff. See Figure \ref{hamlet} for an example of Hamlet, Yesod's HTML tempalting system, which is used in the controller in Figure \ref{controller}.
+Like most other frameworks, Yesod provides templates to make writing HTML, CSS, and JavaScript easier. The templates provide basic variable substitution and control statements, as well as support for simplified stuff. See Figure \ref{hamlet} for an example of Hamlet, Yesod's HTML templating system, which is used in the controller in Figure \ref{controller}.
 
 Yesod uses Haskell's types to provide functionality that often are impossible in other languages. Type safety prevents many security vulnerabilities by ensuring that malicious code isn't used. Type inference allows more concise code by automatically detecting what model the developer is querying.
 
@@ -106,7 +106,7 @@ getGameIndexR = do
 
 \subsection{Persistent}
 
-Persistent is a library developed for Yesod to facilitate data access.  It attempts to make data access type safe, concise, declarative and independent of the underlying data store.  It uses a mixture of type-classes to achieve this, as well as various language extensions to make some of tricks possible.  The three major pieces of the puzzle are the type classes \code{Persistback-end b m}, \code{PersistField val}, and \code{PersistEntity val}.
+Persistent is a library developed for Yesod to facilitate data access.  It attempts to make data access type safe, concise, declarative and independent of the underlying data store.  It uses a mixture of typeclasses to achieve this, as well as various language extensions to make some of tricks possible.  The three major pieces of the puzzle are the type classes \code{PersistBackend b m}, \code{PersistField val}, and \code{PersistEntity val}.
 
 The core of Persistent is the \code{Persistback-end b m} typeclass, which defines the basic operations on the database such as \code{insert}, \code{update}, \code{delete}, and \code{get}.  An interesting point is it encodes the back-end type in the \code{b} parameter, but also specifies the constraints \code{Monad m}, \code{Monad (b m)}, \code{MonadIO m} and \code{MonadIO (b m)}.  This forces the back-end type to provide the mechanism for accessing IO to get to interface with the database without making any specific statements about how or where \code{Persistback-end} instances can be used, as they all return values in the \code{b m} monad.
 
@@ -190,7 +190,7 @@ Data is represented by a small collection of data types, the major ones being \c
 
 A large part of our Yesod code was written for our map-reduce query interface.  The interface is modeled on Persistent, and is designed to be an alternate query interface.  One major difference is that we want the map-reduce queries to return semi-arbitrary data with respect to the underlying data model, so we cannot return a clear type.  For example, one column that might be requested could be an average of many \code{Int} columns which is represented as a \code{Float}.  Queries also need to be dynamically definable so that users can specify what data they want to access.  We compromised by returning the opaque \code{Value} type, which corresponds to BSON values, and provided a casting operation to safely coerce the value to the correct type.  This puts a burden on the programmer to keep track of which columns are which, but it was deemed acceptable for the prototype.
 
-The query API essentially comes down to two pieces.  The main \code{mapReduce} (Figure \ref{mrapi}) function which is similar to the \code{selectList} function of Persistent.  The other piece is the \code{Queryable} type-class (Figure \ref{queryable}) which defines the functions for transforming columns into filters and map-reduce code.  The goal is to make it easy to define new columns on whatever your data type might be.  To achieve this, most of the functions in \code{Queryable} have default implementations and there are a suite of helper functions which work with the default implementations to limit how much needs to be defined for each column, for example \code{simpleMap} takes a selector and produces the proper code to be inserted into the default map function to extract that item.  There is also an implicit \code{\_count} column which stores the number of documents contributing to the data.
+The query API essentially comes down to two pieces.  The main \code{mapReduce} (Figure \ref{mrapi}) function which is similar to the \code{selectList} function of Persistent.  The other piece is the \code{Queryable} typeclass (Figure \ref{queryable}) which defines the functions for transforming columns into filters and map-reduce code.  The goal is to make it easy to define new columns on whatever your data type might be.  To achieve this, most of the functions in \code{Queryable} have default implementations and there are a suite of helper functions which work with the default implementations to limit how much needs to be defined for each column, for example \code{simpleMap} takes a selector and produces the proper code to be inserted into the default map function to extract that item.  There is also an implicit \code{\_count} column which stores the number of documents contributing to the data.
 
 \begin{figure*}[t]
 \begin{verbatim}
@@ -324,11 +324,11 @@ Once the end-of-game log messages have been extracted and the data parsed into \
 
 Since we want to represent the data internally in a form different from that of the logs---note the awkward \code{ArrayCollection} and \code{ArrayList} objects in the sample that are essentially just a list or vector---we needed to write two functions to parse the JSON.  For the database store we used the TemplateHaskell derivied \code{FromJSON} and \code{ToJSON} instances.  For parsing the raw data we hand-wrote a more complicated parser that does a few minor data transformations along the way, such as indexing some arrays by a key and removing some unnecessary layers of data and duplicate fields.
 
-In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the uploader client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
+In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the log-parsing client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
 
 \subsection{League of Legends Log-Upload Client}
 
-The first implementation of the uploader used the parsing code mentioned above and \code{Network.HTTP} to upload the resultant JSON to a server.  This portion of the code is fairly straight-forward Haskell.  However, this required the user to run the command from a terminal and provide the directory of the logs as an argument to the program, which is outside the comfort zone of many potential users.
+The first implementation of the log-parsing client used the parsing code mentioned above and \code{Network.HTTP} to upload the resultant JSON to a server.  This portion of the code is fairly straight-forward Haskell.  However, this required the user to run the command from a terminal and provide the directory of the logs as an argument to the program, which is outside the comfort zone of many potential users.
 
 The first revision involved querying the windows registry through the \code{System.Win32} library.  This proved useful, creating a binary that could be simply double-clicked to perform the uploading, though the output was still displayed in a console.  When distributing the program to alpha testers we found that the registry keys used were not consistent across systems.  This was solved by querying multiple keys until one yielded a result, but even that was insufficient as some users were running the program without having run the installer process and so had no registry keys, and at least one of our alpha testers was also using a non-default directory.
 
@@ -364,33 +364,22 @@ In Figure \ref{list}, we can see a list of games. Probably want a more interesti
 \section{Future Work}
 \label{future}
 
-Although we are happy with the progress we made on our project, neither the backend nor the Website are production quality.   The project has the potential to be a production-level site, but will require a few more changes.  Specifically, there are some additional features and bugs that need to be fixed in the site itself, it needs to be properly deployed and optimized for performance, and the uploader client needs to be polished and finished.
+Although we are happy with the progress we made on our project, neither the backend nor the Website are production quality.   The project has the potential to be a production-level site, but will require a few more changes.  Specifically, there are some additional features and bugs that need to be fixed in the site itself, it needs to be properly deployed and optimized for performance, and the log-parsing client needs to be polished and finished.
 
-The site itself has enough features to be considered a minimum-viable product, suitable for testing business hypotheses.  There are a few display bugs that simply require a little time to fix.  The more pressing issue is securing permissions of auxilliary data, such as the reference data for Champions and Items.  These are primarly used to commonly configure display names, images, and descriptions of these entities that referenced over many games.  Yesod has support for users and has built-in code for authentication through methods such as the database, Facebook, and Google.  User accounts and permissions were outside the scope and focus of this project.
+The site itself has enough features to be considered a minimum-viable product, suitable for testing business hypotheses.  There are a few display bugs that simply require a little time to fix.  The more pressing issue is securing permissions of auxiliary data, such as the reference data for Champions and Items.  These are primarily used to commonly configure display names, images, and descriptions of these entities that referenced over many games.  Yesod has support for users and has built-in code for authentication through methods such as the database, Facebook, and Google.  User accounts and permissions were outside the scope and focus of this project.
 
 Yesod does attempt to optimize for performance.  It chose to use the Warp WAI server and Blaze HTML for their speed.  It has made some conscious trade-offs though, such as not optimizing static file handling as that is reasoned to be better achieved through offloading it to an external server such as Apache or Nginx.  These are minor considerations of the specific deployment.  The largest issue is the performance of our code.  Passing our data through an intermediary JSON representation on every save or load may be $O(n)$, but it may add unnecessary overhead.  Our map-reduce framework does not take into account any of the performance peculiarities of MongoDB and was not tested on a sufficiently large dataset for performance issues to manifest.  Yesod's non-relational setup may introduce additional considerations related to the number of queries made to the database, but these were also not tested on a large enough dataset for those latencies to manifest visibly.  In a production deployment of the site, all of these issues would need to be investigated.
 
-Yesod is not finished.  The development team is working towards a 1.0 release, and until then has been updating the interface to accomodate new use cases.  One feature in the development branch that would be beneficial to us is that Persistent has worked to separate the backend and the querying interface, better supporting alternate query interfaces such as our map-reduce interface.  We plan to continue to work with the Yesod development team in the future.
-
-\section{Analysis}
-\label{analysis}
-
-We had mixed feelings about working with Yesod. Although the framework takes advantage of serveral Haskell features, the framework is not as mature as those available for other languages. For example, there was little documentation except for the most basic features. This is not too surprising since Yesod is less than two years old and has only a few core developers.  However, we were able to accomplish many of the things we would expect in a modern web framework and Yesod has a lot of potential due to the conciseness and expressivity of Haskell.
-
-We learned X.
-
-Features X, Y, and Z of Haskell/Yesod/etc. were lacking and we'd like to see some improvements.
-
-Features X, Y, and Z of Haskell/Yesod/etc. were great and gave us the following benefits.
-
-Overall we were pleased/displeased/had no strong feelings about our project.
+Yesod is not finished.  The development team is working towards a 1.0 release, and until then has been updating the interface to accommodate new use cases.  One feature in the development branch that would be beneficial to us is that Persistent has worked to separate the back-end and the querying interface, better supporting alternate query interfaces such as our map-reduce interface.  We plan to continue to work with the Yesod development team in the future.
 
 \section{Conclusion}
 \label{conclusion}
 
-Data analytics can be fun and exciting. We created a Website to analyze League of Legends data, but can be used with a variety of data.
+We had mixed feelings about working with Yesod. Although the framework takes advantage of several Haskell features, the framework is not as mature as those available for other languages. For example, there was little documentation except for the most basic features. This is not too surprising since Yesod is less than two years old and has only a few core developers.  However, we were able to accomplish many of the things we would expect in a modern web framework and Yesod has a lot of potential due to the conciseness and expressiveness of Haskell.
 
-Our project shows that Haskell is a good/ok/bad language for data analytics, although X. 
+Haskell has a lot of potential for data analytics due to its precision and flexibility when describing data types.  It lends itself to a more declarative style of programming which maximizes the amount of inferred information and frees the programmer from having to explicitly state everything.  It also transforms and manipulates data with ease.  We believe that a robust data analysis platform could be created with minimal investment from the programmer beyond describing the structure of the data.
+
+We as programmers learned a lot from this project. Yesod takes advantage of many advanced Haskell features we might not be exposed to otherwise.  It also exposed us directly to code written by more experienced Haskellers, improving the quality of our own code in the process.
 
 {\footnotesize \bibliographystyle{acm}
 \bibliography{paper.bib}}
