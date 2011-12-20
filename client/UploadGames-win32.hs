@@ -7,8 +7,9 @@ import System.Win32.Registry
 import System.Win32.Types (HKEY)
 
 import UploadGamesCommon
+import UploadGamesGTK
 
-main = runGUI [getDirFromArgs, getDirFromRegistry]
+main = runUI [getDirFromArgs, getDirFromRegistry]
 
 getDirFromRegistry :: LogIO (Maybe FilePath)
 getDirFromRegistry = findDir $ map getKey paths

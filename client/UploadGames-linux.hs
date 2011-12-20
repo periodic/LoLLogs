@@ -2,6 +2,7 @@
 module Main where
 
 import UploadGamesCommon
+import UploadGamesGTK
 
-main = runGUI [getDirFromArgs]
+main = runUI [getDirFromArgs, getDirFromDialog]
 
