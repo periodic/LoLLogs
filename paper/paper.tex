@@ -5,7 +5,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \begin{document}
-\vspace{-5cm}
+
 \title{\Large \bf Web-based Data Analytics in Haskell}
 
 %don't want date printed
@@ -26,35 +26,33 @@
 
 
 \begin{abstract}
-Many people are interested in statistics, but providing an easy to use Website to analyze statistics can be difficult. We wanted to make it simple to create Websites to analyze arbitrary data. Our project explored data analytics using the Haskell Web framework, Yesod. We wrote a proof-of-concept site that analyzes information from the popular on-line game League of Legends. The Website allows users to lookup a variety of statistics and perform queries on the data while presenting the results in a graphical format.
+Many people are interested in statistics, but providing an easy to use Website to analyze statistics can be difficult. We wanted to make it simple to create Websites to analyze arbitrary data. Our project explored data analytics using the Haskell Web framework, Yesod, using it to write a proof-of-concept site that analyzes information from the popular on-line game League of Legends. The Website allows users to lookup a variety of statistics and perform queries on the data while presenting the results in a graphical format.
 \end{abstract}
 
 \section{Introduction}
 
-Analyzing statistics can be rewarding and insightful, but without an easy way to analyze new datasets doing so can be difficult. Statistics are useful in a verity of fields. For example, although no knowledge of statistics is required to play baseball, many fans of the sport love to analyze them. Since baseball is popular there are many Websites to analyze baseball data, but what about less popular data? Creating a site to analyze new sets of data can be time consuming. Although there are many existing statistics packages, they are often hard to use and do not provide a Website for others to browse. Users are often left managing large spreadsheets to keep track of their data.
+Analyzing statistics can be rewarding and insightful, but without an easy way to analyze new datasets doing so can be difficult. Statistics are useful in a variety of fields. For example, although no knowledge of statistics is required to play baseball, many fans of the sport love to analyze baseball statistics. Since baseball is popular there are many Websites to analyze baseball data, but what about less popular data? Creating a site to analyze new sets of data can be time consuming. Although there are many existing statistics packages, they are often hard to use and do not provide a Website for others to browse. Users are often left managing large spreadsheets to keep track of their data.
 
-% While the data being analyzed across different datasets may differ considerably, the sorts of queries that people are interested in are often similar. People would like to correlate different variables, filter on certain conditions, and retrieve subsets of the data. They would like to do calculations on the data (sums, averages, counts) and display this information in tables or charts. 
+ While the data being analyzed across different datasets may differ considerably, the sorts of queries that people are interested in are often similar. People would like to correlate different variables, filter on certain conditions, and retrieve subsets of the data. They would like to do calculations on the data (sums, averages, counts) and display this information in tables or charts. We wanted to see if we could provide this functionality in a generic way for generic datasets. 
 
-We created a demo application using data from the on-line video game, League of Legends~\cite{lol}. League of Legends is a competitive Real Time Strategy games where teams of players compete against each other. The site allows users to view player information and analyze various gameplay statistics. Users can look at their own data to learn about their behavior in the game or look at more general data to see trends in gameplay. To create the site, we also had to write software to parse and upload League of Legends data. 
+We created a demo application using data from the on-line video game, League of Legends~\cite{lol}. League of Legends is a competitive Real Time Strategy games where teams of five play against each other. The site allows users to view player information and analyze various gameplay statistics. Users can look at their own data to learn about their behavior in the game or look at more general data to see trends in gameplay. Besides creating the site itself, we also wrote software to parse and upload League of Legends data. 
 
-Our aim in creating this application was to determine what sort of database interface would help us write this Website. We used the MongoDB\cite{mongo} database as our backend, and wrote code to automatically generate MongoDB queries based on columns defined on our dataset. Our paper discusses the issues, limitations, and advantages of our approach.
+Our aim in creating this application was to determine what sort of database interface would help us write this Website, as well as to evaluate Haskell's viability for Web application development. We chose to use the Yesod framework, which seemed to be the most mature Haskell Web framework. For our backend, we used the MongoDB\cite{mongo} database, and wrote code to automatically generate MongoDB queries based on columns defined on our dataset. Our paper discusses the issues, limitations, and advantages of our approach.
 
-The rest of the paper is organized as follows. Section \ref{sec:background} provides some background. We discuss our package in section \ref{package}. Section \ref{site} looks at our example site. In section \ref{future} we discuss possible future directions of our work. Finally, section \ref{conclusion} concludes.
+The rest of the paper is organized as follows. Section \ref{sec:background} provides some background on technologies we depended on for our project. We discuss our results in section \ref{results}. Section \ref{site} looks at our example site. In section \ref{future} we discuss possible future directions of our work. Finally, section \ref{conclusion} concludes.
 
 \section{Background}
 \label{sec:background}
 
 \subsection{Yesod}
 
-Yesod~\cite{yesod} is one of several Web frameworks written in Haskell. Features of Yesod include templates, a persistence model, etc. Writing a Website in a Haskell framework allows developers to take advantage of Haskell features, such as type safety, which helps them write secure sites.
+Yesod~\cite{yesod} is one of several Web frameworks written in Haskell. Like many other frameworks, Yesod uses both MVC and RESTful URLs, making it in some ways similar to more traditional frameworks. Being written in Haskell, however, Yesod allows developers to take advantage of unique Haskell features.
 
-Yesod uses both MVC and REST. MVC is a paradigm for writing Websites that separates data and data logic (model) from the presentation of the data (view). REST is a convention for URLs so that sites can have a consistent pattern for accessing resources.
+To write controllers, developers can use Yesod's monads, \code{Handler} and \code{Widget}. These build up HTML, CSS, and Javascript, and allow modifying and reading HTTP headers. These monads are instances of MonadIO which allows controller pages to execute arbitrary IO actions as well as generating the page. See Figure \ref{controller} for an example controller. This example queries a lists of games and paginates them into groups of 10. It then renders the page and includes a list template which shows information about each game. Part of this page can be seen in Figure \ref{list}.
 
-To write controllers, developers can use Yesod's monads, Handler and Widget. These build up HTML, CSS, and Javascript, and allow modifying and reading HTTP headers. These monads are instance of MonadIO which allows controller pages to execute arbitrary IO actions as well as generating the page. See Figure \ref{controller} for an example controller
+Like most other frameworks, Yesod provides templates to make writing HTML, CSS, and JavaScript easier. The templates provide basic variable substitution and control statements, as well as supports for simplified syntax. See Figure \ref{hamlet} for an example of Hamlet, Yesod's HTML templating system, which is used in the controller in Figure \ref{controller}. The template resembles HTML but clearly is not HTML. Closing tags are not specified, Haskell functions are called, other templates are included, and static routes are used to generate URLs.
 
-Like most other frameworks, Yesod provides templates to make writing HTML, CSS, and JavaScript easier. The templates provide basic variable substitution and control statements, as well as support for simplified stuff. See Figure \ref{hamlet} for an example of Hamlet, Yesod's HTML templating system, which is used in the controller in Figure \ref{controller}.
-
-Yesod uses Haskell's types to provide functionality that often are impossible in other languages. Type safety prevents many security vulnerabilities by ensuring that malicious code isn't used. Type inference allows more concise code by automatically detecting what model the developer is querying.
+Yesod uses Haskell's types to provide functionality that is often impossible in other languages. Type safety helps prevent many security vulnerabilities and broken URLs. For example, since URLs are represnted by a special type in Yesod, it is impossible to refer to a URL which does not exist because this would be a type violation. Type inference allows more concise code by automatically detecting what model the developer is querying, as in Figure \ref{controller}. Yesod automatically detects that we want a list of games because how the \code{games} variable is later used.
 
 
 \begin{figure}[]
@@ -66,11 +64,6 @@ getGameIndexR = do
   defaultLayout $ do
     let list = $(widgetFile "game/list")
     setTitle "Game Index"
-    toWidget [cassius|
-      ##header {
-        float: left;
-        color = #{color}}
-    |]
     $(widgetFile "game/index")
 \end{verbatim}
 }
@@ -109,7 +102,7 @@ getGameIndexR = do
 
 \subsection{Persistent}
 
-Persistent is a library developed for Yesod to facilitate data access.  It attempts to make data access type safe, concise, declarative and independent of the underlying data store.  It uses a mixture of typeclasses to achieve this, as well as various language extensions to make some of tricks possible.  The three major pieces of the puzzle are the type classes \code{PersistBackend b m}, \code{PersistField val}, and \code{PersistEntity val}.
+Persistent\cite{persistent} is a library developed for Yesod to facilitate data access.  It attempts to make data access type safe, concise, declarative and independent of the underlying data store.  It uses a mixture of typeclasses to achieve this, as well as various language extensions to make some of tricks possible.  The three major pieces of the puzzle are the type classes \code{PersistBackend b m}, \code{PersistField val}, and \code{PersistEntity val}.
 
 The core of Persistent is the \code{Persistbackend b m} typeclass, which defines the basic operations on the database such as \code{insert}, \code{update}, \code{delete}, and \code{get}.  An interesting point is it encodes the backend type in the \code{b} parameter, but also specifies the constraints \code{Monad m}, \code{Monad (b m)}, \code{MonadIO m} and \code{MonadIO (b m)}.  This forces the backend type to provide the mechanism for accessing IO to interface with the database without making any specific statements about how or where \code{PersistBackend} instances can be used, as they all return values in the \code{b m} monad.
 
@@ -119,27 +112,32 @@ Any datatype that can be stored as a database column needs to be an instance of 
 
 The final piece of the puzzle is the \code{PersistEntity val} typeclass, which is the one we worked with the most.  This typeclass defines the code for converting a top-level data type to or from column data, the columns present on the data type and unique key constraints.  The most interesting part was the column definitions. These are defined through the \code{EntityField} data type, a type family parameterized by the type \code{val} and the column data type.  \code{TypeFamilies} is an extension that is not commonly used, but is used well in this context.  In this case it is used to allow different constructors of the datatype to take on different types.  This is one of the more interesting examples of how Yesod uses Haskell language features to ensure type safety.  See Figure \ref{EntityField} for an example definition. Note that only \code{GameCreated} and \code{GameGameStats} represent first-level data columns and the others inspect sub-objects.
 
+When put together these components create a declarative way to define data and queries.  Much of the definition can be done through Template Haskell functions, such as \code{derivePersistField} or \code{mkPersist}.  These will define the datatypes and their instances for most common cases.  We wanted to define query columns that inspect the data more deeply than the defaults allow, necessitating writing our own \code{PersistEntity} definitions.  It was surprisingly easy to add additional columns, however the details of how Persistent builds queries restricted them to simple column comparisons in MongoDB. Multi-column functions may be possible in SQL.
+
+Filters are created through comparison functions, which are analogs for familiar comparison functions, such as less-than, equals and set membership.  They are defined by the \code{PersistFilter} data type, and Yesod provides more convenient creation functions such as \code{<.} and \code{==.}.  The filters also ensure type-safety of the comparison (Figure \ref{Filter}).  Note the Rank2Type for \code{typ} which enforces a match between the value and the field's type.  Also note that \code{v} represents the model type, which ensures all filters correspond to columns on the same data type.
+
+Select queries naturally follow from their filters, which encode almost all information needed to make the query.  The select only requires a few additional options such as limits and offsets before it can be executed.
+
+Persistent is a very elegant system for database access, and was a pleasure to work with on this project.  It makes a few assumptions about the data to enable its elegance.  Examples include an inability to model relational data and a restricted set of operations.  Current work on Persistent is attempting to address this by splitting the backend from the query interface so more complex queries can be executed on backends that support them.
+
 \begin{figure}[]
-\footnotesize{
+\scriptsize{
 \begin{verbatim}
 data EntityField (GameGeneric backend) typ
-    = typ ~ (Key backend (GameGeneric backend)) => GameId
-    | typ ~ UTCTime   => GameCreated
-    | typ ~ Bool      => GameRanked
-    | typ ~ Int       => GameGameId
-    | typ ~ Int       => GameLength
-    | typ ~ GameStats => GameGameStats
-    | typ ~ Text      => GameTeamPlayerSummoner Text
-    | typ ~ Text      => GameOtherTeamPlayerSummoner Text
+   = typ ~ (Key backend (GameGeneric backend)) => GameId
+   | typ ~ UTCTime   => GameCreated
+   | typ ~ Bool      => GameRanked
+   | typ ~ Int       => GameGameId
+   | typ ~ Int       => GameLength
+   | typ ~ GameStats => GameGameStats
+   | typ ~ Text      => GameTeamPlayerSummoner Text
+   | typ ~ Text      => GameOtherTeamPlayerSummoner Text
 \end{verbatim}
 }
     \caption{EntityField declarations for GameGeneric backend}
     \label{EntityField}
 \end{figure}
 
-When put together these components create a declarative way to define data and queries.  Much of the definition can be done through Template Haskell functions, such as \code{derivePersistField} or \code{mkPersist}.  These will define the datatypes and their instances for most common cases.  We wanted to define query columns that inspect the data more deeply than the defaults allow, necessitating writing our own \code{PersistEntity} definitions.  It was surprisingly easy to add additional columns, however the details of how Persistent builds queries restricted them to simple column comparisons in MongoDB. Multi-column functions may be possible in SQL.
-
-Filters are created through comparison functions, which are analogs for familiar comparison functions, such as less-than, equals and set membership.  They are defined by the \code{PersistFilter} data type, and Yesod provides more convenient creation functions such as \code{<.} and \code{==.}.  The filters also ensure type-safety of the comparison (Figure \ref{Filter}).  Note the Rank2Type for \code{typ} which enforces a match between the value and the field's type.  Also note that \code{v} represents the model type, which ensures all filters correspond to columns on the same data type.
 \begin{figure}[]
 \footnotesize{
 \begin{verbatim}
@@ -152,20 +150,13 @@ data Filter v = forall typ . PersistField typ =>
     | FilterOr [Filter v]
 \end{verbatim}
 }
-    \caption{EntityField declarations for GameGeneric backend}
+    \caption{Filter typeclass}
     \label{Filter}
 \end{figure}
-Select queries naturally follow from their filters, which encode almost all information needed to make the query.  The select only requires a few additional options such as limits and offsets before it can be executed.
-
-Persistent is a very elegant system for database access, and was a pleasure to work with on this project.  It makes a few assumptions about the data to enable its elegance.  Examples include an inability to model relational data and a restricted set of operations.  Current work on Persistent is attempting to address this by splitting the backend from the query interface so more complex queries can be executed on backends that support them.
 
 \subsection{MongoDB}
 
 Our backend used MongoDB~\cite{mongo}, a documented-oriented database. MongoDB stores data in BSON, a binary-encoded serialization of JSON-like documents, with a few extenstions for additional data types.  The MongoDB query system has two parts.  A simple query system supports for operations analogous to non-relational SQL statements; this is how all basic CRUD operations are performed.  The second query system implements map-reduce.  The map-reduce system uses JavaScript functions to run queries across documents and sharded databases.  MongoDB is schemaless in that the documents have no defined structure or types.  This places the burden on the programmer to ensure data is consistent and well-formed.
-
-\subsection{Flot}
-
-To generate charts, we use Flot~\cite{flot}, a JavaScript charting library. We originally used the Chart package, but switched to Flot for compatibility reasons and because JavaScript charts are more dynamic. Since Flot did not have Haskell bindings, we had to write our own.
 
 \subsection{League of Legends}
 
@@ -173,33 +164,22 @@ League of Legends~\cite{lol} is an on-line real-time strategy game. Although the
 
 Particularly interesting statistics could arise from comparisons across many players.  For example, the number of secondary objectives completed compared to the average match-making rating of the team, or how secondary objectives impact game length.
 
-\section{Our project}
-\label{package}
+\section{Results}
+\label{results}
 
 \subsection{Data backend}
-
-\begin{figure*}[t]
-\footnotesize{
-\begin{verbatim}
-type Game = GameGeneric backend
-type GameId = Key backend Game
-GameCreated :: EntityField Game UTCTime
-GameGameStats :: EntityField Game GameStats
-
-selectList :: (PersistEntity val, PersistBackend b m) => [Filter val] -> [SelectOpt val]
-              -> b m [(Key b val, val)]
-selectList [GameCreated <. time] [LimitTo 10] :: PersistBackend b m => b m [(GameId, Game)]
-\end{verbatim}
-}
-    \caption{Query stuff}
-    \label{querycode}
-\end{figure*}
 
 The game statistics are represented by a small collection of data types, the major ones being \code{GameStats} and \code{PlayerStats}.  In short, a game is represented by \code{GameStats} which contains game-wide information such as the game length and a field for each team which contains a map from player name to \code{PlayerStats}, which in turn contain individual player information and a \code{Map Text Int} which contains the various additional statistics for the player.  Data is stored in MongoDB and represented fairly close to the original data format.  This is conveniently achieved by using the \code{FromJSON} and \code{ToJSON} instances defined for the original parser.  As the project progressed we altered the data format by performing some transformations on the raw data to remove unnecessary data layers and provide more convenient indexing, this caused the data parsing for raw data and database data to diverge.  We wrote a simple instance of \code{PersistField} for \code{Data.Aeson.Value} and some TemplateHaskell functions to generate the instances.  Basic queries on the data use this interface.
 
 The largest single portion of our Yesod code was written for our map-reduce query interface.  The interface is modeled on Persistent, and is designed to be an alternate query interface.  One major difference is that we want the map-reduce queries to return semi-arbitrary data with respect to the underlying data model, so we cannot return a clear type.  For example, one column that might be requested could be an average of many \code{Int} columns which is represented as a \code{Float}.  Since the number of potential columns is infinite we rely on the programmer to specify them.  Queries also need to be dynamically definable so that users can specify what data they want to access.  We compromised by returning the opaque \code{Value} type, which corresponds to BSON values, and provided a casting operation to safely coerce the value to the correct type.  This puts a burden on the programmer to keep track of which columns are which, but it was deemed acceptable for the prototype.
 
 The query API essentially comes down to two pieces (Figure \ref{mrapi}).  The \code{mapReduce} function is similar to the \code{selectList} function of Persistent.  The \code{Queryable} typeclass (Figure \ref{queryable}) defines the functions for transforming columns into filters and map-reduce code.  The goal is to make it easy to define new columns on whatever your data might be.  To achieve this, most of the functions in \code{Queryable} have default implementations and there is a suite of helper functions which work with the default implementations to limit the amount that needs to be explicitly stated. For example, \code{simpleMap} takes a MongoDB selector fragment and produces the proper code to be inserted into the default map function to extract that item.  There is also an implicit \code{\_count} column which stores the number of documents contributing to the data which is used for building averages.
+
+The implementation allows the JavaScript to be arbitrary, through \code{queryMapFunc}, \code{queryReduceFunc} and \code{queryFinalizeFunc}.  We created a default form which we used in our project while providing the ability to define arbitrary code.  The limits what we were able to do with the system, but constrained the problem space so we could more efficiently implement.  The map step extracts the key with \code{queryKeyCode}, then for each column it runs \code{queryMapCode} which adds the value to the result object which is then emitted with the key.  The reduce code merges two records by iterating over every column and using the corresponding code which can be defined through \code{simpleReduce} by providing just an operator.  The finalize step is run after all the reductions have been performed, and also iterates over all the columns; there are simple helper functions for either totals or averages.  The filtering function works very similarly to Persistent's filters.
+
+The advantage of this interface is that control of the columns is in the hands of the programmer and can theoretically be anything the user could write in a direct MongoDB call, and once written they can be composed, combined, and reused easily.  The queries are also declarative and type-safe, preventing the programmer from mixing columns for different models or providing the wrong type to a filter.
+
+There are three major drawbacks.  The first is that the user has to directly specify JavaScript which is error prone and breaks the abstraction provided by Persistent; the helper functions alleviated some of this, but even for our simple queries we were unable to avoid writing JavaScript expressions.  There may be a way around this, but we were unable to find one that could be implemented in our time constraints.  The second drawback is that each new column may require defining a pattern-match in many functions to deal with the new case; this depends on how complex the JavaScript is and can be fixed by defining some additional functions to reduce repetition.  The final drawback is that the results are returned as BSON \code{Value}s; requiring the programmer to cast the value to a \code{Maybe typ} through \code{getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ}.
 
 \begin{figure*}[t]
 \footnotesize{
@@ -234,46 +214,17 @@ class PersistEntity model => Queryable model where
     queryCollection     :: QueryColumn model typ -> UString
 \end{verbatim}
 }
-    \caption{Map-Reduce API}
+    \caption{Queryable Typeclass}
     \label{queryable}
 \end{figure*}
 
-The implementation allows the JavaScript to be arbitrary, through \code{queryMapFunc}, \code{queryReduceFunc} and \code{queryFinalizeFunc}.  We created a default form which we used in our project while providing the ability to define arbitrary code.  The limits what we were able to do with the system, but constrained the problem space so we could more efficiently implement.  The map step extracts the key with \code{queryKeyCode}, then for each column it runs \code{queryMapCode} which adds the value to the result object which is then emitted with the key.  The reduce code merges two records by iterating over every column and using the corresponding code which can be defined through \code{simpleReduce} by providing just an operator.  The finalize step is run after all the reductions have been performed, and also iterates over all the columns; there are simple helper functions for either totals or averages.  The filtering function works very similarly to Persistent's filters.
-
-The advantage of this interface is that control of the columns is in the hands of the programmer and can theoretically be anything the user could write in a direct MongoDB call, and once written they can be composed, combined, and reused easily.  The queries are also declarative and type-safe, preventing the programmer from mixing columns for different models or providing the wrong type to a filter.
-
-There are three major drawbacks.  The first is that the user has to directly specify JavaScript which is error prone and breaks the abstraction provided by Persistent; the helper functions alleviated some of this, but even for our simple queries we were unable to avoid writing JavaScript expressions.  There may be a way around this, but we were unable to find one that could be implemented in our time constraints.  The second drawback is that each new column may require defining a pattern-match in many functions to deal with the new case; this depends on how complex the JavaScript is and can be fixed by defining some additional functions to reduce repetition.  The final drawback is that the results are returned as BSON \code{Value}s; requiring the programmer to cast the value to a \code{Maybe typ} through \code{getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ}.
-
 \subsection{Chart generation}
 
-Our Website displays appropriate information using JavaScript charts. While some data is best presented in tabular form, charts can visually display the relationship of different variables in a way that is easy for people to understand. In particular, we thought viewing a chart would help users view correlations between two different variables. Figure \ref{chart} shows a sample chart.
+To help users understand the data they are looking at, our Website renders data using graphical charts, such as bar or line charts. While some data is best presented in tabular form, charts can visually display the relationship of different variables in a way that is easy for people to understand. In particular, we thought viewing a chart would help users view correlations between two different variables. Figure \ref{chart} shows a sample chart.
 
-We used the Flot JavaScript charting package. Flot charts are generated using JavaScript and displayed on an HTML Canvas element. While we had originally tried generating static charts, that did not give us the same level of functionality as the JavaScript charts. Although we didn't end up using any of this functionality, it would have allowed users to sort charts in the browser, click on different elements to go to the appropriate page, etc.
+We used the Flot\cite{flot} JavaScript charting package. Flot charts are generated using JavaScript and displayed on an HTML Canvas element. While we had originally tried generating static charts, that did not give us the same level of functionality as the JavaScript charts. Although we didn't end up using any of this functionality, it would have allowed users to sort charts in the browser, click on different elements of a chart to go to the appropriate page, etc.
 
-While it is possible for developers to manually generate JavaScript to create Flot charts, we created a Haskell API that allows developers to specify their charts in Haskell. The API takes a list of display parameters (such as titles, chart size, orientation, etc.) and a list of data points in the form \code{[(key, value)]} .The chart automatically takes care of including any necessary HTML, JavaScript, and CSS and can simply be included anywhere in the page. Figure \ref{chartcode} shows a page that uses the chart API. \code{myChart} sets a few chart options and the data is queried from the database.
-
-\begin{figure}[]
-\footnotesize{
-\begin{verbatim}
-getFooR :: Handler RepHtml
-getFooR = do
-    data <- runDB blah buildQuery blah
-        (QuerySomething foo) []
-        [Query Something])
-    let chart = makeChart myChart data
-    ...
-
-myChart :: Widget
-myChart =
-    setTitles "XAxis" "YAxis" "Title" $
-    setHorizontal True $
-    setSize 600 400 $
-    barChart
-\end{verbatim}
-}
-    \caption{Chart API}
-    \label{chartcode}
-\end{figure}
+While it is possible for developers to manually generate JavaScript to create Flot charts, we created a Haskell API that allows developers to specify their charts in Haskell. The API takes a list of display parameters (such as titles, chart size, orientation, etc.) and a list of data points in the form \code{[(key, value)]}. The chart automatically takes care of including any necessary HTML, JavaScript, and CSS and can simply be included anywhere in the page, using Yesod's Widget monad. Figure \ref{chartcode} shows a controller that uses the chart API. 
 
 \begin{figure}[h]
     \includegraphics[width=80mm]{imgs/chart.png}
@@ -281,12 +232,50 @@ myChart =
     \label{chart}
 \end{figure}
 
+
+\begin{figure}[]
+\footnotesize{
+\begin{verbatim}
+summonerChartR :: Handler RepHtml
+sumonnerChartR = do
+    dataRows <- runDB . runMapReduce $
+             buildQuery(QGameChampion summonerName)
+        [exists $ QGameSummoner summonerName] columns
+    let series = getSeries dataRows
+
+    defaultLayout $ do
+        setTitle $ "Stats for " ++ summonerName
+        let stats = makeChart summonerChart series
+        $(widgetFile "summoner/view")
+
+summonerChart :: Widget
+summonerChart =
+    setTitles "" "" "Summoner Statistics" $
+    setHorizontal True $
+    setSize 600 400 $
+    barChart
+\end{verbatim}
+}
+    \caption{Controller used to generate a chart}
+    \label{chartcode}
+\end{figure}
+
 \subsection{League of Legends Logs}
+
+The League of Legends client is written in Adobe Air and runs in the background while games are in progress. Data from the League of Legends game client is dumped to log files.  It has a standardized format that includes fields such as time, log level, and message type, but the most interesting data for our case are the end-of-game stats, which are dumped out by an object dumping routine.  Data in these dumps is very similar to BSON , but structure is based on based on indentation (See Figure \ref{samplelog}).
+
+The first phase of our parsing is to parse object dumps into an \code{ASValue} datatype, which is modeled after \code{Data.Aeson.Value} and described in Figure \ref{asvalue}.  The parsing code is written with Attoparsec, and is straightforward other than the indentation.  Indentation is tracked by wrapping the \code{Parse} monad in a reader transformer that stores the number of spaces on the current indentation.  Every key-value pair of an object or entry in an array first checks for the corresponding level of indentation.  When a new object or array is encountered, the indentation is incremented for the recursive call, and if the indentation fails to parse it simply signifies the end of the object and the \code{many} combinator will return the results parsed so far.
+
+Once the end-of-game log messages have been extracted and the data parsed into \code{ASValue} it can be converted one-to-one into JSON through an appropriate \code{ToJSON} instance.  All our JSON manipulation uses the excellent Aeson library.
+
+Since we want to represent the data internally in a form different from that of the logs we needed to write two functions to parse the JSON; note the awkward \code{ArrayCollection} and \code{ArrayList} objects in the sample that are essentially just a list or vector and the repeated object \#4.  For the database representation we used the TemplateHaskell derivied \code{FromJSON} and \code{ToJSON} instances.  For parsing the raw data we hand-wrote a more complicated parser that does a few minor data transformations along the way, such as indexing some arrays by a key and removing some unnecessary layers of data and duplicate fields.
+
+In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the log-parsing client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
 
 \begin{figure}[btp]
 \footnotesize{
 \begin{verbatim}
-body = (com.riotgames.gameclient::EndOfGameStats)#1
+body = (com.riotgames.client::EndOfGameStats)#1
   basePoints = 69
   completionBonusPoints = 0
   difficulty = (null)
@@ -316,29 +305,20 @@ body = (com.riotgames.gameclient::EndOfGameStats)#1
 \begin{verbatim}
 type Object = M.Map T.Text ASValue
 
-data ASValue = ASNumber N.Number
-             | ASString T.Text
-             | ASBoolean !Bool
-             | ASNull
-             | ASDate T.Text
-             | ASArray !Integer (V.Vector ASValue)
-             | ASObject T.Text !Integer Object
-             deriving (Show, Eq)
+data ASValue =
+       ASNumber N.Number
+     | ASString T.Text
+     | ASBoolean !Bool
+     | ASNull
+     | ASDate T.Text
+     | ASArray !Integer (V.Vector ASValue)
+     | ASObject T.Text !Integer Object
+     deriving (Show, Eq)
 \end{verbatim}
 }
     \caption{ActionScript object descriptions}
     \label{asvalue}
 \end{figure}
-
-The League of Legends client is written in Adobe Air and runs in the background while games are in progress. Data from the League of Legends game client is dumped to log files.  It has a standardized format that includes fields such as time, log level, and message type, but the most interesting data for our case are the end-of-game stats, which are dumped out by an object dumping routine.  Data in these dumps is very similar to BSON , but structure is based on based on indentation (See Figure \ref{samplelog}).
-
-The first phase of our parsing is to parse object dumps into an \code{ASValue} datatype, which is modeled after \code{Data.Aeson.Value} and described in figure \ref{asvalue}.  The parsing code is written with Attoparsec, and is straightforward other than the indentation.  Indentation is tracked by wrapping the \code{Parse} monad in a reader transformer that stores the number of spaces on the current indentation.  Every key-value pair of an object or entry in an array first checks for the corresponding level of indentation.  When a new object or array is encountered, the indentation is incremented for the recursive call, and if the indentation fails to parse it simply signifies the end of the object and the \code{many} combinator will return the results parsed so far.
-
-Once the end-of-game log messages have been extracted and the data parsed into \code{ASValue} it can be converted one-to-one into JSON through an appropriate \code{ToJSON} instance.  All our JSON manipulation uses the excellent Aeson library.
-
-Since we want to represent the data internally in a form different from that of the logs we needed to write two functions to parse the JSON; note the awkward \code{ArrayCollection} and \code{ArrayList} objects in the sample that are essentially just a list or vector and the repeated object \#4.  For the database representation we used the TemplateHaskell derivied \code{FromJSON} and \code{ToJSON} instances.  For parsing the raw data we hand-wrote a more complicated parser that does a few minor data transformations along the way, such as indexing some arrays by a key and removing some unnecessary layers of data and duplicate fields.
-
-In the end we can convert logs into \code{ASValue}; \code{ASValue}s to and from \code{Data.Aeson.Value}s; and \code{Data.Aeson.Value}s to and from \code{GameStats}.  In our implementation, the log-parsing client does the conversion from logs to JSON, which is then serialized and uploaded to the server which treats it as the raw JSON form and parses it into \code{GameStats} which it wraps in a \code{Game} model and stores in the database.
 
 \subsection{League of Legends Log-Upload Client}
 
@@ -355,18 +335,16 @@ At this time I believe a better approach to a cross platform GUI would be to use
 \section{League of Legends Site}
 \label{site}
 
-To test our data analytics package, we wrote a Website to display League of Legends statistics. Although the Website is fairly simple for an analysis Website, building the site helped us in developing our query interface. The Website allows users to upload games, view information about games, viwe champion data, and perform analyzis on summoner data.
+We wrote a Website to display League of Legends statistics to determine how well our Peristence integration worked. Although the Website is fairly simple for an analysis site, building the site helped us in developing our query interface. The Website allows users to upload games, view information about games, viwe champion data, and perform analyzis on summoner data. When a game is uploaded, its data is added to the MongoDB database automatically and will be included in all future queries.
 
-Our summoner page, seen in \ref{todo}, displays aggregate information about a summoner across all uploaded games the summoner played in. The data is viewable in both table and chart format, and the columns are customizable about the user.
+Figure \ref{list} shows a list of games, indicating which Champions were used in each match. Figure \ref{chart} shows a sample chart that shows aggregate information about a summoner across all uploaded games the summoner played in, while Figure \ref{stats} shows the same information but in tabular format. The presentation of the results as well as the columns of interest are customizable by the user. In writing these pages, we found that we had to write a lot of code to transform data to and from a variety of formats, but this was fairly easy using Haskell's functional list manipulation. 
 
-Our backend is capable of performing more powerful queries, but we did not have enough time to code more pages to display this functionality. Ideally, users would be able to specify arbitrary queries, giving custom filters, keys, etc.
-
-In Figure \ref{list}, we can see a list of games. Probably want a more interesting picture though.
+Our backend is capable of performing more powerful queries, but we did not have enough time to code more pages to display this functionality. Ideally, users would be able to specify arbitrary queries, giving custom filters, keys, etc. Questions we'd like users to be able to answer include ``How does X correlate to Y for players above a certain skill level?'', ``What is the distribution of game length for different champions?'', or ``Rank all players by the quality of their wins and losses''. 
 
 \begin{figure}[h]
     \includegraphics[width=80mm]{imgs/stats.png}
     \caption{Statistics for a summoner}
-    \label{chart}
+    \label{stats}
 \end{figure}
 
 \begin{figure}[h]
