@@ -79,6 +79,7 @@ mkYesodData "LoLLogsWebApp" $(parseRoutesFile "config/routes")
 data LoLLogsWebAppSection = HomeSection
                           | GamesSection
                           | ChampionsSection
+                          | DownloadSection
                           | OtherSection
                           deriving (Show, Eq)
 
@@ -94,6 +95,8 @@ getSection ChampionCreateR = ChampionsSection
 getSection (ChampionViewR _) = ChampionsSection
 getSection (ChampionUpdateR _) = ChampionsSection
 getSection (ChampionDeleteR _) = ChampionsSection
+
+getSection DownloadR = DownloadSection
 
 getSection _  = OtherSection
 

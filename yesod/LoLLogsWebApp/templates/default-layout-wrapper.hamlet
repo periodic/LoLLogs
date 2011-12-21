@@ -17,6 +17,8 @@
                             <a href=@{GameIndexR}>Games
                         <li :section == ChampionsSection:.active>
                             <a href=@{ChampionIndexR}>Champions
+                        <li :section == DownloadSection:.active>
+                            <a href=@{DownloadR}>Download Client
                     <form.pull-right action=@{SummonerSearchR}>
                         <input name=q type=text placeholder="Search for a summoner">
         <div.container
