@@ -19,7 +19,7 @@
                         <td.champs>
                             ^{portraits champions (snd game)}
                         <td.queueType>
-                            #{gsQueueType (gameGameStats (snd game))}
+                            #{queueDisplayName $ gsQueueType $ gameGameStats $ snd game}
                         <td.created>
                             #{gameFormattedCreateTime (snd game)}
 

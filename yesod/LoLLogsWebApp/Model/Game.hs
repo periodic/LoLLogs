@@ -126,3 +126,10 @@ formatGameTime i = let hours = i `div` 3600
 
 gameFormattedCreateTime :: Game -> String
 gameFormattedCreateTime = formatTime defaultTimeLocale "%F" . gameCreated
+
+queueDisplayName :: Text -> Text
+queueDisplayName "NORMAL"           = "Normal"
+queueDisplayName "RANKED_SOLO_5x5"  = "Ranked Solo"
+queueDisplayName "BOT"              = "Bot"
+queueDisplayName s                  = s
+
