@@ -17,7 +17,7 @@ getGameStatsR = do
     let dataPoints = fmap (\(len,cBin) -> (show len, length cBin)) bins
     let chart = makeChartSimple dataPoints
 
-    queryData <- runDB . runMapReduce $ buildQuery (QGameChampion "ShaperOfChaos") [] [QGameWinPct "ShaperOfChaos"]
+    queryData <- runDB . runMapReduce $ buildQuery (QPlayerChampion "ShaperOfChaos") [] [QPlayerWinPct "ShaperOfChaos"]
     let dataPoints2 = catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup "winPct" results >>= cast')) queryData
 
     let chart2 = makeChart summonerChart [SeriesInfo "Game Length" (dataPoints2 :: [(String, Double)])]

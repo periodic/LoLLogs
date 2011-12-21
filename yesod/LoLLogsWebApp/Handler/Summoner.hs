@@ -68,12 +68,12 @@ findCol col dat= (catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack 
 
 
 queryCols summonerName =
-    [("winPct", QGameWinPct summonerName)
-    ,("kpm", QGameKPM summonerName)
-    ,("dpm", QGameDPM summonerName)
-    ,("apm", QGameAPM summonerName)
-    ,("cspm", QGameCSPM summonerName)
-    ,("gpm", QGameGPM summonerName)
+    [ QPlayerWinPct summonerName
+    , QPlayerKPM summonerName
+    , QPlayerDPM summonerName
+    , QPlayerAPM summonerName
+    , QPlayerCSPM summonerName
+    , QPlayerGPM summonerName
     ]
 
 getSummonerSearchR :: Handler RepHtml
@@ -84,23 +84,17 @@ getSummonerSearchR = do
 getSummonerStatsR :: Text -> Handler RepHtml
 getSummonerStatsR summonerName = do
     -- Parameters for DB calls
-    let columns = [ QGameWinPct   summonerName
-                  , QGameKPM      summonerName
-                  , QGameDPM      summonerName
-                  , QGameAPM      summonerName
-                  , QGameCSPM     summonerName
-                  , QGameGPM      summonerName
-                  ]
+    let columns = queryCols summonerName
 
     -- Form Data
     ((res, widget), enctype) <- runFormGet summonerForm
     let (isDefault, query) = getQuery res
     let colNames = qCols query
-    let cols = fmap snd $ Import.filter (\(a,_) -> a `elem` colNames) $ queryCols summonerName
+    let cols = Import.filter (\c -> queryColumnName c `elem` colNames) $ queryCols summonerName
 
     -- DB Calls
     champions  <- championsByName
-    dataRows <- runDB . runMapReduce $ buildQuery (QGameChampion summonerName) [exists $ QGameSummoner summonerName] cols
+    dataRows <- runDB . runMapReduce $ buildQuery (QPlayerChampion summonerName) [QGameSummoner .== summonerName] cols
     (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] []
 
 
