@@ -41,15 +41,13 @@ function updateGame(g)  {
     g.gameStats.blueTeam = blueTeam;
     g.gameStats.purpleTeam = purpleTeam;
     g.gameStats.playerStats = stats;
+    g.gameStats.champions = champions;
     delete(g.gameStats.teamPlayerParticipantStats);
     delete(g.gameStats.otherTeamPlayerParticipantStats);
 }
 
-function migrate(collection) {
-    collection.find().forEach(function (g) {
-        migrate(g);
-        collection.save(g);
-    });
-}
+db.Game.find().forEach(function (g) {
+    updateGame(g);
+    db.GameCopy.save(g);
+});
 
-migrate(db.Game);
