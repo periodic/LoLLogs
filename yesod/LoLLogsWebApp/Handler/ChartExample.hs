@@ -33,7 +33,7 @@ summonerChart =
     defaultChart
 
 getGameLen :: (a, Game) -> Int
-getGameLen = gsgameLength . gameGameStats . snd
+getGameLen = gsGameLength . gameGameStats . snd
 
 binBy10Mins :: (a, Game) -> Int
 binBy10Mins s = 10 * (div (getGameLen s) 600)

@@ -38,6 +38,8 @@ getGameViewR gameId = do
     defaultLayout $ do
         setTitle "Game"
         $(widgetFile "game/view")
+    where
+        playerDetails player champions = $(widgetFile "game/player-details")
 
 
 postGameCreateR :: Handler RepJson
@@ -54,7 +56,7 @@ postGameCreateR = do
             mapM_ (insertGame . Game time) games
             return . RepJson . toContent . encode . String . pack $ "Found " ++ show (length games) ++ " games."
         insertGame game = do
-            let gameId = gsgameId . gameGameStats $ game
+            let gameId = gsGameId . gameGameStats $ game
             mGame <- runDB . getBy . UniqueGameId $ fromIntegral gameId
             case mGame of 
                 Just _  -> return ()

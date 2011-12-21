@@ -31,8 +31,8 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ Int       => GameGameId
         | typ ~ Int       => GameLength
         | typ ~ GameStats => GameGameStats
-        | typ ~ Text      => GameTeamPlayerSummoner Text
-        | typ ~ Text      => GameOtherTeamPlayerSummoner Text
+        | typ ~ Text      => GameSummoners
+        | typ ~ Text      => GameChampions
     entityDef _
         = Database.Persist.Base.EntityDef
             "Game"
@@ -61,24 +61,17 @@ instance PersistEntity (GameGeneric backend) where
     persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
     persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
     persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
-    persistColumnDef (GameTeamPlayerSummoner name)      = Database.Persist.Base.ColumnDef ("gameStats.teamPlayerParticipantStats." ++ T.unpack name ++ "._summonerName") "Text" []
-    persistColumnDef (GameOtherTeamPlayerSummoner name) = Database.Persist.Base.ColumnDef ("gameStats.otherTeamPlayerParticipantStats." ++ T.unpack name ++ "._summonerName") "Text" []
-
-{- | Get the list of champions on each team of a game.
- -}
-gameChampions :: Game -> ([Text], [Text])
-gameChampions stats =
-    let team1 = map (fromMaybe "" . psskinName) . M.elems . gsteamPlayerParticipantStats . gameGameStats $ stats
-        team2 = map (fromMaybe "" . psskinName) . M.elems . gsotherTeamPlayerParticipantStats . gameGameStats $ stats
-     in (team1, team2)
-
--- | Return whether the reporting player's team is the blue team.
-gamePlayerTeamIsBlue :: Game -> Bool
-gamePlayerTeamIsBlue = (==100) . psteamId . head . M.elems . gsteamPlayerParticipantStats . gameGameStats
+    persistColumnDef GameSummoners  = Database.Persist.Base.ColumnDef "gameStats.summoners" "Text" []
+    persistColumnDef GameChampions  = Database.Persist.Base.ColumnDef "gameStats.champions" "Text" []
 
 -- | Return whether the reporting player's team won.
-gamePlayerTeamWon :: Game -> Bool
-gamePlayerTeamWon = (> 0) . playerVictory . head . M.elems . gsteamPlayerParticipantStats . gameGameStats
+gameBlueTeamWon :: Game -> Bool
+gameBlueTeamWon game = 
+    let stats = gsPlayerStats . gameGameStats $ game
+     in (> 0) . maybe 0 playerVictory . (\s -> M.lookup s stats) . head . gsBlueTeam . gameGameStats $ game
+
+gameLookupPlayer :: Text -> Game -> Maybe PlayerStats
+gameLookupPlayer name = M.lookup name . gsPlayerStats . gameGameStats
 
 -- | Get the kill-count for the player.
 playerKills :: PlayerStats -> Int
@@ -107,7 +100,7 @@ playerVictory = fromMaybe 0 . lookupStat "Victories"
 
 lookupStat :: Text -> PlayerStats -> Maybe Int
 lookupStat stat player = do
-    let stats = psstatistics player
+    let stats = psStatistics player
     value <- M.lookup stat stats
     return $ value
 

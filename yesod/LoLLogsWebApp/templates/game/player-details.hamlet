@@ -1,0 +1,32 @@
+<div.player :psIsMe player:.reporting-player :psLeaver player:.leaver
+    <div.player-header
+        <div.summoner-info
+            $maybe champ <- lookupChamp (psSkinName player) champions
+                <img.champ-portrait src=#{championImageUrl champ} alt=#{championName champ}>
+            $nothing 
+                <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
+            <span.summoner-name
+                <a href=@{SummonerStatsR (ps_summonerName player)}>#{ps_summonerName player}
+                $if psBotPlayer player
+                    <span.bot>(bot)
+            $maybe champ <- lookupChamp (psSkinName player) champions
+                <span.champion-name>#{championName champ}
+            $nothing 
+                <span.champion-name>#{psSkinName player}
+        <div.summoner-kda
+            <span.kills>#{playerKills player}
+            /
+            <span.deaths>#{playerDeaths player}
+            /
+            <span.assists>#{playerAssists player}
+        <div.summoner-items
+        <div.summoner-gold
+            #{roundLargeNumber (playerGold player)}
+        <div.summoner-cs
+            #{playerCreepScore player}
+    <div.player-details
+        $forall stat <- M.toList $ psStatistics player
+            <div.stat>
+                <span.statName>#{fst stat}
+                : #
+                <span.statValue>#{snd stat}

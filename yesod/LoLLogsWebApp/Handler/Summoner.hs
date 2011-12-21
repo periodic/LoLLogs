@@ -101,7 +101,7 @@ getSummonerStatsR summonerName = do
     -- DB Calls
     champions  <- championsByName
     dataRows <- runDB . runMapReduce $ buildQuery (QGameChampion summonerName) [exists $ QGameSummoner summonerName] cols
-    (games, pagerOpts) <- paginateSelectList 10 ([GameTeamPlayerSummoner summonerName ==. summonerName] ||. [GameOtherTeamPlayerSummoner summonerName ==. summonerName]) []
+    (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] []
 
 
     -- Intermediate data

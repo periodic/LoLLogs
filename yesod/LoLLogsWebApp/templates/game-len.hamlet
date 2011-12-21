@@ -10,5 +10,5 @@
                     $forall game <- games
                         <li>
                             <a href=@{GameViewR (fst game)}>
-                                #{gsgameId $ gameGameStats $ snd game}w
+                                #{gsGameId $ gameGameStats $ snd game}w
                             \ #{getGameLen game}

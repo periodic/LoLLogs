@@ -57,7 +57,7 @@ deleteChampionDeleteR modelId = do
     redirect RedirectTemporary ChampionIndexR
 
 -- The form
-championForm :: Maybe Champion -> Html -> Form LoLLogsWebApp LoLLogsWebApp (FormResult Champion, Widget)
+championForm :: Maybe Champion -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Champion, Widget)
 championForm champion = renderDivs $ Champion
     <$> areq textField "Name"       (championName <$> champion)
     <*> areq urlField  "Image"      (championImageUrl <$> champion)
