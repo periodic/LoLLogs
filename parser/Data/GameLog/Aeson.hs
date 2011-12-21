@@ -11,6 +11,7 @@ import Data.Aeson.TH
 import qualified Data.Map as M
 import qualified Data.HashMap.Lazy as HM
 import qualified Data.Vector as V
+import Data.Char (toLower)
 import Data.Text (Text)
 
 instance (FromJSON a) => FromJSON (List a) where
@@ -23,10 +24,13 @@ instance (FromJSON a) => FromJSON (List a) where
 instance (ToJSON a) => ToJSON (List a) where
     toJSON (List vals) = toJSON vals
 
-$(deriveJSON (drop 5) ''Spell)
-$(deriveJSON (drop 1) ''PointsPenalty)
-$(deriveJSON (drop 2) ''GameStats)
-$(deriveJSON (drop 2) ''PlayerStats)
+-- This can't be used due to stage restrictions with template haskell.
+-- lcFirst (c:cs) = toLower c : cs
+
+$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 5) ''Spell)
+$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 1) ''PointsPenalty)
+$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 2) ''GameStats)
+$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 2) ''PlayerStats)
 
 rawGames = Data.Aeson.Types.parse parseRawGames
 
@@ -35,7 +39,10 @@ parseRawGames v           = fail $ "Got an invalid type to GameStats: " ++ show 
 
 parseRawGame (Object obj) = GameStats  
     <$> obj .: "basePoints"
-    <*> obj .: "boostIpEarned" <*> obj .: "boostXpEarned"
+    <*> blueTeam
+    <*> obj .: "boostIpEarned" 
+    <*> obj .: "boostXpEarned"
+    <*> champions
     <*> obj .: "completionBonusPoints"
     <*> obj .: "difficulty"
     <*> obj .: "elo"
@@ -59,23 +66,65 @@ parseRawGame (Object obj) = GameStats
     <*> obj .: "loyaltyBoostXpEarned"
     <*>(unboxList <$> obj .: "newSpells")
     <*> obj .: "odinBonusIp"
-    <*>(obj .: "otherTeamPlayerParticipantStats" >>= makePlayerMap)
+    <*> playerStats
     <*>(unboxList <$>  obj .: "pointsPenalties")
     <*> obj .: "practiceMinutesLeftToday"
     <*> obj .: "practiceMinutesPlayedToday"
     <*> obj .: "practiceMsecsUntilReset"
+    <*> purpleTeam
     <*> obj .: "queueBonusEarned"
     <*> obj .: "queueType"
     <*> obj .: "ranked"
     <*> obj .: "skinIndex"
     <*> obj .: "skinName"
+    <*> summoners
     <*> obj .: "talentPointsGained"
-    <*>(obj .: "teamPlayerParticipantStats" >>= makePlayerMap)
     <*> obj .: "timeUntilNextFirstWinBonus"
     <*> obj .: "userId"
     where
-        makePlayerMap obj = parseJSON obj >>= listToMap
-        listToMap (List arr) = M.fromList . map (\p -> (ps_summonerName p, p)) <$> mapM parseRawPlayer arr
+        playerTeam = do
+            value <- obj .: "teamPlayerParticipantStats"
+            case value of
+                List ps -> mapM parseRawPlayer ps
+                _       -> fail "teamPlayerParticipantStats is not an array."
+        otherTeam = do
+            value <- obj .: "otherTeamPlayerParticipantStats"
+            case value of
+                List ps -> mapM parseRawPlayer ps
+                _       -> fail "otherTeamPlayerParticipantStats is not an array."
+
+        summoners = do
+            pTeam <- playerTeam
+            oTeam <- otherTeam
+            return . map ps_summonerName $ pTeam ++ oTeam
+
+        playerStats = do
+            pTeam <- playerTeam
+            oTeam <- otherTeam
+            return . M.fromList . map (\p -> (ps_summonerName p, p)) $ pTeam ++ oTeam
+
+        blueTeam = do
+            pTeam <- playerTeam
+            oTeam <- otherTeam
+            if (==100) . psTeamId . head $ pTeam
+                then return . map ps_summonerName $ pTeam
+                else return . map ps_summonerName $ oTeam
+        purpleTeam = do
+            pTeam <- playerTeam
+            oTeam <- otherTeam
+            if (==100) . psTeamId . head $ pTeam
+                then return . map ps_summonerName $ oTeam -- note, opposite of blueTeam above.
+                else return . map ps_summonerName $ pTeam
+
+        champions = do
+            pTeam <- playerTeam
+            oTeam <- otherTeam
+            return . map psSkinName $ pTeam ++ oTeam
+        -- listToMap (List arr) = M.fromList . map (\p -> (ps_summonerName p, p)) <$> mapM parseRawPlayer arr
+
+
+
+
 parseRawGame v            = fail $ "Got an invalid type to GameStats: " ++ show v
 
 parseRawPlayer (Object obj) = PlayerStats
