@@ -9,7 +9,7 @@
         <div#navigation.topbar>
             <div.topbar-inner>
                 <div.container>
-                    <a.brand href=@{RootR}>Site Name
+                    <a.brand href=@{RootR}>CasualAddict: LoL
                     <ul.nav>
                         <li :section == HomeSection:.active>
                             <a href=@{RootR}>Home
