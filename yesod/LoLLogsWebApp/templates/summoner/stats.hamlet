@@ -3,24 +3,18 @@
         <tr>
             <th>Champion
             <th.int>Games Played
-            $if elem "winPct" colNames
-                <th.pct>Win %
-            $if elem "kpm" colNames
-                <th.double>Kills / Min
-            $if elem "dpm" colNames
-                <th.double>Deaths / Min
-            $if elem "apm" colNames
-                <th.double>Assists / Min
-            $if elem "cspm" colNames
-                <th.double>CS / Min
-            $if elem "gpm" colNames
-                <th.double>Gold / Min
+            <th.pct>Win %
+            <th.double>Kills / Min
+            <th.double>Deaths / Min
+            <th.double>Assists / Min
+            <th.double>CS / Min
+            <th.double>Gold / Min
     <tbody>
         $forall (champ, stats) <- champData
             <tr>
                 <td>#{u2t champ}
                 <td.int>#{getResultCount stats}
-                $with (colPct, colDouble) <- splitAt 1 cols
+                $with (colPct, colDouble) <- splitAt 1 columns
                     $forall col <- colPct
                         <td.pct>
                             $maybe datum <- getResultValue col stats
@@ -34,7 +28,7 @@
             <tr.total>
                 <td>Total
                 <td.int>#{getResultCount stats}
-                $with (colPct, colDouble) <- splitAt 1 cols
+                $with (colPct, colDouble) <- splitAt 1 columns
                     $forall col <- colPct
                         <td.pct>
                             $maybe datum <- getResultValue col stats

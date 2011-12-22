@@ -11,8 +11,8 @@ import Data.Bson
 import Model.Game
 import Model.Helper.MapReduce
 
-instance Queryable (GameGeneric backend) where
-    data QueryColumn (GameGeneric backend) typ
+instance Queryable Game where
+    data QueryColumn Game typ
         = typ ~ Text    => QGameQueueType           -- game type, as a string
         | typ ~ Int     => QGameLength              -- game length in seconds.
         | typ ~ Text    => QGameSummoner            -- Summoner Name

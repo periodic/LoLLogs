@@ -20,6 +20,8 @@ module Model.Helper.MapReduce ( execute
                               , (.<=)
                               , (.>=)
                               , exists
+                              , anyFilter
+                              , allFilter
                               , t2u
                               , u2t
                               , unJS
@@ -181,6 +183,12 @@ parseFilters filters | (f:[]) <- filters = convertFilter f
 exists :: (Val typ, Queryable model) => QueryColumn model typ -> QueryFilter model
 exists col = QueryFilter FilterExists col undefined
 
+allFilter :: Queryable model => [QueryFilter model] -> QueryFilter model
+allFilter = QueryAll
+
+anyFilter :: Queryable model => [QueryFilter model] -> QueryFilter model
+anyFilter = QueryAny
+
 {-
 newtype MRQuery a = Q {
     runQuery :: State QueryState a
@@ -252,7 +260,7 @@ runMapReduce query = do
 mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
            => QueryColumn model typ                     -- ^ The column to use a key.
            -> [QueryFilter model]                       -- ^ A list of filters.
-           -> forall typ0. [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
+           -> [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
            -> Action m [(Label, M.Map Label Value)]
 mapReduce keyCol filters fields = runMapReduce $ buildQuery keyCol filters fields
 

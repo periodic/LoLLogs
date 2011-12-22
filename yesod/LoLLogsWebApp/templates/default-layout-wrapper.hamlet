@@ -23,3 +23,6 @@
                         <input name=q type=text placeholder="Search for a summoner">
         <div.container
             ^{pageBody pc}
+
+        <div#footer.container>
+

@@ -3,16 +3,7 @@
 <h2>
     Stats
 
-<span#customize-toggle>
-    <a.btn.info>
-        Customize #
-        <span.plusminus>
-            $if isDefault
-                +
-            $else
-                -
-
-<form#summoner-form.summoner-form :isDefault:style="display: none" enctype=#{enctype}>
+<form>
     ^{widget}
 
 ^{stats}

@@ -1,12 +1,8 @@
 #{extra}
 <div.clear-fix>
-    <label>Type
+    <label>Game Types:
     <div.input>
-        ^{fvInput typeView}
-<div.clear-fix>
-    <label>Columns
-    <div.input>
-        <span class=multi> ^{fvInput colsView} <br>
+        <span class=multi>^{fvInput queueView}
 <div.clear-fix>
     <div.input>
         <input.btn.primary type=submit />

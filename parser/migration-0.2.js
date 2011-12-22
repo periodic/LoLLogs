@@ -48,6 +48,6 @@ function updateGame(g)  {
 
 db.Game.find().forEach(function (g) {
     updateGame(g);
-    db.GameCopy.save(g);
+    db.Game.save(g);
 });
 
