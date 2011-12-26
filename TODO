@@ -7,10 +7,19 @@
 ## lollogs-client
 
 * The client could use a GUI (wxWidgets or GTK maybe) at least to give the user a sense of what's going on.
+    - Abandoned GTK and WX.
+    * Starting on C#.NET solution.
 * Better error handling and reporting.
+
+## Upgrade to 0.9.4
+
+* Add logging statements with $(logDebug)!
 
 ## LoLLogsWebApp
 
+* Auth
+    * Figure out an auth solution.  Make sure we can flag users as admins.
+    * Could use some CRUD scaffolding around users.
 * Game-index
     - [Done] Whole-row is clickable.
     - [Done] Add creation date.
