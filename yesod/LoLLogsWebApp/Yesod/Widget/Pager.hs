@@ -7,7 +7,7 @@ import Prelude hiding (writeFile, readFile)
 import Yesod
 import Data.Text (Text)
 import Data.Maybe (fromMaybe)
-import Control.Applicative ((<$>), (<*>), pure)
+import Control.Applicative ((<$>))
 
 data PagerOptions = PagerOptions
     { showNext :: Bool

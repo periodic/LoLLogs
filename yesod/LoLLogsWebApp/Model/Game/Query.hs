@@ -4,12 +4,35 @@ module Model.Game.Query ( module Model.Game.Query
                         ) where
 
 import Prelude
-import Data.UString as US
-import Data.Text (Text)
 import Data.Bson
+import Data.Text (Text)
+import Data.Maybe (catMaybes)
+import qualified Data.UString as US
 
 import Model.Game
 import Model.Helper.MapReduce
+
+{- The query for data. -}
+data Query = Query { qKey       :: QueryColumn Game Text
+                   , qQueueTypes:: [Text]
+                   , qSummoners :: [Text]
+                   , qChampions :: [Text]
+                   , qCols      :: [QueryColumn Game Double]
+                   }
+
+runQuery query = mapReduce (qKey query)
+                           (catMaybes [summonerFilters, championFilters, queueTypeFilters])
+                           (qCols query)
+    where
+        summonerFilters  = case qSummoners query of
+            [] -> Nothing
+            s  -> Just $ QGameSummoner .<- s
+        championFilters  = case qChampions query of
+            [] -> Nothing
+            s  -> Just $ QGameChampion .<- s
+        queueTypeFilters = case qQueueTypes query of
+            [] -> Nothing
+            s  -> Just $ QGameQueueType .<- s
 
 instance Queryable Game where
     data QueryColumn Game typ
@@ -152,3 +175,4 @@ summonerFilter :: Text -> UString -> Value -> Document
 summonerFilter textName subSelector v = 
         let name = t2u textName
         in [US.concat ["gameStats.playerStats.", name, subSelector] := v]
+

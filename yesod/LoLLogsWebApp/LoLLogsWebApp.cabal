@@ -1,5 +1,5 @@
 name:              LoLLogsWebApp
-version:           0.0.0
+version:           0.0.1
 license:           BSD3
 license-file:      LICENSE
 author:            Andrew Haven
@@ -12,19 +12,20 @@ cabal-version:     >= 1.6
 build-type:        Simple
 homepage:          http://LoLLogsWebApp.yesodweb.com/
 
-Flag production
-    Description:   Build the production executable.
+Flag dev
+    Description:   Turn on development settings, like auto-reload templates.
     Default:       False
 
-Flag devel
+Flag library-only
     Description:   Build for use with "yesod devel"
     Default:       False
 
 library
-    if flag(devel)
+    if flag(library-only)
         Buildable: True
     else
         Buildable: False
+
 
     exposed-modules: Application
     other-modules:   Foundation
@@ -46,6 +47,7 @@ library
                      Yesod.Widget.Flot
 
     ghc-options:   -Wall -threaded -O0
+    cpp-options:   -DDEVELOPMENT
 
     extensions: TemplateHaskell
                 QuasiQuotes
@@ -59,14 +61,14 @@ library
                 GeneralizedNewtypeDeriving
 
 executable         LoLLogsWebApp
-    if flag(devel)
+    if flag(library-only)
         Buildable: False
 
-    if flag(production)
-        cpp-options:   -DPRODUCTION
-        ghc-options:   -Wall -threaded -O2
-    else
+    if flag(dev)
+        cpp-options:   -DDEVELOPMENT
         ghc-options:   -Wall -threaded -O0
+    else
+        ghc-options:   -Wall -threaded -O2
 
     main-is:       main.hs
 
@@ -82,12 +84,12 @@ executable         LoLLogsWebApp
                 GeneralizedNewtypeDeriving
 
     build-depends: base                          >= 4          && < 5
-                 , yesod                         >= 0.9        && < 0.10
-                 , yesod-core                    >= 0.9.3      && < 0.10
+                 , yesod                         >= 0.9.4      && < 0.10
+                 , yesod-core                    >= 0.9.4      && < 0.10
                  , yesod-auth                    >= 0.7.3      && < 0.8
-                 , yesod-static                  >= 0.3.1      && < 0.4
-                 , yesod-default                 >= 0.4        && < 0.5
-                 , yesod-form                    >= 0.3.3      && < 0.4
+                 , yesod-static                  >= 0.3.2.1    && < 0.4
+                 , yesod-default                 >= 0.5        && < 0.6
+                 , yesod-form                    >= 0.3.4      && < 0.4
                  , mime-mail                     >= 0.3.0.3    && < 0.4
                  , clientsession                 >= 0.7.3      && < 0.8
                  , bytestring                    >= 0.9        && < 0.10
@@ -109,3 +111,4 @@ executable         LoLLogsWebApp
                  , enumerator                    >= 0.4        && < 0.5
                  , bson                          >= 0.1.6      && < 0.2
                  , mongoDB                       >= 1.1.1      && < 1.2
+                 , wai-extra                     >= 0.4.6      && < 0.5

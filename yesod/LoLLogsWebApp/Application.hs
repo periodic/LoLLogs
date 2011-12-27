@@ -6,12 +6,12 @@ module Application
 
 import Import
 import Settings
-import Yesod.Static
 import Yesod.Auth
 import Yesod.Default.Config
 import Yesod.Default.Main
 import Yesod.Default.Handlers
-import Yesod.Logger (Logger)
+import Yesod.Logger (Logger, logBS, flushLogger)
+import Network.Wai.Middleware.RequestLogger
 import Data.Dynamic (Dynamic, toDyn)
 import qualified Database.Persist.Base
 
@@ -31,18 +31,20 @@ mkYesodDispatch "LoLLogsWebApp" resourcesLoLLogsWebApp
 -- performs initialization and creates a WAI application. This is also the
 -- place to put your migrate statements to have automatic database
 -- migrations handled by Yesod.
-withLoLLogsWebApp :: AppConfig DefaultEnv -> Logger -> (Application -> IO ()) -> IO ()
+withLoLLogsWebApp :: AppConfig DefaultEnv () -> Logger -> (Application -> IO ()) -> IO ()
 withLoLLogsWebApp conf logger f = do
-#ifdef PRODUCTION
-    s <- static Settings.staticDir
-#else
-    s <- staticDevel Settings.staticDir
-#endif
+    s <- staticSite
     dbconf <- withYamlEnvironment "config/mongoDB.yml" (appEnv conf)
             $ either error return . Database.Persist.Base.loadConfig
     Database.Persist.Base.withPool (dbconf :: Settings.PersistConfig) $ \p -> do
         let h = LoLLogsWebApp conf logger s p
-        defaultRunner f h
+        defaultRunner (f . logWare) h
+    where
+#ifdef DEVELOPMENT
+        logWare = logHandleDev (\msg -> logBS logger msg >> flushLogger logger)
+#else
+        logWare = logStdout
+#endif
 
 -- for yesod devel
 withDevelAppPort :: Dynamic

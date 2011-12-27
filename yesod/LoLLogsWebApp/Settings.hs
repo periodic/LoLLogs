@@ -41,7 +41,7 @@ staticDir = "static"
 -- have to make a corresponding change here.
 --
 -- To see how this value is used, see urlRenderOverride in Foundation.hs
-staticRoot :: AppConfig DefaultEnv ->  Text
+staticRoot :: AppConfig DefaultEnv a ->  Text
 staticRoot conf = [st|#{appRoot conf}/static|]
 
 
@@ -49,8 +49,8 @@ staticRoot conf = [st|#{appRoot conf}/static|]
 -- user.
 
 widgetFile :: String -> Q Exp
-#if PRODUCTION
-widgetFile = Yesod.Default.Util.widgetFileProduction
+#if DEVELOPMENT
+widgetFile = Yesod.Default.Util.widgetFileReload
 #else
-widgetFile = Yesod.Default.Util.widgetFileDebug
+widgetFile = Yesod.Default.Util.widgetFileNoReload
 #endif

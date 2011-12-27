@@ -1,6 +1,7 @@
 {-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, PatternGuards, FlexibleContexts #-}
 module Model.Helper.MapReduce ( execute
                               , runMapReduce
+                              , Model.Helper.MapReduce.mapReduce
                               , Queryable(..)
                               , simpleKey
                               , simpleMap
@@ -19,6 +20,7 @@ module Model.Helper.MapReduce ( execute
                               , (.>)
                               , (.<=)
                               , (.>=)
+                              , (.<-)
                               , exists
                               , anyFilter
                               , allFilter
@@ -34,8 +36,7 @@ import Database.MongoDB as Mongo hiding (selector)
 
 import Prelude
 import Database.Persist.Base
-import Yesod.Handler (GGHandler)
-import Data.UString as S (pack, unpack, concat)
+import qualified Data.UString as S (pack, unpack, concat)
 import Data.Text as T (Text, unpack, pack)
 import Data.String
 import Control.Applicative (Applicative(..))
@@ -144,6 +145,7 @@ simpleFilter :: Queryable model => UString -> QueryColumn model typ -> Value -> 
 simpleFilter selector _ v = [ selector := v ]
 
 data QueryFilter model = forall typ. Val typ => QueryFilter FilterOp (QueryColumn model typ) typ
+                       | forall typ. Val typ => QueryFilterMulti FilterOp (QueryColumn model typ) [typ]
                        | QueryAll [QueryFilter model]
                        | QueryAny [QueryFilter model]
 
@@ -154,6 +156,7 @@ data FilterOp = FilterEQ
               | FilterGT
               | FilterLE
               | FilterGE
+              | FilterIn
               | FilterExists
 
 parseFilters :: Queryable model => [QueryFilter model] -> Document
@@ -161,14 +164,19 @@ parseFilters []     = []
 parseFilters filters | (f:[]) <- filters = convertFilter f
                      | otherwise         = convertFilter . QueryAll $ filters
     where
-        convertFilter f | (QueryAll fs) <- f = ["$and" =: map convertFilter fs]
-                        | (QueryAny fs) <- f = ["$or"  =: map convertFilter fs]
+        convertFilter f | (QueryAll fs) <- f = concat $ map convertFilter fs
+                        | (QueryAny fs) <- f = if length fs == 1
+                                               then concat $ map convertFilter fs
+                                               else ["$or"  =: map convertFilter fs]
                         | (QueryFilter FilterEQ col v) <- f = queryFilter col $ val v
                         | (QueryFilter FilterLT col v) <- f = queryFilter col $ Doc ["$lt" =: v]
                         | (QueryFilter FilterGT col v) <- f = queryFilter col $ Doc ["$gt" =: v]
                         | (QueryFilter FilterLE col v) <- f = queryFilter col $ Doc ["$le" =: v]
                         | (QueryFilter FilterGE col v) <- f = queryFilter col $ Doc ["$ge" =: v]
                         | (QueryFilter FilterExists col _) <- f = queryFilter col $ Doc ["$exists" =: True]
+
+                        | (QueryFilterMulti FilterIn col vs) <- f = queryFilter col $ Doc ["$in" =: vs]
+
                         | _ <- f = error "Invalid filter."
 
 (.==) :: (Eq typ, Val typ, Queryable model) => QueryColumn model typ -> typ -> QueryFilter model
@@ -179,6 +187,9 @@ parseFilters filters | (f:[]) <- filters = convertFilter f
 (.>)  = QueryFilter FilterGT
 (.<=) = QueryFilter FilterLE
 (.>=) = QueryFilter FilterGE
+
+(.<-) :: (Ord typ, Val typ, Queryable model) => QueryColumn model typ -> [typ] -> QueryFilter model
+(.<-) = QueryFilterMulti FilterIn
 
 exists :: (Val typ, Queryable model) => QueryColumn model typ -> QueryFilter model
 exists col = QueryFilter FilterExists col undefined

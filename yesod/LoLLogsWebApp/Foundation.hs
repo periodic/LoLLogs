@@ -16,14 +16,14 @@ module Foundation
     ) where
 
 import Prelude
-import Yesod
+import Yesod hiding (Form, AppConfig(..), withYamlEnvironment)
 import Yesod.Static (Static, base64md5, StaticRoute(..))
 import Settings.StaticFiles
 import Yesod.Auth
 import Yesod.Auth.OpenId
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
-import Yesod.Logger (Logger, logLazyText)
+import Yesod.Logger (Logger, logMsg, formatLogText, logLazyText)
 import qualified Settings
 import qualified Data.ByteString.Lazy as L
 import qualified Database.Persist.Base
@@ -34,10 +34,10 @@ import Model
 import Text.Jasmine (minifym)
 import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
-#if PRODUCTION
-import Network.Mail.Mime (sendmail)
-#else
+#if DEVELOPMENT
 import qualified Data.Text.Lazy.Encoding
+#else
+import Network.Mail.Mime (sendmail)
 #endif
 
 -- | The site argument for your application. This can be a good place to
@@ -45,7 +45,7 @@ import qualified Data.Text.Lazy.Encoding
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data LoLLogsWebApp = LoLLogsWebApp
-    { settings :: AppConfig DefaultEnv
+    { settings :: AppConfig DefaultEnv ()
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
     , connPool :: Database.Persist.Base.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
@@ -137,7 +137,8 @@ instance Yesod LoLLogsWebApp where
     authRoute _ = Just $ AuthR LoginR
 
     messageLogger y loc level msg =
-      formatLogMessage loc level msg >>= logLazyText (getLogger y)
+      -- From 0.9formatLogMessage loc level msg >>= logLazyText (getLogger y)
+      formatLogText (getLogger y) loc level msg >>= logMsg (getLogger y)
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -174,10 +175,10 @@ instance YesodAuth LoLLogsWebApp where
 
 -- Sends off your mail. Requires sendmail in production!
 deliver :: LoLLogsWebApp -> L.ByteString -> IO ()
-#ifdef PRODUCTION
-deliver _ = sendmail
-#else
+#ifdef DEVELOPMENT
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
+#else
+deliver _ = sendmail
 #endif
 
 -- This instance is required to use forms. You can modify renderMessage to

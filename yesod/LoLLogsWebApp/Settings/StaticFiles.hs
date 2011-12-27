@@ -1,6 +1,16 @@
 module Settings.StaticFiles where
 
-import Yesod.Static (staticFiles, StaticRoute (StaticRoute))
+import Prelude
+import Yesod.Static (static, staticDevel, staticFiles, StaticRoute (StaticRoute), Static)
+import Settings (staticDir)
+
+staticSite :: IO Static
+staticSite =
+#ifdef DEVELOPMENT
+    staticDevel staticDir
+#else
+    static staticDir
+#endif
 
 -- | This generates easy references to files in the static directory at compile time.
 --   The upside to this is that you have compile-time verification that referenced files

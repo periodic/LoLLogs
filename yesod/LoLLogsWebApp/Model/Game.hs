@@ -4,15 +4,14 @@ module Model.Game ( module Model.Game
 
 import Prelude
 -- import Yesod hiding (Unique, EntityField, PersistEntity, Key, )
-import Data.Text as T (Text, unpack)
+import Data.Text as T (Text)
 import Data.Time
-import Data.Time.Format (formatTime)
 import System.Locale (defaultTimeLocale)
 import qualified Data.Map as M
 import Text.Printf
 import Data.Maybe (fromMaybe)
 import Data.GameLog
-import Data.GameLog.Persist
+import Data.GameLog.Persist ()
 import Database.Persist.Base
 import Database.Persist.MongoDB (Action)
 import Database.Persist.TH.Library
@@ -129,7 +128,7 @@ gameFormattedCreateTime = formatTime defaultTimeLocale "%F" . gameCreated
 
 queueDisplayName :: Text -> Text
 queueDisplayName "NORMAL"           = "Normal"
-queueDisplayName "RANKED_SOLO_5x5"  = "Ranked Solo"
+queueDisplayName "RANKED_SOLO_5x5"  = "Ranked, Solo"
 queueDisplayName "BOT"              = "Bot"
 queueDisplayName s                  = s
 

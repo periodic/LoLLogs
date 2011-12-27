@@ -3,15 +3,14 @@ module Handler.Summoner where
 
 import Import
 
-import Model.Game.Query
+import Data.Text as T (append, pack)
 import Text.Printf
-import Data.Text as T (append)
-import Data.Maybe (catMaybes)
 
 import Yesod.Widget.Pager
 import Yesod.Widget.AjaxFrame
 
 import Model.Champion
+import Model.Game.Query
 
 champPortrait :: Text -> ChampionMap -> Widget
 champPortrait skinName champions = $(widgetFile "game/champion-portrait")
@@ -32,6 +31,7 @@ queryCols summonerName =
 getSummonerSearchR :: Handler RepHtml
 getSummonerSearchR = do
     summonerName <- runInputGet $ ireq textField "q"
+    -- $(logDebug) $ "Redirecting query for " `T.append` summonerName
     redirect RedirectPermanent $ SummonerStatsR summonerName
 
 getSummonerStatsR :: Text -> Handler RepHtml
@@ -46,14 +46,15 @@ getSummonerStatsR summonerName = do
     let cols = Import.filter (\c -> queryColumnName c `elem` colNames) $ queryCols summonerName
     -}
     let query = case res of
-                    FormSuccess query -> query
+                    FormSuccess qData -> qData
                     _                 -> Query (QPlayerChampion summonerName) ["RANKED_SOLO_5x5", "NORMAL"] [summonerName] [] (queryCols summonerName)
 
+    $(logDebug) . T.pack $ "Queues : " ++ (show $ qQueueTypes query)
     -- DB Calls
-    champions  <- championsByName
-    dataRows <- runDB $ runQuery query
+    champions          <- championsByName
+    dataRows           <- runDB $ runQuery query
+    $(logDebug) . T.pack $ "Retrived " ++ (show $ length dataRows) ++ " data rows."
     (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] []
-
 
     -- Intermediate data
     let champData = Import.filter ((/= "_total") . fst) dataRows
@@ -84,31 +85,9 @@ getSummonerStatsR summonerName = do
         formatDouble d = printf "%0.2f" d
 
 
-{- The query for data. -}
-data Query = Query { qKey       :: QueryColumn Game Text
-                   , qQueueTypes:: [Text]
-                   , qSummoners :: [Text]
-                   , qChampions :: [Text]
-                   , qCols      :: [QueryColumn Game Double]
-                   }
-runQuery query = runMapReduce $ buildQuery 
-    (qKey query) -- (QPlayerChampion summonerName) 
-    (catMaybes [summonerFilters, championFilters, queueTypeFilters])
-    (qCols query)
-    where
-        summonerFilters  = case qSummoners query of
-            [] -> Nothing
-            s  -> Just . anyFilter . map (QGameSummoner .==) $ s
-        championFilters  = case qChampions query of
-            [] -> Nothing
-            s  -> Just . anyFilter . map (QGameChampion .==) $ s
-        queueTypeFilters = case qQueueTypes query of
-            [] -> Nothing
-            s  -> Just . anyFilter . map (QGameQueueType .==) $ s
-
 dataForm :: Text -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Query, Widget)
 dataForm summonerName extra = do
-    (queueRes, queueView) <- mreq (multiSelectField queueTypes) "" Nothing
+    (queueRes, queueView) <- mreq (multiSelectField queueTypes) "" (Just ["RANKED_SOLO_5x5", "NORMAL"])
     let q = Query <$> pure (QPlayerChampion summonerName) 
                   <*> queueRes 
                   <*> pure [summonerName] 
@@ -118,51 +97,7 @@ dataForm summonerName extra = do
     return (q, widget)
 
 queueTypes :: [(Text, Text)]
-queueTypes = [("Ranked, Solo", "RANKED_SOLO_5x5"), ("Normal", "NORMAL"), ("Bot", "BOT")]
-
-{-
-colsSelect :: [(Text, UString)]
-colsSelect = [("Win Percent", "winPct"), ("Kills / Min", "kpm"), ("Deaths / Min", "dpm"),
-              ("Assists / Min", "apm"), ("CS / Min", "cspm"), ("Gold / Min", "gpm")]
-
-data RenderType = Chart | Table
-    deriving (Show, Eq)
-
-getQuery :: FormResult Query -> (Bool, Query)
-getQuery res =
-    case res of
-        FormSuccess query -> (False, query)
-        _                 -> (True, Query ["winPct", "kpm", "dpm", "apm", "cspm", "gpm"] Table)
-
-summonerChart :: ChartInfo
-summonerChart =
-    setTitles "Summoner Statistics" "" "" $
-    setHorizontal True $
-    defaultChart
-
-getSeries :: [(UString, Map UString Value)] -> [UString] -> [SeriesInfo String Double]
-getSeries dataRows cols = fmap f cols
-  where
-    f col = SeriesInfo (T.unpack $ prettyName col) (findCol col dataRows)
-    prettyName col = fst . head $ Import.filter (\x -> snd x == col) colsSelect
-
-
-findCol :: UString -> [(UString, Map UString Value)] -> [(String, Double)]
-findCol col dat= (catMaybes $ Import.map (\(champ, results) -> ((,) $ US.unpack champ) <$> (M.lookup col results >>= cast')) dat)
-
-
-prettyMultiSelect :: Widget
-prettyMultiSelect = do
-        addScript $ StaticR js_jquery_asmselect_js
-        addStylesheet $ StaticR css_jquery_asmselect_css
-        toWidget [julius|
-            $(function() {
-                $(".multi select").attr("title", "Please select columns").asmSelect({
-                    removeClass: "asmListItemRemove btn danger",
-                })
-            });
-        |]
--}
+queueTypes = map (\x -> (queueDisplayName x, x)) ["RANKED_SOLO_5x5", "NORMAL", "BOT"]
 
 chosenImports :: Widget
 chosenImports = do
@@ -173,3 +108,4 @@ chosenImports = do
             $("select").chosen();
         });
     |]
+

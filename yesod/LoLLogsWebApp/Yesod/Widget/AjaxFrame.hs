@@ -13,13 +13,14 @@ data FrameOptions = FrameOptions
     , formSelector  :: Text
     }
 
+defaultFrameOptions :: FrameOptions
 defaultFrameOptions = FrameOptions
     { linkSelector  = "a"
     , inputSelector = "input, select"
     , formSelector  = "form"
     }
 
---ajaxFrame :: GWidget sub master () -> GWidget sub master ()
+ajaxFrame :: FrameOptions -> GWidget sub master () -> GWidget sub master ()
 ajaxFrame options content = do
     frameId <- lift newIdent
     toWidget [julius|
