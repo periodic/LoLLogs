@@ -3,14 +3,15 @@ module Handler.Summoner where
 
 import Import
 
-import Data.Text as T (append, pack)
+import Data.Maybe (catMaybes)
+import Data.Text as T (append)
 import Text.Printf
 
 import Yesod.Widget.Pager
 import Yesod.Widget.AjaxFrame
 
 import Model.Champion
-import Model.Game.Query
+import Model.Game.Query hiding (Query(..), runQuery)
 
 champPortrait :: Text -> ChampionMap -> Widget
 champPortrait skinName champions = $(widgetFile "game/champion-portrait")
@@ -36,48 +37,50 @@ getSummonerSearchR = do
 
 getSummonerStatsR :: Text -> Handler RepHtml
 getSummonerStatsR summonerName = do
-    let columns = queryCols summonerName
+    champions <- championsByName
 
-    -- Form Data
-    ((res, widget), enctype) <- runFormGet $ dataForm summonerName
-    {-
-    let (isDefault, query) = getQuery res
-    let colNames = qCols query
-    let cols = Import.filter (\c -> queryColumnName c `elem` colNames) $ queryCols summonerName
-    -}
-    let query = case res of
-                    FormSuccess qData -> qData
-                    _                 -> Query (QPlayerChampion summonerName) ["RANKED_SOLO_5x5", "NORMAL"] [summonerName] [] (queryCols summonerName)
+    -- Widgets
+    statsWidget <- statsPane summonerName champions
+    gamesWidget <- gamesPane summonerName champions
 
-    $(logDebug) . T.pack $ "Queues : " ++ (show $ qQueueTypes query)
-    -- DB Calls
-    champions          <- championsByName
-    dataRows           <- runDB $ runQuery query
-    $(logDebug) . T.pack $ "Retrived " ++ (show $ length dataRows) ++ " data rows."
+    defaultLayout $ do
+        setTitle . toHtml $ T.append "Stats for " summonerName
+        addScript $ StaticR js_bootstrap_tabs_js
+        $(widgetFile "summoner/view")
+
+gamesPane :: Text -> ChampionMap -> Handler Widget
+gamesPane summonerName champions = do
     (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] []
 
-    -- Intermediate data
+    let gameList = $(widgetFile "game/list")
+
+    return $ ajaxFrame defaultFrameOptions gameList
+
+
+statsPane :: Text -> ChampionMap -> Handler Widget
+statsPane summonerName champions = do
+    let columns = queryCols summonerName
+    -- ID for table container
+    statsTableId <- newIdent
+
+    -- Form Data
+    ((res, queryForm), enctype) <- runFormGet $ dataForm summonerName champions
+    let query = case res of
+                    FormSuccess qData -> qData
+                    _                 -> Query (QPlayerChampion summonerName) summonerName ["RANKED_SOLO_5x5", "NORMAL"] [] (queryCols summonerName)
+
+    -- DB calls
+    dataRows <- runDB $ runQuery query
     let champData = Import.filter ((/= "_total") . fst) dataRows
     let totals    = Import.filter ((== "_total") . fst) dataRows
 
-    -- let series = getSeries champData colNames
 
-    -- Widget
-    defaultLayout $ do
-        -- Widgets
-        let gameList = $(widgetFile "game/list")
-        -- Scripts
+    return $ do
+        -- Static scripts
         addScript $ StaticR js_jquery_tablesorter_min_js -- for a pretty table.
+        addScript $ StaticR js_bootstrap_buttons_js
         chosenImports
-        --prettyMultiSelect -- JS for AMS select
-
-        champTableId <- lift newIdent
-        setTitle . toHtml $ T.append "Stats for " summonerName
-
-        --let stats = if qType query == Table then $(widgetFile "summoner/stats") else makeChart summonerChart series
-        let stats = $(widgetFile "summoner/stats")
-        $(widgetFile "summoner/view")
-
+        $(widgetFile "summoner/stats")
     where
         formatPct :: Double -> String
         formatPct d = printf "%2.1f%%" (d * 100)
@@ -85,13 +88,15 @@ getSummonerStatsR summonerName = do
         formatDouble d = printf "%0.2f" d
 
 
-dataForm :: Text -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Query, Widget)
-dataForm summonerName extra = do
-    (queueRes, queueView) <- mreq (multiSelectField queueTypes) "" (Just ["RANKED_SOLO_5x5", "NORMAL"])
+
+dataForm :: Text -> ChampionMap -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Query, Widget)
+dataForm summonerName championMap extra = do
+    (queueRes, queueSelect) <- mreq (multiSelectField queueTypes) "" (Just ["RANKED_SOLO_5x5", "NORMAL"])
+    (champRes, champSelect) <- mreq (multiSelectField . map (\(n,c) -> (championName c, n)) . champsAsList $ championMap) "" Nothing
     let q = Query <$> pure (QPlayerChampion summonerName) 
-                  <*> queueRes 
-                  <*> pure [summonerName] 
-                  <*> pure [] 
+                  <*> pure summonerName
+                  <*> queueRes
+                  <*> champRes
                   <*> pure (queryCols summonerName)
     let widget = $(widgetFile "summoner/query-form")
     return (q, widget)
@@ -108,4 +113,23 @@ chosenImports = do
             $("select").chosen();
         });
     |]
+
+{- The query for data. -}
+data Query = Query { qKey       :: QueryColumn Game Text
+                   , qSummoner  :: Text
+                   , qQueueTypes:: [Text]
+                   , qChampions :: [Text]
+                   , qCols      :: [QueryColumn Game Double]
+                   }
+
+runQuery query = mapReduce (qKey query)
+                           (catMaybes [championFilters, queueTypeFilters])
+                           (qCols query)
+    where
+        championFilters  = case qChampions query of
+            [] -> Nothing
+            s  -> Just $ QPlayerChampion (qSummoner query) .<- s
+        queueTypeFilters = case qQueueTypes query of
+            [] -> Nothing
+            s  -> Just $ QGameQueueType .<- s
 

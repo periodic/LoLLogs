@@ -5,8 +5,8 @@ module Model.Game.Query ( module Model.Game.Query
 
 import Prelude
 import Data.Bson
-import Data.Text (Text)
 import Data.Maybe (catMaybes)
+import Data.Text (Text)
 import qualified Data.UString as US
 
 import Model.Game
