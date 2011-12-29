@@ -6,7 +6,7 @@
     .pct, .int, .double {
         text-align: right;
     }
-    tfoot tr.total td {
+    tr.total td {
         font-weight: bold;
     }
 }

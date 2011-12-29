@@ -14,6 +14,19 @@
                 <th.double>Assists / Min
                 <th.double>CS / Min
                 <th.double>Gold / Min
+            $forall (_, stats) <- totals
+                <tr.total>
+                    <td>Total
+                    <td.int>#{getResultCount stats}
+                    $with (colPct, colDouble) <- splitAt 1 columns
+                        $forall col <- colPct
+                            <td.pct>
+                                $maybe datum <- getResultValue col stats
+                                    #{formatPct datum}
+                        $forall col <- colDouble
+                            <td.double>
+                                $maybe datum <- getResultValue col stats
+                                    #{formatDouble datum}
         <tbody>
             $forall (champ, stats) <- champData
                 <tr>
