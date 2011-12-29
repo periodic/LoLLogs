@@ -21,7 +21,7 @@
                             <a href=@{DownloadR}>Download Client
                     <form.pull-right action=@{SummonerSearchR}>
                         <input name=q type=text placeholder="Search for a summoner">
-        <div.container
+        <div.container>
             ^{pageBody pc}
 
         <div#footer.container>

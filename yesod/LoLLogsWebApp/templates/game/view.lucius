@@ -1,5 +1,4 @@
 .team {
-    padding: 5px;
     border: 1px solid #d00;
     margin-bottom: 10px;
 }
@@ -13,8 +12,8 @@
     height: 40px;
 
     .summoner-info {
-        float: left;
-        width: 300px;
+        /* float: left;
+        width: 300px; */
 
         img {
             width: 40px;
@@ -34,8 +33,8 @@
     }
 
     .summoner-kda {
-        float: left;
-        width: 200px;
+        /* float: left;
+        width: 200px; */
         font-size: 200%;
         line-height: 40px;
 
@@ -51,21 +50,21 @@
     }
 
     .summoner-items {
-        float: left;
-        width: 200px;
+        /* float: left;
+        width: 200px; */
     }
 
     .summoner-gold {
-        float: left;
-        width: 200px;
+        /* float: left;
+        width: 200px; */
         color: #990;
         font-size: 200%;
         line-height: 40px;
     }
 
     .summoner-cs {
-        float: left;
-        width: 200px;
+        /* float: left;
+        width: 200px; */
         font-size: 200%;
         line-height: 40px;
     }

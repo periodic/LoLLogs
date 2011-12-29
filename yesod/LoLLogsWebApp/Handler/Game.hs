@@ -34,6 +34,7 @@ getGameIndexR = do
 getGameViewR :: GameId -> Handler RepHtml
 getGameViewR gameId = do
     game <- runDB $ get404 gameId
+    let stats = gameGameStats game
     champions <- championsByName
     defaultLayout $ do
         setTitle "Game"
