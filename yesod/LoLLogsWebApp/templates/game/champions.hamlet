@@ -4,7 +4,7 @@
             $maybe player <- (gameLookupPlayer summoner game)
                 $maybe champ <- lookupChamp (psSkinName player) champions
                     <a href=@{SummonerStatsR summoner}>
-                        <img.champ-portrait src=#{championImageUrl champ} alt=#{summoner}>
+                        <img.champ-portrait src=@{StaticR $ championImageUrl champ} alt=#{summoner}>
                 $nothing
                     <a href=@{SummonerStatsR summoner}>
                         <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{summoner}>
@@ -16,7 +16,7 @@
             $maybe player <- (gameLookupPlayer summoner game)
                 $maybe champ <- lookupChamp (psSkinName player) champions
                     <a href=@{SummonerStatsR summoner}>
-                        <img.champ-portrait src=#{championImageUrl champ} alt=#{summoner}>
+                        <img.champ-portrait src=@{StaticR $ championImageUrl champ} alt=#{summoner}>
                 $nothing
                     <a href=@{SummonerStatsR summoner}>
                         <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{summoner}>

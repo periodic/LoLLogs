@@ -1,0 +1,14 @@
+$(function () {
+    $('#players').delegate('.player-header', 'click', function (e) {
+        $this = $(this);
+
+        if ($this.closest('a').size() > 0) // Skip links.
+            return true;
+
+        $details = $this.closest('.player').find('.player-details');
+        if ($details.is(":visible"))
+            $details.slideUp('fast');
+        else
+            $details.slideDown('fast');
+    });
+});

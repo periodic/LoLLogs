@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    padding-top: 40px;
+    padding-top: 60px;
 }
 
 img.champ-portrait {
@@ -12,4 +12,8 @@ li.next.last {
     border-left-width: 1px;
     border-left-color: #DDD;
     border-left-color: rgba(0, 0, 0, 0);
+}
+
+.js .noflash {
+    display: none;
 }

@@ -91,10 +91,10 @@ getSection GameCreateR = GamesSection
 getSection (GameViewR _) = GamesSection
 
 getSection ChampionIndexR = ChampionsSection
-getSection ChampionCreateR = ChampionsSection
+--getSection ChampionCreateR = ChampionsSection
 getSection (ChampionViewR _) = ChampionsSection
-getSection (ChampionUpdateR _) = ChampionsSection
-getSection (ChampionDeleteR _) = ChampionsSection
+--getSection (ChampionUpdateR _) = ChampionsSection
+--getSection (ChampionDeleteR _) = ChampionsSection
 
 getSection DownloadR = DownloadSection
 

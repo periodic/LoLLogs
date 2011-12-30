@@ -3,8 +3,8 @@ module Handler.Summoner where
 
 import Import
 
-import Data.Maybe (catMaybes)
-import Data.Text as T (append)
+import Data.Maybe (catMaybes, fromMaybe)
+import Data.Text as T (append, pack)
 import Text.Printf
 
 import Yesod.Widget.Pager
@@ -69,7 +69,9 @@ statsPane summonerName champions = do
                     FormSuccess qData -> qData
                     _                 -> Query (QPlayerChampion summonerName) summonerName ["RANKED_SOLO_5x5", "NORMAL"] [] (queryCols summonerName)
 
-    -- DB calls
+    $(logDebug) . T.pack . show $ qQueueTypes query
+    $(logDebug) . T.pack . show $ mrFromQuery query
+
     dataRows <- runDB $ runQuery query
     let champData = Import.filter ((/= "_total") . fst) dataRows
     let totals    = Import.filter ((== "_total") . fst) dataRows
@@ -91,12 +93,14 @@ statsPane summonerName champions = do
 
 dataForm :: Text -> ChampionMap -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Query, Widget)
 dataForm summonerName championMap extra = do
-    (queueRes, queueSelect) <- mreq (multiSelectField queueTypes) "" (Just ["RANKED_SOLO_5x5", "NORMAL"])
-    (champRes, champSelect) <- mreq (multiSelectField . map (\(n,c) -> (championName c, n)) . champsAsList $ championMap) "" Nothing
+    let queueDefault = ["RANKED_SOLO_5x5", "NORMAL"]
+    let champDefault = []
+    (queueRes, queueSelect) <- mopt (multiSelectField queueTypes) "" (Just $ Just queueDefault)
+    (champRes, champSelect) <- mopt (multiSelectField . map (\(n,c) -> (championName c, n)) . champsAsList $ championMap) "" (Just $ Just champDefault)
     let q = Query <$> pure (QPlayerChampion summonerName) 
                   <*> pure summonerName
-                  <*> queueRes
-                  <*> champRes
+                  <*> (fromMaybe [] <$> queueRes)
+                  <*> (fromMaybe [] <$> champRes)
                   <*> pure (queryCols summonerName)
     let widget = $(widgetFile "summoner/query-form")
     return (q, widget)
@@ -110,6 +114,7 @@ chosenImports = do
     addStylesheet $ StaticR lib_chosen_chosen_css
     toWidget [julius|
         $(function() {
+            $(".noflash").show();
             $("select").chosen();
         });
     |]
@@ -122,14 +127,16 @@ data Query = Query { qKey       :: QueryColumn Game Text
                    , qCols      :: [QueryColumn Game Double]
                    }
 
-runQuery query = mapReduce (qKey query)
-                           (catMaybes [championFilters, queueTypeFilters])
-                           (qCols query)
+runQuery = runMapReduce . mrFromQuery
+
+mrFromQuery query = buildQuery (qKey query)
+                               (summonerFilter : (catMaybes [championFilters, queueTypeFilters]))
+                               (qCols query)
     where
+        summonerFilter   = QGameSummoner .== qSummoner query
         championFilters  = case qChampions query of
             [] -> Nothing
             s  -> Just $ QPlayerChampion (qSummoner query) .<- s
         queueTypeFilters = case qQueueTypes query of
             [] -> Nothing
             s  -> Just $ QGameQueueType .<- s
-

@@ -1,5 +1,5 @@
-<div#stats-form>
-    <form>
+<div>
+    <form#stats-form>
         ^{queryForm}
 
 <div#stats-table>

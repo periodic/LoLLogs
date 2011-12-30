@@ -2,22 +2,36 @@
 
 <div.row>
     <div#stats.span4>
-        <p>Created: #{show $ gameCreated game}
-        <p>User Id: #{gsUserId stats}
-        <p>Length: #{formatGameTime $ gsGameLength stats}
-        <p>Queue Type: #{queueDisplayName $ gsQueueType stats}
+        <p>
+            <span.data-label>Created:
+            #{show $ gameCreated game}
+        <p>
+            <span.data-label>User Id:
+            #{gsUserId stats}
+        <p>
+            <span.data-label>Length:
+            #{formatGameTime $ gsGameLength stats}
+        <p>
+            <span.data-label>Queue Type:
+            #{queueDisplayName $ gsQueueType stats}
         $if gsRanked stats
-            <p>Ranked #{gsRanked stats}
-            <p>Elo: #{gsElo stats}
-            <p>Elo Change: #{gsEloChange stats}
+            <p>
+                <span.data-label>Ranked
+                #{gsRanked stats}
+            <p>
+                <span.data-label>Elo:
+                #{gsElo stats}
+            <p>
+                <span.data-label>Elo Change:
+                #{gsEloChange stats}
 
     <div#players.span12>
-        <div.team :gameBlueTeamWon game:class=winner>
+        <div.team :gameBlueTeamWon game:.winner>
             $forall summonerName <- gsBlueTeam (gameGameStats game)
                 $maybe player <- gameLookupPlayer summonerName game
                     ^{playerDetails player champions}
 
-        <div.team :not (gameBlueTeamWon game):class=winner>
+        <div.team :not (gameBlueTeamWon game):.winner>
             $forall summonerName <- gsPurpleTeam (gameGameStats game)
                 $maybe player <- gameLookupPlayer summonerName game
                     ^{playerDetails player champions}

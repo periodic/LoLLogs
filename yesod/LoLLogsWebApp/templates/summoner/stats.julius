@@ -10,7 +10,7 @@ $(function () {
         $table.addClass('loading');
         $.ajax({
             type: 'GET',
-            data: $('#stats-query-form').serialize(),
+            data: $('#stats-form').serialize(),
             url: "@{SummonerStatsR summonerName}",
             success: function (data, textStatus, jqXHR) {
                 $table.html( $("##{statsTableId}", data).html() );

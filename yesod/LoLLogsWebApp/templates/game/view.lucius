@@ -1,19 +1,29 @@
+#stats span.data-label {
+    font-weight: bold;
+    width: 80px;
+    text-align: left;
+    margin-right: 5px;
+}
+
 .team {
     border: 1px solid #d00;
     margin-bottom: 10px;
 }
+
 .team.winner {
     border: 1px solid #0d0;
 }
+
 .player-header {
     clear: both;
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
     padding: 10px;
     height: 40px;
 
     .summoner-info {
-        /* float: left;
-        width: 300px; */
+        float: left;
+        width: 220px;
+        overflow: hidden;
 
         img {
             width: 40px;
@@ -33,8 +43,9 @@
     }
 
     .summoner-kda {
-        /* float: left;
-        width: 200px; */
+        float: left;
+        width: 100px;
+        overflow: hidden;
         font-size: 200%;
         line-height: 40px;
 
@@ -50,27 +61,32 @@
     }
 
     .summoner-items {
-        /* float: left;
-        width: 200px; */
+        float: left;
+        width: 180px;
+        overflow: hidden;
     }
 
     .summoner-gold {
-        /* float: left;
-        width: 200px; */
+        float: left;
+        width: 80px;
+        overflow: hidden;
         color: #990;
         font-size: 200%;
         line-height: 40px;
     }
 
     .summoner-cs {
-        /* float: left;
-        width: 200px; */
+        float: left;
+        width: 80px;
+        overflow: hidden;
         font-size: 200%;
         line-height: 40px;
     }
-
 }
+
 .player-details {
     clear: both;
     display: none;
+    background-color: #eee;
+    padding: 10px;
 }

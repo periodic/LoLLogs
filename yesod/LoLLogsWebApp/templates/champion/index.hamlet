@@ -1,16 +1,11 @@
 <h1>Champion Index
-$forall item <- items
-    $with champ <- snd item
-        <div.champion-row
-            <div.champion-actions
-                <a.btn href=@{ChampionUpdateR (fst item)}>Edit
-                <a.btn.danger href=@{ChampionDeleteR (fst item)} onClick="return confirm('Are you sure you want to delete?');">Delete
-            <a.box href=@{ChampionViewR (fst item)}
-                <div.champion-img
-                    <img src=#{championImageUrl champ}
-                <div.champion-name
-                    #{championName champ}
 
-<a href=@{ChampionCreateR}>Create New
-    
+<ul.media-grid>
+    $forall (champId, champ) <- items
+        <li.champion-row>
+            <a.box href=@{ChampionViewR champId}>
+                <div.champion-img>
+                    <img src=@{StaticR $ championImageUrl champ}
+                <div.champion-name>
+                    #{championName champ}
 

@@ -1,5 +1,7 @@
 {-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, TypeSynonymInstances #-}
-module Model.Game.Query ( module Model.Game.Query
+module Model.Game.Query ( Query(..)
+                        , QueryColumn(..)
+                        , runQuery
                         , module Model.Helper.MapReduce
                         ) where
 

@@ -1,4 +1,4 @@
-#stats-query-form select {
+#stats-form select {
     width: 100%;
 }
 

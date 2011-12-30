@@ -2,11 +2,11 @@
     #{extra}
     <div.clear-fix>
         <label>Game Types:
-        <div.input>
+        <div.input.noflash>
             <span class=multi>^{fvInput queueSelect}
         <label>Champions:
-        <div.input>
+        <div.input.noflash>
             <span class=multi>^{fvInput champSelect}
     <div.clear-fix>
         <div.input>
-            <input#stats-query-form-submit.btn.primary type=submit data-loading-text="Loading..."/>
+            <input#stats-query-form-submit.btn.primary type=submit value="Filter" data-loading-text="Loading..."/>

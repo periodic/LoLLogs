@@ -13,9 +13,6 @@
 
 /champions ChampionIndexR GET
 /champion/view/#ChampionId ChampionViewR GET
-/champion/create ChampionCreateR GET POST
-/champion/update/#ChampionId ChampionUpdateR GET POST
-/champion/delete/#ChampionId ChampionDeleteR GET POST DELETE
 
 /stats GameStatsR GET
 
