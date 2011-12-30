@@ -5,24 +5,29 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         <title>#{pageTitle pc}
         ^{pageHead pc}
-    <body
-        <div#navigation.topbar>
-            <div.topbar-inner>
+    <body>
+        <div#wrapper>
+            <div#navigation.topbar>
+                <div.topbar-inner>
+                    <div.container>
+                        <a.brand href=@{RootR}>CasualAddict: LoL
+                        <ul.nav>
+                            <li :section == HomeSection:.active>
+                                <a href=@{RootR}>Home
+                            <li :section == GamesSection:.active>
+                                <a href=@{GameIndexR}>Games
+                            <li :section == ChampionsSection:.active>
+                                <a href=@{ChampionIndexR}>Champions
+                            <li :section == DownloadSection:.active>
+                                <a href=@{DownloadR}>Download Client
+                        <form.pull-right action=@{SummonerSearchR}>
+                            <input name=q type=text placeholder="Search for a summoner">
+            <div#content>
                 <div.container>
-                    <a.brand href=@{RootR}>CasualAddict: LoL
-                    <ul.nav>
-                        <li :section == HomeSection:.active>
-                            <a href=@{RootR}>Home
-                        <li :section == GamesSection:.active>
-                            <a href=@{GameIndexR}>Games
-                        <li :section == ChampionsSection:.active>
-                            <a href=@{ChampionIndexR}>Champions
-                        <li :section == DownloadSection:.active>
-                            <a href=@{DownloadR}>Download Client
-                    <form.pull-right action=@{SummonerSearchR}>
-                        <input name=q type=text placeholder="Search for a summoner">
-        <div.container>
-            ^{pageBody pc}
+                    ^{pageBody pc}
 
-        <div#footer.container>
+        <div#footer>
+            <div.container>
+                <p>Copyright &copy; 2011-2012 CasualAddict.
+                <p>League of Legends, champions, items, champion artwork and item artwork are copyright &copy; Riot Games.
 

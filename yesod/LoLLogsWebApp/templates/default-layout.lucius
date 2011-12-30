@@ -1,6 +1,9 @@
+html, body {
+    height: 100%;
+}
 body {
     font-family: sans-serif;
-    padding-top: 60px;
+    height: 100%;
 }
 
 img.champ-portrait {
@@ -16,4 +19,24 @@ li.next.last {
 
 .js .noflash {
     display: none;
+}
+
+#wrapper {
+    min-height: 100%;
+}
+
+#content {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+
+#footer {
+    color: #999;
+    font-size: 80%;
+    height: 60px;
+    margin-top: -60px;
+    padding-top: 10px;
+    width: 100%;
+    clear: both;
 }
