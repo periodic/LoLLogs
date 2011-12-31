@@ -1,0 +1,7 @@
+LIBRARY Parser
+EXPORTS
+	cGamesAsJSON@4
+	parseFile@4
+	uploadLog@4
+	HsStart
+	HsEnd
