@@ -2,9 +2,11 @@ module Handler.Champion where
 
 import Import
 
+import Model.Champion
+
 getChampionIndexR :: Handler RepHtml
 getChampionIndexR = do
-    items <- (runDB $ selectList [] []) :: Handler [(ChampionId, Champion)]
+    items <- (runDB $ selectList [] [Asc ChampionName]) :: Handler [(ChampionId, Champion)]
     defaultLayout $ do
         setTitle "Champions"
         $(widgetFile "champion/index")
@@ -17,6 +19,7 @@ getChampionViewR modelId = do
         setTitle "Champion"
         $(widgetFile "champion/view")
 
+{-
 getChampionCreateR :: Handler RepHtml
 getChampionCreateR = do
     ((_, form), enctype) <- generateFormPost (championForm Nothing)
@@ -60,5 +63,6 @@ deleteChampionDeleteR modelId = do
 championForm :: Maybe Champion -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult Champion, Widget)
 championForm champion = renderDivs $ Champion
     <$> areq textField "Name"       (championName <$> champion)
-    <*> areq urlField  "Image"      (championImageUrl <$> champion)
+    -- <*> areq urlField  "Image"      (championImageUrl <$> champion)
     <*> areq textField "Skin Name"  (championSkinName <$> champion)
+    -}

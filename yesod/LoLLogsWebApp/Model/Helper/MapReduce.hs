@@ -38,6 +38,7 @@ import Prelude
 import Database.Persist.Base
 import qualified Data.UString as S (pack, unpack, concat)
 import Data.Text as T (Text, unpack, pack)
+import Data.Maybe (catMaybes)
 import Data.String
 import Control.Applicative (Applicative(..))
 import qualified Data.Map as M
@@ -254,19 +255,20 @@ execute query = do
             let makeRecord rec = do
                 recid <- Mongo.lookup "_id" rec
                 values <- Mongo.lookup "value" rec
-                return (recid, M.fromList $ map (\(l := v) -> (l,v)) values) :: Either Failure (Label, M.Map Label Value)
-            mapM makeRecord results
--- runDB :: MonadIO monad => Action (GGHandler sub master IO) a -> GGHandler sub master monad a
+                return (recid, M.fromList $ map (\(l := v) -> (l,v)) values)
+            return . catMaybes $ map makeRecord results
 
 runMapReduce :: (PersistBackend Action m, Applicative m) => MapReduce -> Action m [(Label, M.Map Label Value)]
 runMapReduce query = do
-    result <- runMR' query
-    results <- Mongo.lookup "results" result
-    let makeRecord doc = do
-        recId <- Mongo.lookup "_id" doc
-        values <- Mongo.lookup "value" doc
-        return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
-    mapM makeRecord results
+    result  <- runMR' query
+    results <- Mongo.lookup "results" result -- Note, will call fail if no results exist.
+    return . catMaybes $ map makeRecord results
+    where
+        makeRecord :: Document -> Maybe (Label, M.Map Label Value)
+        makeRecord doc = do
+            recId  <- Mongo.lookup "_id" doc
+            values <- Mongo.lookup "value" doc
+            return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
 
 mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
            => QueryColumn model typ                     -- ^ The column to use a key.

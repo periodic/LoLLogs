@@ -3,8 +3,8 @@
 <p>Download the log-parser/uploader.  It pre-processes your logs into a simple format, and then uploads those logs to our servers where they can show up in our database immediately.
 
 <p>
-    <span.label.important>Important #
-    You must close the League of Legends client before running the uploader.  League of Legends locks the logs while it is open, so we can't read them while it is running.
+    <span.label.important>Important
+    \ You must close the League of Legends client before running the uploader.  League of Legends locks the logs while it is open, so we can't read them while it is running.
 
 <p>
     <a.btn.primary href=@{StaticR upload_games_zip}>Download
@@ -18,3 +18,9 @@
 
     <dt>When I run the uploader I get a message saying "Permission Denied".
     <dd>This is what happens when the League of Legends client is open when you run the uploader.  Close the client and try again. The client locks the log files while it is open, which prevents the uploader from reading them.
+
+    <dt>Why is the program so <em>huge</em>!
+    <dd>The uploader is currently written using the GTK windowing toolkit, the stuff used to draw all the windows.  GTK isn't included in Windows, so we have to bundle enough of it so that you can use the program.  We're planning to fix this in the near future and are already working on a Windows-native GUI.
+
+    <dt>How do I know this program is safe?
+    <dd> Because you can see the source!  You can see all the source online on <a href="https://github.com/periodic/LoLLogs/tree/master/client">GitHub</a>.

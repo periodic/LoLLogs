@@ -1,12 +1,14 @@
 {-# LANGUAGE OverloadedStrings, FunctionalDependencies, MultiParamTypeClasses, TypeSynonymInstances #-}
-module Model.Game.Query ( module Model.Game.Query
+module Model.Game.Query ( Query(..)
+                        , QueryColumn(..)
+                        , runQuery
                         , module Model.Helper.MapReduce
                         ) where
 
 import Prelude
 import Data.Bson
-import Data.Text (Text)
 import Data.Maybe (catMaybes)
+import Data.Text (Text)
 import qualified Data.UString as US
 
 import Model.Game

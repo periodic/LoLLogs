@@ -1,12 +1,16 @@
 <h1>#{summonerName}
 
-<h2>
-    Stats
+<ul.tabs data-tabs=tabs>
+    <li.active>
+        <a href="#stats">Stats
+    <li>
+        <a href="#games">Games
 
-<form>
-    ^{widget}
+<div.tab-content>
+    <div#stats.active>
+        <h2> Stats
+        ^{statsWidget}
 
-^{stats}
-
-<h2>Games
-^{ajaxFrame defaultFrameOptions gameList}
+    <div#games>
+        <h2>Games
+        ^{gamesWidget}

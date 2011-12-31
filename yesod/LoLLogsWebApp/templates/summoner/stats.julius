@@ -1,0 +1,27 @@
+$(function () {
+    $table = $('##{statsTableId}');
+
+    $table.tablesorter({ sortList: [[0,0]] });
+
+    $('#stats-query-form-submit').click(function (e) {
+        $button = $(this);
+        e.preventDefault();
+        $button.button('loading');
+        $table.addClass('loading');
+        $.ajax({
+            type: 'GET',
+            data: $('#stats-form').serialize(),
+            url: "@{SummonerStatsR summonerName}",
+            success: function (data, textStatus, jqXHR) {
+                $table.html( $("##{statsTableId}", data).html() );
+                $table.removeClass('loading');
+                $button.button('reset');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $container.removeClass('loading');
+                alert("an error occured.");
+                $button.button('reset');
+            }
+        });
+    });
+});

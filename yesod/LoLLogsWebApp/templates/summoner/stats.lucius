@@ -1,0 +1,13 @@
+#stats-form select {
+    width: 100%;
+}
+
+##{statsTableId} {
+    .pct, .int, .double {
+        text-align: right;
+    }
+    tr.total td {
+        font-weight: bold;
+    }
+}
+

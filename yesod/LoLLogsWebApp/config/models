@@ -10,7 +10,6 @@ Email
 
 Champion
     name Text
-    imageUrl Text
     skinName Text
     UniqueName name
 

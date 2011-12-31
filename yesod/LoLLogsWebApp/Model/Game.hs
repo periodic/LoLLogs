@@ -4,7 +4,7 @@ module Model.Game ( module Model.Game
 
 import Prelude
 -- import Yesod hiding (Unique, EntityField, PersistEntity, Key, )
-import Data.Text as T (Text)
+import Data.Text (Text, isPrefixOf)
 import Data.Time
 import System.Locale (defaultTimeLocale)
 import qualified Data.Map as M
@@ -97,12 +97,6 @@ playerCreepScore player = playerNeutralMobs player + playerMinionsSlain player
 playerVictory :: PlayerStats -> Int
 playerVictory = fromMaybe 0 . lookupStat "Victories"
 
-lookupStat :: Text -> PlayerStats -> Maybe Int
-lookupStat stat player = do
-    let stats = psStatistics player
-    value <- M.lookup stat stats
-    return $ value
-
 playerTeamWon :: M.Map Text PlayerStats -> Bool
 playerTeamWon team =
     (> 0) . playerVictory . head . M.elems $ team
@@ -132,3 +126,16 @@ queueDisplayName "RANKED_SOLO_5x5"  = "Ranked, Solo"
 queueDisplayName "BOT"              = "Bot"
 queueDisplayName s                  = s
 
+{- PlayerStats related stuff.
+ -}
+lookupStat :: Text -> PlayerStats -> Maybe Int
+lookupStat stat player = do
+    let stats = psStatistics player
+    value <- M.lookup stat stats
+    return $ value
+
+itemStats :: M.Map Text Int -> M.Map Text Int
+itemStats = M.filterWithKey (\k v -> "**ITEM" `isPrefixOf` k)
+
+nonItemStats :: M.Map Text Int -> M.Map Text Int
+nonItemStats = M.filterWithKey (\k v -> not $ "**ITEM" `isPrefixOf` k)
