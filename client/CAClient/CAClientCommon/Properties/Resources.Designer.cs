@@ -59,5 +59,12 @@ namespace CAClientCommon.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static byte[] Parser {
+            get {
+                object obj = ResourceManager.GetObject("Parser", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

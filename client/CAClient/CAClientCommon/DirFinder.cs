@@ -14,7 +14,7 @@ namespace CAClientCommon
         static string logSubDir = "\\deploy\\logs";
 
         public abstract List<string> getFiles();
-        // public abstract bool hasFiles();
+        public abstract string getDirectory();
  
         protected static List<string> getLogFiles(string path)
         {
@@ -74,6 +74,11 @@ namespace CAClientCommon
             requestDirectory();
             return getLogFiles(baseDir);
         }
+
+        public override string getDirectory()
+        {
+            return baseDir;
+        }
     }
 
     public class StaticDirFinder : DirFinder{
@@ -86,14 +91,19 @@ namespace CAClientCommon
         public override List<string> getFiles() {
             return getLogFiles(directory);
         }
+
+        public override string getDirectory()
+        {
+            return directory;
+        }
     }
 
     public class RegistryDirFinder : DirFinder
     {
-        public string registryKey;
+        public RegistryKey registryKey;
         public string registryValue;
 
-        public RegistryDirFinder(string key, string val)
+        public RegistryDirFinder(RegistryKey key, string val)
         {
             registryKey = key;
             registryValue = val;
@@ -104,9 +114,9 @@ namespace CAClientCommon
             return getLogFiles(lookupRegistryString());
         }
 
-        string lookupRegistryString()
+        private string lookupRegistryString()
         {
-            Object val = Registry.GetValue(registryKey, registryValue, null);
+            Object val = registryKey.GetValue(registryValue, null);
 
             if (val == null)
                 throw new DirectoryNotFoundException("Could not get directory from registry at: " + registryKey + " : " + registryValue);
@@ -116,6 +126,11 @@ namespace CAClientCommon
             } catch (InvalidCastException e) {
                 throw new DirectoryNotFoundException("Registry did not return a string: " + registryKey + " : " + registryValue);
             }
+        }
+
+        public override string getDirectory()
+        {
+            return lookupRegistryString();
         }
     }
 }

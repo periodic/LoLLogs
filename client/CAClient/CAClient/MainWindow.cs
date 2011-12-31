@@ -8,14 +8,16 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Threading;
+using Microsoft.Win32;
 
 using CAClientCommon;
-using ParserCombinators;
 
 namespace CAClient
 {
     public partial class MainWindow : Form
     {
+        private static RegistryKey caKey = Registry.CurrentUser.OpenSubKey("\\Software\\CasualAddict\\CAClient", true);
+        private static string registryValueName = "LoLFolder";
         private UILogger logger;
 
         private void log(string msg)
@@ -31,10 +33,10 @@ namespace CAClient
             logger = new UILogger(logText);
 
             var files = new List<string>();
-            DirFinder[] dirFinders = { new RegistryDirFinder("HKEY_CURRENT_USER\\Software\\Riot Games\\RADS", "LocalRootFolder")
-                                     //, new StaticDirFinder("C:\\Riot Games\\League of Legends") 
-                                     , new StaticDirFinder("D:\\Games\\League of Legends") 
-                                     //, new DialogDirFinder()
+            DirFinder[] dirFinders = { new RegistryDirFinder(Registry.CurrentUser.OpenSubKey("\\Software\\Riot Games\\RADS"), "LocalRootFolder")
+                                     , new RegistryDirFinder(caKey, registryValueName)
+                                     , new StaticDirFinder("C:\\Riot Games\\League of Legends") 
+                                     , new DialogDirFinder()
                                      };
 
             var dirSrcs = new List<DirFinder>(dirFinders);
@@ -43,12 +45,13 @@ namespace CAClient
             {
                 try
                 {
-                    files = dir.getFiles();
+                    files.AddRange(dir.getFiles());
+                    saveDirInRegistry(dir.getDirectory());
                     break;
                 }
                 catch (Exception e)
                 {
-                    log(e.Message);
+                    log(e.Message + e.StackTrace);
                 }
             }
 
@@ -69,6 +72,11 @@ namespace CAClient
 
         }
 
+        private void saveDirInRegistry(string dir)
+        {
+            caKey.SetValue(registryValueName, dir);
+            log("Saved directory in the registry for future use.");
+        }
 
         private void quitButton_Click(object sender, EventArgs e)
         {
@@ -144,7 +152,7 @@ namespace CAClient
                     throw new Exception("No files specified.");
 
                 // Parser parser = new Parser();
-                var parser = new LogParserFromString();
+                // var parser = new LogParserFromString();
 
                 log(worker, "Processing " + files.Count() + " files.");
                 foreach (string logFile in files)
@@ -192,103 +200,18 @@ namespace CAClient
             }
         }
 
-        private void ParserTests()
+
+        private void detailsButton_Click(object sender, EventArgs e)
         {
-            var parser = new ASParserFromString();
-
-            var testStrings = new string[] { "\"foo\"", "123.456", "false", "true", "123", "(null)", "(null)#5", "NaN", "a date or something.", "(my.silly::Object)#5\n  foo = 1\n  bar = \"baz\"\n", "(Array)#0\n  [0] 1\n  [1] \"Foo\"", "(my.nested::Object)#0\n  foo = (Array)#1\n    [0] 1\n    [1] 2\n  bar = (internal::Object)#2\n    foo = 1\n    bar = 2" };
-
-            foreach (string tstr in testStrings)
+            if (logText.Visible)
             {
-                try
-                {
-                    ParserCombinators.Result<string, Value> result =
-                        parser.Val(tstr, 0);
-
-                    log(tstr + " => " + result.Value.ToString());
-                }
-                catch (Exception e)
-                {
-                    log(tstr + " => " + e.Message + e.StackTrace);
-                }
+                logText.Hide();
             }
-
-            var logParser = new LogParserFromString();
-
-            testStrings = new string[] {
-"12/22/2011 23:19:06.375 [INFO] com.riotgames.platform.common.utils.LogManager RiotApplication: initializing\n" +
-"12/22/2011 23:47:05.796 [DEBUG] com.riotgames.platform.gameclient.module.services.RemoteObjectGenerator Got async message: (mx.messaging.messages::AsyncMessageExt)#0\n" +
-"  body = (com.riotgames.platform.gameclient.domain::EndOfGameStats)#1\n" +
-"    basePoints = 12\n" +
-"    boostIpEarned = 0\n" +
-"12/22/2011 23:19:06.375 [DEBUG] com.riotgames.platform.common.utils.LogManager This is a debug message.\n"
-            };
-
-            foreach (string tstr in testStrings)
+            else
             {
-                try
-                {
-                    ParserCombinators.Result<string, DList<LogParsers<string>.LogMsg>> result =
-                        logParser.LogMsgs(tstr, 0);
-
-                    string output = "[";
-                    bool first = true;
-                    foreach (var msg in result.Value)
-                    {
-                        if (first)
-                            first = false;
-                        else
-                            output += ",";
-
-                        output += msg.ToString();
-                    }
-                    output += "]";
-                    log(tstr + " => " + output);
-                }
-                catch (Exception e)
-                {
-                    log(tstr + " => " + e.Message + e.StackTrace);
-                }
+                logText.Show();
             }
         }
 
-    }
-
-
-    public class ASParserFromString : ASParsers<string>
-    {
-        public override ParserCombinators.Parser<string, char> AnyChar
-        {
-            get
-            {
-                {
-                    return (input, indent) => input.Length > 0 ? new ParserCombinators.Result<string, char>(input[0], input.Substring(1)) : null;
-                }
-            }
-        }
-    }
-    public class LogParserFromString : LogParsers<string>
-    {
-        public override ParserCombinators.Parser<string, char> AnyChar
-        {
-            get
-            {
-                {
-                    return (input, indent) => input.Length > 0 ? new ParserCombinators.Result<string, char>(input[0], input.Substring(1)) : null;
-                }
-            }
-        }
-    }
-    public class LogParserFromStream : LogParsers<StreamReader>
-    {
-        public override ParserCombinators.Parser<StreamReader, char> AnyChar
-        {
-            get
-            {
-                {
-                    return (input, indent) => input.EndOfStream ? new ParserCombinators.Result<StreamReader, char>((char)input.Read(), input) : null;
-                }
-            }
-        }
     }
 }

@@ -33,6 +33,7 @@
             this.Title = new System.Windows.Forms.Label();
             this.logText = new System.Windows.Forms.TextBox();
             this.backgroundUploader = new System.ComponentModel.BackgroundWorker();
+            this.detailsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // progressBar
@@ -45,7 +46,7 @@
             // 
             // quitButton
             // 
-            this.quitButton.Location = new System.Drawing.Point(347, 381);
+            this.quitButton.Location = new System.Drawing.Point(347, 54);
             this.quitButton.Name = "quitButton";
             this.quitButton.Size = new System.Drawing.Size(75, 23);
             this.quitButton.TabIndex = 4;
@@ -65,13 +66,14 @@
             // logText
             // 
             this.logText.AcceptsReturn = true;
-            this.logText.Location = new System.Drawing.Point(12, 54);
+            this.logText.Location = new System.Drawing.Point(12, 83);
             this.logText.Multiline = true;
             this.logText.Name = "logText";
             this.logText.ReadOnly = true;
             this.logText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logText.Size = new System.Drawing.Size(410, 321);
+            this.logText.Size = new System.Drawing.Size(410, 300);
             this.logText.TabIndex = 6;
+            this.logText.Visible = false;
             // 
             // backgroundUploader
             // 
@@ -81,11 +83,25 @@
             this.backgroundUploader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // detailsButton
+            // 
+            this.detailsButton.AutoSize = true;
+            this.detailsButton.Location = new System.Drawing.Point(249, 54);
+            this.detailsButton.Name = "detailsButton";
+            this.detailsButton.Size = new System.Drawing.Size(92, 23);
+            this.detailsButton.TabIndex = 7;
+            this.detailsButton.Text = "Show Details";
+            this.detailsButton.UseVisualStyleBackColor = true;
+            this.detailsButton.Click += new System.EventHandler(this.detailsButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 416);
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(434, 395);
+            this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.logText);
             this.Controls.Add(this.Title);
             this.Controls.Add(this.quitButton);
@@ -104,6 +120,7 @@
         private System.Windows.Forms.Label Title;
         private System.Windows.Forms.TextBox logText;
         private System.ComponentModel.BackgroundWorker backgroundUploader;
+        private System.Windows.Forms.Button detailsButton;
     }
 }
 
