@@ -24,7 +24,7 @@ portraits champions game = $(widgetFile "game/champions")
 getGameIndexR :: Handler RepHtml
 getGameIndexR = do
     --gameData <- runDB $ selectList [] []
-    (games, pagerOpts) <- paginateSelectList 10 [] []
+    (games, pagerOpts) <- paginateSelectList 10 [] [Desc GameCreated]
     champions  <- championsByName
     defaultLayout $ do
         let gameList = $(widgetFile "game/list")

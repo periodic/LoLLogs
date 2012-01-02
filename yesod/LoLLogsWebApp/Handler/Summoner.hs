@@ -50,7 +50,7 @@ getSummonerStatsR summonerName = do
 
 gamesPane :: Text -> ChampionMap -> Handler Widget
 gamesPane summonerName champions = do
-    (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] []
+    (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] [Desc GameCreated]
 
     let gameList = $(widgetFile "game/list")
 
@@ -127,8 +127,10 @@ data Query = Query { qKey       :: QueryColumn Game Text
                    , qCols      :: [QueryColumn Game Double]
                    }
 
+runQuery :: Query -> MRBackend (GGHandler LoLLogsWebApp LoLLogsWebApp IO) [(Label, MRData)]
 runQuery = runMapReduce . mrFromQuery
 
+mrFromQuery :: Query -> MapReduce
 mrFromQuery query = buildQuery (qKey query)
                                (summonerFilter : (catMaybes [championFilters, queueTypeFilters]))
                                (qCols query)
