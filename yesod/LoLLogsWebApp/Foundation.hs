@@ -24,6 +24,7 @@ import Yesod.Auth.OpenId
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText, logLazyText)
+import Yesod.Widget.GoogleAnalytics
 import qualified Settings
 import qualified Data.ByteString.Lazy as L
 import qualified Database.Persist.Base
@@ -123,6 +124,7 @@ instance Yesod LoLLogsWebApp where
 
         pc <- widgetToPageContent $ do
             setTitle "Casual Addict"
+            googleAnalytics "UA-21596514-1" "casualaddict.com"
             -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")

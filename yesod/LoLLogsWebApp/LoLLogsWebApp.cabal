@@ -43,8 +43,9 @@ library
                      Handler.ChartExample
                      Handler.Summoner
                      Yesod.Widget.AjaxFrame
-                     Yesod.Widget.Pager
                      Yesod.Widget.Flot
+                     Yesod.Widget.GoogleAnalytics
+                     Yesod.Widget.Pager
 
     ghc-options:   -Wall -threaded -O0
     cpp-options:   -DDEVELOPMENT

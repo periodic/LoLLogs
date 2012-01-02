@@ -7,13 +7,16 @@
 ## lollogs-client
 
 * The client could use a GUI (wxWidgets or GTK maybe) at least to give the user a sense of what's going on.
-    - Abandoned GTK and WX.
-    * Starting on C#.NET solution.
-* Better error handling and reporting.
+    - [Done] Abandoned GTK and WX.
+    - [Done] Starting on C#.NET solution.
+    * Setup sys-tray file watching.  Just poll every 15 minutes.  No need to worry about watching for changes.
+        * "Upload Now" button.
+    * Startup item!
+* Clean up the details window.  Maybe log to a file instead.
 
 ## Upgrade to 0.9.4
 
-* Add logging statements with $(logDebug)!
+- [Done] Add logging statements with $(logDebug)!
 
 ## LoLLogsWebApp
 
@@ -23,12 +26,16 @@
 * Game-index
     - [Done] Whole-row is clickable.
     - [Done] Add creation date.
+    * Sort by date.
 * Game-view
-    * Make the details under each summoner expandable.
+    - [Done] Make the details under each summoner expandable.
+    - Format summoner details.
 * Summoner-info
-    * Game list on summoner info page.
+    - [Done] Game list on summoner info page.
     * Ability to create custom charts/tables on the summoner-view page.
     - [Done] Summary row to the stats table.
 * Champions
-    * Champs should not be editable publicly.
+    - [Done] Champs should not be editable publicly.
     * Champs should have a view page that lets you view some stats about them (could be complicated)
+* General
+    - [Done] Google Analytics.
