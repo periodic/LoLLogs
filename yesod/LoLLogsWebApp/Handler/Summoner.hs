@@ -13,9 +13,6 @@ import Yesod.Widget.AjaxFrame
 import Model.Champion
 import Model.Game.Query hiding (Query(..), runQuery)
 
-champPortrait :: Text -> ChampionMap -> Widget
-champPortrait skinName champions = $(widgetFile "game/champion-portrait")
-
 portraits :: ChampionMap -> Game -> Widget
 portraits champions game = $(widgetFile "game/champions")
 

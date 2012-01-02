@@ -13,22 +13,35 @@ table.game-list {
     }
 }
 
-.game-champions span {
-    display: block;
-    float: left;
-    height: 40px;
-    padding: 5px;
+.game-champions { 
     line-height: 40px;
+    ul {
+        display: block;
+        float: left;
+        height: 40px;
+        padding: 5px;
+        margin: 0;
+        width: 200px;
+        list-style: none;
+
+        li {
+            display: inline-block;
+            a {
+                display: inline-block;
+            }
+        }
+    }
+    .blue-team, .purple-team {
+        background-color: #edd;
+    }
+    .blue-team.winner, .purple-team.winner {
+        background-color: #ded;
+    }
+    span.vs {
+        font-size: 200%;
+        font-weight: bold;
+        float: left;
+        padding: 0 5px;
+    }
 }
 
-span.vs {
-    font-size: 200%;
-    font-weight: bold;
-}
-
-span.blue-team, span.purple-team {
-    background-color: #edd;
-}
-span.blue-team.winner, span.purple-team.winner {
-    background-color: #ded;
-}

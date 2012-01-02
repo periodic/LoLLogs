@@ -15,9 +15,6 @@ import Yesod.Widget.Pager
 
 import Model.Champion
 
-champPortrait :: Text -> ChampionMap -> Widget
-champPortrait skinName champions = $(widgetFile "game/champion-portrait")
-
 portraits :: ChampionMap -> Game -> Widget
 portraits champions game = $(widgetFile "game/champions")
 

@@ -1,4 +1,0 @@
-$maybe champ <- lookupChamp skinName champions
-    <img.champ-portrait src=@{StaticR $ championImageUrl champ} alt=#{championName champ}>
-$nothing
-    <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{skinName}>
