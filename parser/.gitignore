@@ -1,2 +1,6 @@
 /MakeJSONFiles
 /UploadGames
+Parser.dll
+Parser.dll.a
+Parser_stub.c
+Parser_stub.h
