@@ -11,4 +11,6 @@ $(function () {
         else
             $details.slideDown('fast');
     });
+
+    $('#grid thead th').twipsy();
 });

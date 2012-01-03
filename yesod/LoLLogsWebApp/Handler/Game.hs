@@ -15,6 +15,32 @@ import Yesod.Widget.Pager
 
 import Model.Champion
 
+gridStats :: [(Text, [Text])]
+gridStats = [ ("Combat", [ "Champion Kills"
+                         , "Deaths"
+                         , "Assists"
+                         , "Largest Killing Spree"
+                         , "Largest Multi Kill"
+                         ])
+            , ("Damage Done", [ "Damage Dealt"
+                              , "Physical Damage Dealt"
+                              , "Magic Damage Dealt"
+                              , "Largest Critical Strike"
+                              ])
+            , ("Damage Taken & Healed", [ "Healing Done"
+                                        , "Damage Taken"
+                                        , "Physical Damage Taken"
+                                        , "Magic Damage Taken"
+                                        ])
+            , ("Misc.", [ "Gold Earned"
+                        , "Turrets Destroyed"
+                        , "Inhibitors Destroyed"
+                        , "Minions Slain"
+                        , "Neutral Monsters Killed"
+                        , "Time Spent Dead"
+                        ])
+            ]
+
 portraits :: ChampionMap -> Game -> Widget
 portraits champions game = $(widgetFile "game/champions")
 
@@ -35,6 +61,8 @@ getGameViewR gameId = do
     champions <- championsByName
     defaultLayout $ do
         setTitle "Game"
+        addScript $ StaticR js_bootstrap_bootstrap_twipsy_js
+        addScript $ StaticR js_bootstrap_bootstrap_popover_js
         $(widgetFile "game/view")
     where
         playerDetails player champions = $(widgetFile "game/player-details")

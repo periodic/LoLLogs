@@ -24,8 +24,8 @@ championImageUrl champ = StaticRoute ["img", "champions", T.concat [championSkin
 championImage :: Champion -> Widget
 championImage champ = do
     addStylesheet $ StaticR css_champion_thumbnail_sprite_css
-    [whamlet|<div class="champion-thumbnail thumbnail-#{championSkinName champ}"></div>|]
+    [whamlet|<div class="champion-thumbnail thumbnail-#{championSkinName champ}">|]
 championImageLink :: LoLLogsWebAppRoute -> Champion -> Widget
 championImageLink route champ = do
     addStylesheet $ StaticR css_champion_thumbnail_sprite_css
-    [whamlet|<a href=@{route} class="champion-thumbnail thumbnail-#{championSkinName champ}"></a>|]
+    [whamlet|<a href=@{route} class="champion-thumbnail thumbnail-#{championSkinName champ}">|]

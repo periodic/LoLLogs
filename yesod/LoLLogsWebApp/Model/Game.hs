@@ -8,7 +8,6 @@ import Data.Text (Text, isPrefixOf)
 import Data.Time
 import System.Locale (defaultTimeLocale)
 import qualified Data.Map as M
-import Text.Printf
 import Data.Maybe (fromMaybe)
 import Data.GameLog
 import Data.GameLog.Persist ()
@@ -101,21 +100,6 @@ playerTeamWon :: M.Map Text PlayerStats -> Bool
 playerTeamWon team =
     (> 0) . playerVictory . head . M.elems $ team
 
-
-roundLargeNumber :: (Integral i) => i -> String
-roundLargeNumber i = if i < 1000
-                     then show i
-                     else if i < 1000000
-                        then printf "%.1fk" (fromIntegral i / 1000 :: Float)
-                        else printf "%.1fM" (fromIntegral i / 1000000 :: Float)
-
-formatGameTime :: Int -> String
-formatGameTime i = let hours = i `div` 3600
-                       mins  = (i `div` 60) `mod` 60
-                       secs  = i `mod` 60
-                    in if hours > 0
-                       then printf "%02d:%02d:%02d" hours mins secs
-                       else printf "%02d:%02d" mins secs
 
 gameFormattedCreateTime :: Game -> String
 gameFormattedCreateTime = formatTime defaultTimeLocale "%F" . gameCreated

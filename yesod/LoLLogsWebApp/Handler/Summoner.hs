@@ -42,7 +42,7 @@ getSummonerStatsR summonerName = do
 
     defaultLayout $ do
         setTitle . toHtml $ T.append "Stats for " summonerName
-        addScript $ StaticR js_bootstrap_tabs_js
+        addScript $ StaticR js_bootstrap_bootstrap_tabs_js
         $(widgetFile "summoner/view")
 
 gamesPane :: Text -> ChampionMap -> Handler Widget
@@ -77,7 +77,7 @@ statsPane summonerName champions = do
     return $ do
         -- Static scripts
         addScript $ StaticR js_jquery_tablesorter_min_js -- for a pretty table.
-        addScript $ StaticR js_bootstrap_buttons_js
+        addScript $ StaticR js_bootstrap_bootstrap_buttons_js
         chosenImports
         $(widgetFile "summoner/stats")
     where
