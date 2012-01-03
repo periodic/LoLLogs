@@ -1,21 +1,30 @@
 #players {
 
     .team {
-        border: 1px solid #d00;
-        margin-bottom: 10px;
+        border: 2px solid #5C1818;
+    }
+    .team.winner {
+        border: 2px solid #235C35;
     }
 
-    .team.winner {
-        border: 1px solid #0d0;
+    .team:first-child {
+        margin-bottom: 10px;
     }
 
     .leaver .player-header .summoner-info .summoner-name a {
         color: #600;
     }
 
+    .player {
+        border-top: 1px solid #ccc;
+    }
+
+    .player:first-child {
+        border-top: none;
+    }
+
     .player-header {
         clear: both;
-        border-top: 1px solid #ccc;
         padding: 10px;
         height: 40px;
 

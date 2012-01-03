@@ -5,6 +5,7 @@ import Import
 import Data.Enumerator.List (consume)
 import qualified Data.Map as M
 import qualified Data.ByteString as BS
+import Data.Maybe (fromMaybe, catMaybes)
 import Data.Aeson (json, Result(..), encode, Value(..))
 import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
@@ -63,9 +64,17 @@ getGameViewR gameId = do
         setTitle "Game"
         addScript $ StaticR js_bootstrap_bootstrap_twipsy_js
         addScript $ StaticR js_bootstrap_bootstrap_popover_js
+        addScript $ StaticR js_bootstrap_bootstrap_tabs_js
+        addScript $ StaticR js_jqplot_jquery_jqplot_min_js
+        addScript $ StaticR js_jqplot_jqplot_barRenderer_min_js
         $(widgetFile "game/view")
     where
         playerDetails player champions = $(widgetFile "game/player-details")
+        statNames = concatMap snd gridStats
+        statData game = 
+            let players = gsBlueTeam (gameGameStats game) ++ gsPurpleTeam (gameGameStats game)
+                playerData p = map (\s -> fromMaybe 0 $ lookupStat s p) statNames
+             in catMaybes $ map (\p -> playerData <$> gameLookupPlayer p game) players
 
 
 postGameCreateR :: Handler RepJson

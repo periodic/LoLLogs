@@ -1,16 +1,16 @@
 <h1>#{summonerName}
 
-<ul.tabs data-tabs=tabs>
+<ul#section-nav data-tabs=tabs>
     <li.active>
-        <a href="#stats">Stats
+        <a href="#stats">
+            Stats
     <li>
-        <a href="#games">Games
+        <a href="#games">
+            Games
 
 <div.tab-content>
     <div#stats.active>
-        <h2> Stats
         ^{statsWidget}
 
     <div#games>
-        <h2>Games
         ^{gamesWidget}

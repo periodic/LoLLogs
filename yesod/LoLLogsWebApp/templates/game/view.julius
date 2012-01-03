@@ -13,4 +13,13 @@ $(function () {
     });
 
     $('#grid thead th').twipsy();
+
+    refreshChart();
 });
+
+var statData = #{show $ statData game};
+
+function refreshChart() {
+    $.jqplot('chart',  [statData]);
+}
+

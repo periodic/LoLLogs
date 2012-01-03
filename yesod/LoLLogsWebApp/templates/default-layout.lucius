@@ -40,3 +40,38 @@ li.next.last {
     width: 100%;
     clear: both;
 }
+
+/* For navigation tabs.
+ */
+#section-nav {
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+    margin-left: 0;
+    margin-bottom: 20px;
+
+    li {
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        padding: 5px 10px;
+        font-size: 200%;
+    }
+
+    a {
+        color: #404040;
+    }
+
+    a:hover {
+        color: #404040;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .active {
+        a {
+            font-weight: bold;
+        }
+    }
+}
