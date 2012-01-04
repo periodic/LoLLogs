@@ -128,3 +128,12 @@
         border: 1px solid #DDD;
     }
 }
+
+#chart {
+    width: 100%;
+    height: 600px;
+
+    .jqplot-table-legend {
+        width: auto;
+    }
+}

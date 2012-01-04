@@ -1,3 +1,7 @@
+var statData = #{statDataJson game};
+
+var players = #{jsonPlayers game};
+
 $(function () {
     $('#players').delegate('.player-header', 'click', function (e) {
         $this = $(this);
@@ -14,12 +18,74 @@ $(function () {
 
     $('#grid thead th').twipsy();
 
-    refreshChart();
+    var plot = initPlot();
+
+    $('#section-nav').bind('change', function (e) {
+        console.log(e.target.hash);
+        if (e.target.hash === "#graph")
+            refreshChart(plot, ["Damage Dealt", "Damage Taken"]);
+    });
 });
 
-var statData = #{show $ statData game};
+function initPlot() {
+    var plotOpts = makeDataAndLabels(['Champion Kills', 'Deaths', 'Assists']);
 
-function refreshChart() {
-    $.jqplot('chart',  [statData]);
+    // For horizontal bar charts, x an y values must will be "flipped"
+    // from their vertical bar counterpart.
+    return $.jqplot('chart', plotOpts.data, {
+        seriesDefaults: {
+            renderer: $.jqplot.BarRenderer,
+            shadow: false,
+            rendererOptions: {
+                barDirection: 'horizontal'
+            }
+        },
+        legend: {
+            show: true,
+        },
+        series: plotOpts.labels,
+        axes: {
+            yaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                ticks: players
+            }
+        }
+    });
 }
 
+function refreshChart(plot, statNames) {
+
+    var plotOpts = makeDataAndLabels(statNames);
+
+    plot.data = plotOpts.data;
+
+    plot.replot({series: plotOpts.labels});
+
+}
+
+function makeDataAndLabels(statNames) {
+    var data = [];
+    var labels = []
+
+    console.log(data);
+
+    for (var statIdx in statNames) {
+        var statName = statNames[statIdx];
+        var series = [];
+
+        labels.push({label: statName});
+
+        console.log("Stat: " + statName);
+        var pid = 0;
+        for (var playerIdx in players) {
+            var player = players[playerIdx];
+            pid++;
+
+            console.log("Player: " + player + "(" + pid + ")");
+            series.push([statData[player][statName], pid])
+        }
+        data.push(series);
+    }
+
+    return { data: data, labels: labels };
+}

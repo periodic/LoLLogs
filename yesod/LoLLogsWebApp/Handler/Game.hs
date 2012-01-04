@@ -5,10 +5,12 @@ import Import
 import Data.Enumerator.List (consume)
 import qualified Data.Map as M
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Lazy as L
 import Data.Maybe (fromMaybe, catMaybes)
-import Data.Aeson (json, Result(..), encode, Value(..))
+import Data.Aeson
 import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
+import Data.Text.Encoding (decodeUtf8)
 import Data.Time (getCurrentTime)
 
 import Yesod.Widget.AjaxFrame
@@ -67,14 +69,24 @@ getGameViewR gameId = do
         addScript $ StaticR js_bootstrap_bootstrap_tabs_js
         addScript $ StaticR js_jqplot_jquery_jqplot_min_js
         addScript $ StaticR js_jqplot_jqplot_barRenderer_min_js
+        addScript $ StaticR js_jqplot_jqplot_categoryAxisRenderer_min_js
+        addStylesheet $ StaticR css_jquery_jqplot_css
         $(widgetFile "game/view")
     where
         playerDetails player champions = $(widgetFile "game/player-details")
+        -- TODO: This whole thing with the JSON seems a little convoluted...
         statNames = concatMap snd gridStats
+        players game = gsBlueTeam (gameGameStats game) ++ gsPurpleTeam (gameGameStats game)
+        jsonPlayers = show . reverse . players
         statData game = 
-            let players = gsBlueTeam (gameGameStats game) ++ gsPurpleTeam (gameGameStats game)
-                playerData p = map (\s -> fromMaybe 0 $ lookupStat s p) statNames
-             in catMaybes $ map (\p -> playerData <$> gameLookupPlayer p game) players
+            let playerData p = map (\s -> (s, fromMaybe 0 $ lookupStat s p)) statNames
+                playerList = players game
+             in zip playerList . catMaybes $ map (\p -> playerData <$> gameLookupPlayer p game) playerList
+        statDataJson game =
+            let notJson = statData game
+                fromList :: ToJSON a => [(Text, a)] -> Value
+                fromList = object . map (\(k,v) -> k .= v)
+             in decodeUtf8 . BS.concat . L.toChunks . encode . fromList . map (\(player, stats) -> (player, fromList stats)) $ notJson
 
 
 postGameCreateR :: Handler RepJson

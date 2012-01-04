@@ -100,4 +100,4 @@
                                                 <td.statValue.purpleTeam>0
 
             <div#graph>
-                <div#chart style="height:400px;width:300px;">
+                <div#chart>
