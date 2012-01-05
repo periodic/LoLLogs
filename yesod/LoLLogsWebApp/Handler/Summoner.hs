@@ -13,8 +13,7 @@ import Yesod.Widget.AjaxFrame
 import Model.Champion
 import Model.Game.Query hiding (Query(..), runQuery)
 
-portraits :: ChampionMap -> Game -> Widget
-portraits champions game = $(widgetFile "game/champions")
+import Widget.GameList
 
 queryCols :: Text -> [QueryColumn Game Double]
 queryCols summonerName =
@@ -49,9 +48,11 @@ gamesPane :: Text -> ChampionMap -> Handler Widget
 gamesPane summonerName champions = do
     (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] [Desc GameCreated]
 
-    let gameList = $(widgetFile "game/list")
+    let isMe = (== summonerName)
+    let gamesWidget = gameList isMe champions games pagerOpts
 
-    return $ ajaxFrame defaultFrameOptions gameList
+    return $ ajaxFrame defaultFrameOptions gamesWidget
+
 
 
 statsPane :: Text -> ChampionMap -> Handler Widget

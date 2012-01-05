@@ -2,4 +2,6 @@ $(function () {
     $('body').delegate('table.game-list tbody tr', 'click', function () {
         window.location = $(this).attr('data-href');
     });
+
+    $('.champion-thumbnail').twipsy({live: true})
 });

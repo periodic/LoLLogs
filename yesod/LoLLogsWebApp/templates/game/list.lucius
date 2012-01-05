@@ -18,24 +18,29 @@ table.game-list {
     ul {
         display: block;
         float: left;
-        height: 40px;
-        padding: 5px;
+        padding: 3px;
         margin: 0;
-        width: 200px;
+        width: 220px;
         list-style: none;
 
         li {
+            border: 2px solid transparent;
             display: inline-block;
+            height: 40px;
+            width: 40px;
             a {
                 display: inline-block;
             }
         }
+        li.me {
+            border: 2px solid #69f;
+        }
     }
-    .blue-team, .purple-team {
-        background-color: #edd;
+    .team {
+        border: 2px solid #900;
     }
-    .blue-team.winner, .purple-team.winner {
-        background-color: #ded;
+    .team.winner {
+        border: 2px solid #090;
     }
     span.vs {
         font-size: 200%;

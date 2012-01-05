@@ -44,6 +44,7 @@ library
                      Handler.Champion
                      Handler.ChartExample
                      Handler.Summoner
+                     Widget.GameList
                      Yesod.Widget.AjaxFrame
                      Yesod.Widget.Flot
                      Yesod.Widget.GoogleAnalytics

@@ -27,7 +27,7 @@
         $forall itemId <- psGameItems player
             $maybe item <- lookupItem itemId items
                 ^{itemImage item}
-        $forall _ <- replicate ((-) 6 (length (psGameItems player))) 1
+        $forall _ <- empties (psGameItems player)
             ^{itemImageEmpty}
     <td.summoner-gold>
         #{roundLargeNumber (playerGold player)}

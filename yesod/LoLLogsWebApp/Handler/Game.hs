@@ -3,7 +3,6 @@ module Handler.Game where
 import Import
 
 import Data.Enumerator.List (consume)
-import qualified Data.Map as M
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as L
 import Data.Maybe (fromMaybe, catMaybes)
@@ -19,6 +18,8 @@ import Yesod.Widget.Pager
 import Model.Champion
 import Model.Item
 import Model.Spell
+
+import Widget.GameList
 
 gridStats :: [(Text, [Text])]
 gridStats = [ ("Combat", [ "Champion Kills"
@@ -46,18 +47,17 @@ gridStats = [ ("Combat", [ "Champion Kills"
                         ])
             ]
 
-portraits :: ChampionMap -> Game -> Widget
-portraits champions game = $(widgetFile "game/champions")
-
 getGameIndexR :: Handler RepHtml
 getGameIndexR = do
     --gameData <- runDB $ selectList [] []
     (games, pagerOpts) <- paginateSelectList 10 [] [Desc GameCreated]
     champions  <- championsByName
     defaultLayout $ do
-        let gameList = $(widgetFile "game/list")
+        let isMe = const False
+        let gamesWidget = gameList isMe champions games pagerOpts
         setTitle "Game Index"
         $(widgetFile "game/index")
+
 
 getGameViewR :: GameId -> Handler RepHtml
 getGameViewR gameId = do
@@ -93,6 +93,7 @@ getGameViewR gameId = do
                 fromList :: ToJSON a => [(Text, a)] -> Value
                 fromList = object . map (\(k,v) -> k .= v)
              in decodeUtf8 . BS.concat . L.toChunks . encode . fromList . map (\(player, stats) -> (player, fromList stats)) $ notJson
+        empties itemList = replicate (6 - length itemList) ()
 
 
 postGameCreateR :: Handler RepJson

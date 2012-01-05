@@ -1,5 +1,6 @@
 module Yesod.Widget.Pager ( paginateSelectList
                           , pager
+                          , PagerOptions(..)
                           ) where
 
 

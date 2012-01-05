@@ -14,12 +14,12 @@
                     <th>
                         Date Added
             <tbody>
-                $forall game <- games
-                    <tr data-href=@{GameViewR (fst game)}>
+                $forall (gameId, game) <- games
+                    <tr data-href=@{GameViewR gameId}>
                         <td.champs>
-                            ^{portraits champions (snd game)}
+                            ^{portraits game}
                         <td.queueType>
-                            #{queueDisplayName $ gsQueueType $ gameGameStats $ snd game}
+                            #{queueDisplayName $ gsQueueType $ gameGameStats game}
                         <td.created>
-                            #{gameFormattedCreateTime (snd game)}
+                            #{gameFormattedCreateTime game}
 
