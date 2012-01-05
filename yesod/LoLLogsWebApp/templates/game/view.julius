@@ -24,8 +24,14 @@ $(function () {
         '#grid': 1,
         '#graph': 2,
     };
+
+    var plot = initPlot();
+
     var $tabs = $('#tabs').tabs({
-        selected: tabIndexes[window.location.hash]
+        selected: tabIndexes[window.location.hash],
+        change: function (e) {
+            refreshChart(plot, ['Champion Kills', 'Deaths', 'Assists']);
+        },
     });
 
     $tabs.find('ul.ui-tabs-nav a').click(function (event) {
@@ -40,8 +46,6 @@ $(function () {
             $tabs.tabs('select', 0);
         }
     });
-
-    var plot = initPlot();
 });
 
 function initPlot() {
@@ -99,7 +103,12 @@ function makeDataAndLabels(statNames) {
             pid++;
 
             // console.log("Player: " + player + "(" + pid + ")");
-            series.push([statData[player][statName], pid])
+            if (statData[player] && statData[player][statName]) {
+                series.push([statData[player][statName], pid]);
+            } else {
+                console.log("player: " + player + ", statName: " + statName);
+                series.push([0, pid]);
+            }
         }
         data.push(series);
     }

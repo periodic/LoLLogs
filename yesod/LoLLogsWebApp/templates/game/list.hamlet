@@ -8,18 +8,28 @@
             <thead>
                 <tr>
                     <th>
-                        Teams
+                        Blue Team
+                    <th>
+                    <th>
+                        Purple Team
                     <th>
                         Queue
                     <th>
                         Date Added
             <tbody>
                 $forall (gameId, game) <- games
-                    <tr data-href=@{GameViewR gameId}>
-                        <td.champs>
-                            ^{portraits game}
-                        <td.queueType>
-                            #{queueDisplayName $ gsQueueType $ gameGameStats game}
-                        <td.created>
-                            #{gameFormattedCreateTime game}
+                    <a href=@{GameViewR gameId}>
+                        <tr data-href=@{GameViewR gameId}>
+                            <td.team.blue-team :gameBlueTeamWon game:.winner>
+                                <span.game-champions>
+                                    ^{portraits (gsBlueTeam (gameGameStats game)) game}
+                            <td.vs>
+                                VS
+                            <td.team.purple-team :not (gameBlueTeamWon game):.winner>
+                                <span.game-champions>
+                                    ^{portraits (gsPurpleTeam (gameGameStats game)) game}
+                            <td.queueType>
+                                #{queueDisplayName $ gsQueueType $ gameGameStats game}
+                            <td.created>
+                                #{gameFormattedCreateTime game}
 

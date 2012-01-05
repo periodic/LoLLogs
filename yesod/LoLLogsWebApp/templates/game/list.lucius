@@ -7,46 +7,46 @@ table.game-list {
             background-color: rgba(141, 192, 219, 0.25);
         }
 
-        td.queueType {
-            width: 200px;
+        td {
+            vertical-align: middle;
         }
-    }
-}
 
-.game-champions { 
-    line-height: 40px;
-    ul {
-        display: block;
-        float: left;
-        padding: 3px;
-        margin: 0;
-        width: 220px;
-        list-style: none;
+        td.team { 
+            width: 224px;
+            line-height: 40px;
+            ul {
+                padding: 3px;
+                margin: 0;
+                width: 220px;
+                list-style: none;
+                border: 2px solid #900;
 
-        li {
-            border: 2px solid transparent;
-            display: inline-block;
-            height: 40px;
-            width: 40px;
-            a {
-                display: inline-block;
+                li {
+                    border: 2px solid transparent;
+                    display: inline-block;
+                    height: 40px;
+                    width: 40px;
+                    a {
+                        display: inline-block;
+                    }
+                }
+                li.me {
+                    border: 2px solid #69f;
+                }
             }
+
         }
-        li.me {
-            border: 2px solid #69f;
+        td.team.winner ul {
+            border: 2px solid #090;
         }
-    }
-    .team {
-        border: 2px solid #900;
-    }
-    .team.winner {
-        border: 2px solid #090;
-    }
-    span.vs {
-        font-size: 200%;
-        font-weight: bold;
-        float: left;
-        padding: 0 5px;
+
+        td.vs {
+            font-size: 200%;
+            font-weight: bold;
+            text-align: center;
+            padding: 0 5px;
+        }
+
     }
 }
 

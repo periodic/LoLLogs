@@ -69,7 +69,7 @@ li.next.last {
         text-decoration: none;
     }
 
-    .active {
+    .ui-tabs-selected {
         a {
             font-weight: bold;
         }

@@ -9,7 +9,7 @@ import Data.Maybe (fromMaybe, catMaybes)
 import Data.Aeson
 import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
-import Data.Text.Encoding (decodeUtf8)
+import Data.Text.Encoding (decodeUtf8, decodeASCII)
 import Data.Time (getCurrentTime)
 
 import Yesod.Widget.AjaxFrame
@@ -86,7 +86,7 @@ getGameViewR gameId = do
         -- TODO: This whole thing with the JSON seems a little convoluted...
         statNames = concatMap snd gridStats
         players game = gsBlueTeam (gameGameStats game) ++ gsPurpleTeam (gameGameStats game)
-        jsonPlayers = show . reverse . players
+        jsonPlayers = decodeUtf8 . BS.concat . L.toChunks . encode . reverse . players
         statData game = 
             let playerData p = map (\s -> (s, fromMaybe 0 $ lookupStat s p)) statNames
                 playerList = players game

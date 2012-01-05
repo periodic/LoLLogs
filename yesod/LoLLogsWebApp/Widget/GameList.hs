@@ -15,7 +15,5 @@ gameList isMe champions games pagerOpts = do
     addScript $ StaticR js_bootstrap_bootstrap_twipsy_js
     $(widgetFile "game/list")
     where
-        portraits :: Game -> Widget
-        portraits game = $(widgetFile "game/champions")
-
-
+        portraits :: [Text] -> Game -> Widget
+        portraits players game = $(widgetFile "game/champions")
