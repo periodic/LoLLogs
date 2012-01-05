@@ -75,3 +75,13 @@ li.next.last {
         }
     }
 }
+
+/* Tabs stuff
+ */
+
+.ui-tabs {
+    .ui-tabs-hide {
+        display: none;
+    }
+}
+        

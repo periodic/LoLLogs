@@ -19,13 +19,29 @@ $(function () {
     $('#grid thead th').twipsy();
     $('.item-thumbnail, .spell-thumbnail').twipsy();
 
-    var plot = initPlot();
-
-    $('#section-nav').bind('change', function (e) {
-        console.log(e.target.hash);
-        if (e.target.hash === "#graph")
-            refreshChart(plot, ["Damage Dealt", "Damage Taken"]);
+    var tabIndexes = {
+        '#players': 0,
+        '#grid': 1,
+        '#graph': 2,
+    };
+    var $tabs = $('#tabs').tabs({
+        selected: tabIndexes[window.location.hash]
     });
+
+    $tabs.find('ul.ui-tabs-nav a').click(function (event) {
+        var hash = event.target.hash;
+        history.pushState({hash: hash}, '', window.location.origin + window.location.pathname + hash);
+    });
+
+    $(window).bind('popstate', function (e) {
+        if (e.originalEvent.state) {
+            $tabs.tabs('select', e.originalEvent.state.hash);
+        } else {
+            $tabs.tabs('select', 0);
+        }
+    });
+
+    var plot = initPlot();
 });
 
 function initPlot() {
@@ -68,7 +84,7 @@ function makeDataAndLabels(statNames) {
     var data = [];
     var labels = []
 
-    console.log(data);
+    // console.log(data);
 
     for (var statIdx in statNames) {
         var statName = statNames[statIdx];
@@ -76,13 +92,13 @@ function makeDataAndLabels(statNames) {
 
         labels.push({label: statName});
 
-        console.log("Stat: " + statName);
+        // console.log("Stat: " + statName);
         var pid = 0;
         for (var playerIdx in players) {
             var player = players[playerIdx];
             pid++;
 
-            console.log("Player: " + player + "(" + pid + ")");
+            // console.log("Player: " + player + "(" + pid + ")");
             series.push([statData[player][statName], pid])
         }
         data.push(series);

@@ -61,7 +61,7 @@ getGameIndexR = do
 
 getGameViewR :: GameId -> Handler RepHtml
 getGameViewR gameId = do
-    game <- runDB $ get404 gameId
+    game      <- runDB $ get404 gameId
     champions <- championsByName
     spells    <- spellsById
     items     <- itemsById
@@ -72,7 +72,10 @@ getGameViewR gameId = do
         setTitle "Game"
         addScript $ StaticR js_bootstrap_bootstrap_twipsy_js
         addScript $ StaticR js_bootstrap_bootstrap_popover_js
-        addScript $ StaticR js_bootstrap_bootstrap_tabs_js
+        -- addScript $ StaticR js_bootstrap_bootstrap_tabs_js
+        addScript $ StaticR js_jqueryui_jquery_ui_core_min_js
+        addScript $ StaticR js_jqueryui_jquery_ui_widget_min_js
+        addScript $ StaticR js_jqueryui_jquery_ui_tabs_min_js
         addScript $ StaticR js_jqplot_jquery_jqplot_min_js
         addScript $ StaticR js_jqplot_jqplot_barRenderer_min_js
         addScript $ StaticR js_jqplot_jqplot_categoryAxisRenderer_min_js
