@@ -1,5 +1,10 @@
 #players {
 
+    .spell-thumbnail, .item-thumbnail{
+        display: inline-block;
+        margin: 1px;
+    }
+
     .team {
         border: 2px solid #5C1818;
     }
@@ -7,31 +12,21 @@
         border: 2px solid #235C35;
     }
 
-    .team:first-child {
-        margin-bottom: 10px;
-    }
-
     .leaver .player-header .summoner-info .summoner-name a {
         color: #600;
     }
 
-    .player {
-        border-top: 1px solid #ccc;
+    .summoner-kda {
+        text-align: center;
     }
 
-    .player:first-child {
-        border-top: none;
+    .summoner-cs, .summoner-gold {
+        text-align: right;
     }
 
-    .player-header {
-        clear: both;
-        padding: 10px;
-        height: 40px;
-
-        .summoner-info {
-            float: left;
+    tbody {
+        td.summoner-info {
             width: 220px;
-            overflow: hidden;
 
             .champion-thumbnail {
                 float: left;
@@ -50,12 +45,6 @@
         }
 
         .summoner-kda {
-            float: left;
-            width: 100px;
-            overflow: hidden;
-            font-size: 200%;
-            line-height: 40px;
-
             .kills {
                 color: #090;
             }
@@ -67,38 +56,16 @@
             }
         }
 
-        .summoner-items {
-            float: left;
-            width: 180px;
-            overflow: hidden;
-        }
-
         .summoner-gold {
-            float: left;
-            width: 80px;
-            overflow: hidden;
             color: #990;
-            font-size: 200%;
-            line-height: 40px;
-            text-align: right;
         }
 
-        .summoner-cs {
-            float: left;
-            width: 80px;
-            overflow: hidden;
-            font-size: 200%;
+        td.summoner-kda, td.summoner-cs, td.summoner-gold {
+            font-size: 160%;
             line-height: 40px;
-            text-align: right;
         }
     }
 
-    .player-details {
-        clear: both;
-        display: none;
-        background-color: #eee;
-        padding: 10px;
-    }
 }
 
 #grid {

@@ -17,6 +17,7 @@ $(function () {
     });
 
     $('#grid thead th').twipsy();
+    $('.item-thumbnail, .spell-thumbnail').twipsy();
 
     var plot = initPlot();
 

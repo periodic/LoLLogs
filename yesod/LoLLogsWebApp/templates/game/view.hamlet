@@ -39,15 +39,49 @@
 
         <div.tab-content>
             <div#players.active>
-                <div.team :gameBlueTeamWon game:.winner>
-                    $forall summonerName <- gsBlueTeam (gameGameStats game)
-                        $maybe player <- gameLookupPlayer summonerName game
-                            ^{playerDetails player champions}
+                <table.condensed-table>
+                    <thead>
+                        <tr>
+                            <th>
+                            <th.summoner-kda>K/D/A
+                            <th.summoner-spells>Spells
+                            <th.summoner-items>Items
+                            <th.summoner-gold>Gold
+                            <th.summoner-cs>Creeps
+                    <tbody>
+                        <tr.team :gameBlueTeamWon game:.winner>
+                            <th>Blue Team
+                            $with (k,d,a) <- totalKDA (gsBlueTeam stats) game
+                                <th.summoner-kda>
+                                    <span.kills>#{k}
+                                    /
+                                    <span.deaths>#{d}
+                                    /
+                                    <span.assists>#{a}
+                            <th.summoner-spells>
+                            <th.summoner-items>
+                            <th.summoner-gold>#{roundLargeNumber $ totalGold (gsBlueTeam stats) game} 
+                            <th.summoner-cs>#{totalCS (gsBlueTeam stats) game}
+                        $forall summonerName <- gsBlueTeam (gameGameStats game)
+                            $maybe player <- gameLookupPlayer summonerName game
+                                ^{playerDetails player champions spells items}
 
-                <div.team :not (gameBlueTeamWon game):.winner>
-                    $forall summonerName <- gsPurpleTeam (gameGameStats game)
-                        $maybe player <- gameLookupPlayer summonerName game
-                            ^{playerDetails player champions}
+                        <tr.team :not (gameBlueTeamWon game):.winner>
+                            <th>Purple Team
+                            $with (k,d,a) <- totalKDA (gsPurpleTeam stats) game
+                                <th.summoner-kda>
+                                    <span.kills>#{k}
+                                    /
+                                    <span.deaths>#{d}
+                                    /
+                                    <span.assists>#{a}
+                            <th.summoner-spells>Spells
+                            <th.summoner-items>Items
+                            <th.summoner-gold>#{roundLargeNumber $ totalGold (gsPurpleTeam stats) game} 
+                            <th.summoner-cs>#{totalCS (gsPurpleTeam stats) game}
+                        $forall summonerName <- gsPurpleTeam (gameGameStats game)
+                            $maybe player <- gameLookupPlayer summonerName game
+                                ^{playerDetails player champions spells items}
 
             <div#grid>
                 <table.condensed-table>

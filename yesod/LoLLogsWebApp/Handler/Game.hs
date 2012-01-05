@@ -17,6 +17,8 @@ import Yesod.Widget.AjaxFrame
 import Yesod.Widget.Pager
 
 import Model.Champion
+import Model.Item
+import Model.Spell
 
 gridStats :: [(Text, [Text])]
 gridStats = [ ("Combat", [ "Champion Kills"
@@ -60,8 +62,12 @@ getGameIndexR = do
 getGameViewR :: GameId -> Handler RepHtml
 getGameViewR gameId = do
     game <- runDB $ get404 gameId
-    let stats = gameGameStats game
     champions <- championsByName
+    spells    <- spellsById
+    items     <- itemsById
+
+    let stats = gameGameStats game
+
     defaultLayout $ do
         setTitle "Game"
         addScript $ StaticR js_bootstrap_bootstrap_twipsy_js
@@ -73,7 +79,7 @@ getGameViewR gameId = do
         addStylesheet $ StaticR css_jquery_jqplot_css
         $(widgetFile "game/view")
     where
-        playerDetails player champions = $(widgetFile "game/player-details")
+        playerDetails player champions spells items = $(widgetFile "game/player-details")
         -- TODO: This whole thing with the JSON seems a little convoluted...
         statNames = concatMap snd gridStats
         players game = gsBlueTeam (gameGameStats game) ++ gsPurpleTeam (gameGameStats game)
