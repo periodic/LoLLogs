@@ -42,101 +42,100 @@
                     <a href="#graph">
                         Graph
 
-            <div>
-                <div#players.ui-tabs-panel.ui-tabs-hide>
-                    <table.condensed-table>
-                        <thead>
-                            <tr>
-                                <th>
-                                <th.summoner-kda>K/D/A
-                                <th.summoner-spells>Spells
-                                <th.summoner-items>Items
-                                <th.summoner-gold>Gold
-                                <th.summoner-cs>Creeps
-                        <tbody>
-                            <tr.team :gameBlueTeamWon game:.winner>
-                                <th>Blue Team
-                                $with (k,d,a) <- totalKDA (gsBlueTeam stats) game
-                                    <th.summoner-kda>
-                                        <span.kills>#{k}
-                                        /
-                                        <span.deaths>#{d}
-                                        /
-                                        <span.assists>#{a}
-                                <th.summoner-spells>
-                                <th.summoner-items>
-                                <th.summoner-gold>#{roundLargeNumber $ totalGold (gsBlueTeam stats) game} 
-                                <th.summoner-cs>#{totalCS (gsBlueTeam stats) game}
+            <div#players.ui-tabs-panel.ui-tabs-hide>
+                <table.condensed-table>
+                    <thead>
+                        <tr>
+                            <th>
+                            <th.summoner-kda>K/D/A
+                            <th.summoner-spells>Spells
+                            <th.summoner-items>Items
+                            <th.summoner-gold>Gold
+                            <th.summoner-cs>Creeps
+                    <tbody>
+                        <tr.team :gameBlueTeamWon game:.winner>
+                            <th>Blue Team
+                            $with (k,d,a) <- totalKDA (gsBlueTeam stats) game
+                                <th.summoner-kda>
+                                    <span.kills>#{k}
+                                    /
+                                    <span.deaths>#{d}
+                                    /
+                                    <span.assists>#{a}
+                            <th.summoner-spells>
+                            <th.summoner-items>
+                            <th.summoner-gold>#{roundLargeNumber $ totalGold (gsBlueTeam stats) game} 
+                            <th.summoner-cs>#{totalCS (gsBlueTeam stats) game}
+                        $forall summonerName <- gsBlueTeam (gameGameStats game)
+                            $maybe player <- gameLookupPlayer summonerName game
+                                ^{playerDetails player champions spells items}
+
+                        <tr.team :not (gameBlueTeamWon game):.winner>
+                            <th>Purple Team
+                            $with (k,d,a) <- totalKDA (gsPurpleTeam stats) game
+                                <th.summoner-kda>
+                                    <span.kills>#{k}
+                                    /
+                                    <span.deaths>#{d}
+                                    /
+                                    <span.assists>#{a}
+                            <th.summoner-spells>Spells
+                            <th.summoner-items>Items
+                            <th.summoner-gold>#{roundLargeNumber $ totalGold (gsPurpleTeam stats) game} 
+                            <th.summoner-cs>#{totalCS (gsPurpleTeam stats) game}
+                        $forall summonerName <- gsPurpleTeam (gameGameStats game)
+                            $maybe player <- gameLookupPlayer summonerName game
+                                ^{playerDetails player champions spells items}
+
+            <div#grid.ui-tabs-panel.ui-tabs-hide>
+                <table.condensed-table>
+                    <colgroup.statName>
+                        <col.statName>
+                    <colgroup.teams>
+                        <col.blueTeam.team :gameBlueTeamWon game:.winner span=5>
+                        <col.purpleTeam.team :not (gameBlueTeamWon game):.winner span=5>
+                    <thead>
+                        <tr>
+                            <th>
                             $forall summonerName <- gsBlueTeam (gameGameStats game)
-                                $maybe player <- gameLookupPlayer summonerName game
-                                    ^{playerDetails player champions spells items}
-
-                            <tr.team :not (gameBlueTeamWon game):.winner>
-                                <th>Purple Team
-                                $with (k,d,a) <- totalKDA (gsPurpleTeam stats) game
-                                    <th.summoner-kda>
-                                        <span.kills>#{k}
-                                        /
-                                        <span.deaths>#{d}
-                                        /
-                                        <span.assists>#{a}
-                                <th.summoner-spells>Spells
-                                <th.summoner-items>Items
-                                <th.summoner-gold>#{roundLargeNumber $ totalGold (gsPurpleTeam stats) game} 
-                                <th.summoner-cs>#{totalCS (gsPurpleTeam stats) game}
+                                <th data-placement="above" data-original-title="#{summonerName}">
+                                    $maybe player <- gameLookupPlayer summonerName game
+                                        $maybe champ <- lookupChamp (psSkinName player) champions
+                                            ^{championImageLink (SummonerStatsR summonerName) champ}
+                                        $nothing 
+                                            <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
                             $forall summonerName <- gsPurpleTeam (gameGameStats game)
-                                $maybe player <- gameLookupPlayer summonerName game
-                                    ^{playerDetails player champions spells items}
+                                <th data-placement="above" data-original-title="#{summonerName}">
+                                    $maybe player <- gameLookupPlayer summonerName game
+                                        $maybe champ <- lookupChamp (psSkinName player) champions
+                                            ^{championImageLink (SummonerStatsR summonerName) champ}
+                                        $nothing 
+                                            <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
 
-                <div#grid.ui-tabs-panel.ui-tabs-hide>
-                    <table.condensed-table>
-                        <colgroup.statName>
-                            <col.statName>
-                        <colgroup.teams>
-                            <col.blueTeam.team :gameBlueTeamWon game:.winner span=5>
-                            <col.purpleTeam.team :not (gameBlueTeamWon game):.winner span=5>
-                        <thead>
-                            <tr>
+                    <tbody>
+                        $forall (categoryName, stats) <- gridStats
+                            <tr.categoryHeading>
                                 <th>
-                                $forall summonerName <- gsBlueTeam (gameGameStats game)
-                                    <th data-placement="above" data-original-title="#{summonerName}">
+                                    #{categoryName}
+                                $forall _ <- gsBlueTeam (gameGameStats game)
+                                    <td.categoryHeading.blueTeam :gameBlueTeamWon game:.winner>
+                                $forall _ <- gsPurpleTeam (gameGameStats game)
+                                    <td.categoryHeading.purpleTeam :not (gameBlueTeamWon game):.winner>
+                            $forall statName <- stats
+                                <tr>
+                                    <th>#{statName}
+                                    $forall summonerName <- gsBlueTeam (gameGameStats game)
                                         $maybe player <- gameLookupPlayer summonerName game
-                                            $maybe champ <- lookupChamp (psSkinName player) champions
-                                                ^{championImageLink (SummonerStatsR summonerName) champ}
-                                            $nothing 
-                                                <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
-                                $forall summonerName <- gsPurpleTeam (gameGameStats game)
-                                    <th data-placement="above" data-original-title="#{summonerName}">
+                                            $maybe value <- lookupStat statName player
+                                                <td.statValue.blueTeam>#{formatLargeNumber value}
+                                            $nothing
+                                                <td.statValue.blueTeam>0
+                                    $forall summonerName <- gsPurpleTeam (gameGameStats game)
                                         $maybe player <- gameLookupPlayer summonerName game
-                                            $maybe champ <- lookupChamp (psSkinName player) champions
-                                                ^{championImageLink (SummonerStatsR summonerName) champ}
-                                            $nothing 
-                                                <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
+                                            $maybe value <- lookupStat statName player
+                                                <td.statValue.purpleTeam>#{formatLargeNumber value}
+                                            $nothing
+                                                <td.statValue.purpleTeam>0
 
-                        <tbody>
-                            $forall (categoryName, stats) <- gridStats
-                                <tr.categoryHeading>
-                                    <th>
-                                        #{categoryName}
-                                    $forall _ <- gsBlueTeam (gameGameStats game)
-                                        <td.categoryHeading.blueTeam :gameBlueTeamWon game:.winner>
-                                    $forall _ <- gsPurpleTeam (gameGameStats game)
-                                        <td.categoryHeading.purpleTeam :not (gameBlueTeamWon game):.winner>
-                                $forall statName <- stats
-                                    <tr>
-                                        <th>#{statName}
-                                        $forall summonerName <- gsBlueTeam (gameGameStats game)
-                                            $maybe player <- gameLookupPlayer summonerName game
-                                                $maybe value <- lookupStat statName player
-                                                    <td.statValue.blueTeam>#{formatLargeNumber value}
-                                                $nothing
-                                                    <td.statValue.blueTeam>0
-                                        $forall summonerName <- gsPurpleTeam (gameGameStats game)
-                                            $maybe player <- gameLookupPlayer summonerName game
-                                                $maybe value <- lookupStat statName player
-                                                    <td.statValue.purpleTeam>#{formatLargeNumber value}
-                                                $nothing
-                                                    <td.statValue.purpleTeam>0
-
-                <div#graph.ui-tabs-panel.ui-tabs-hide>
-                    <div#chart>
+            <div#graph.ui-tabs-panel.ui-tabs-hide>
+                <div#chart>

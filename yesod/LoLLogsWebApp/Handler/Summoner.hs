@@ -41,7 +41,10 @@ getSummonerStatsR summonerName = do
 
     defaultLayout $ do
         setTitle . toHtml $ T.append "Stats for " summonerName
-        addScript $ StaticR js_bootstrap_bootstrap_tabs_js
+        --addScript $ StaticR js_bootstrap_bootstrap_tabs_js
+        addScript $ StaticR js_jqueryui_jquery_ui_core_min_js
+        addScript $ StaticR js_jqueryui_jquery_ui_widget_min_js
+        addScript $ StaticR js_jqueryui_jquery_ui_tabs_min_js
         $(widgetFile "summoner/view")
 
 gamesPane :: Text -> ChampionMap -> Handler Widget

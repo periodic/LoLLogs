@@ -1,0 +1,22 @@
+$(function () {
+    var tabIndexes = {
+        '#stats': 0,
+        '#games': 1,
+    };
+    var $tabs = $('#tabs').tabs({
+        selected: tabIndexes[window.location.hash]
+    });
+
+    $tabs.find('ul.ui-tabs-nav a').click(function (event) {
+        var hash = event.target.hash;
+        history.pushState({hash: hash}, '', window.location.origin + window.location.pathname + hash);
+    });
+
+    $(window).bind('popstate', function (e) {
+        if (e.originalEvent.state) {
+            $tabs.tabs('select', e.originalEvent.state.hash);
+        } else {
+            $tabs.tabs('select', 0);
+        }
+    });
+});

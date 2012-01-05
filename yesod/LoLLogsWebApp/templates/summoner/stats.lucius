@@ -1,5 +1,13 @@
-#stats-form select {
-    width: 100%;
+#stats-form {
+    select {
+        width: 400px;
+    }
+    .asmListItem {
+        line-height: 1.5em;
+        background: #fff;
+        border-right-width: 0;
+        border-left-width: 0;
+    }
 }
 
 ##{statsTableId} {
