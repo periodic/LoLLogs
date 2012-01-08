@@ -21,8 +21,12 @@
     <td.summoner-spells>
         $maybe spell <- lookupSpell (psSpell1Id player) spells
             ^{spellImage spell}
+        $nothing
+            #{psSpell1Id player}
         $maybe spell <- lookupSpell (psSpell2Id player) spells
             ^{spellImage spell}
+        $nothing
+            #{psSpell2Id player}
     <td.summoner-items>
         $forall itemId <- psGameItems player
             $maybe item <- lookupItem itemId items

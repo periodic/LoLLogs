@@ -125,6 +125,8 @@ instance Yesod LoLLogsWebApp where
         pc <- widgetToPageContent $ do
             setTitle "Casual Addict"
             googleAnalytics "UA-21596514-1" "casualaddict.com"
+            addStylesheet $ StaticR css_bootstrap_min_css
+            addScript $ StaticR js_jquery_1_7_1_min_js
             -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")

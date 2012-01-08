@@ -51,8 +51,7 @@ gamesPane :: Text -> ChampionMap -> Handler Widget
 gamesPane summonerName champions = do
     (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] [Desc GameCreated]
 
-    let isMe = (== summonerName)
-    let gamesWidget = gameList isMe champions games pagerOpts
+    let gamesWidget = gameList (Just summonerName) champions games pagerOpts
 
     return $ ajaxFrame defaultFrameOptions gamesWidget
 

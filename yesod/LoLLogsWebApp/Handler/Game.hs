@@ -9,7 +9,7 @@ import Data.Maybe (fromMaybe, catMaybes)
 import Data.Aeson
 import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
-import Data.Text.Encoding (decodeUtf8, decodeASCII)
+import Data.Text.Encoding (decodeUtf8)
 import Data.Time (getCurrentTime)
 
 import Yesod.Widget.AjaxFrame
@@ -53,8 +53,7 @@ getGameIndexR = do
     (games, pagerOpts) <- paginateSelectList 10 [] [Desc GameCreated]
     champions  <- championsByName
     defaultLayout $ do
-        let isMe = const False
-        let gamesWidget = gameList isMe champions games pagerOpts
+        let gamesWidget = gameList Nothing champions games pagerOpts
         setTitle "Game Index"
         $(widgetFile "game/index")
 

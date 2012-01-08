@@ -178,6 +178,8 @@ var rawItems = [
 "3198|Augment: Death|+3 Ability Power per level +45 Ability Power  Augment Ability: Death Ray sets fire to enemies, dealing 30% additional magic damage over 4 seconds.|3198_AugmentE.png|1200|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|45.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|0.0|1",
 ];
 
+db.Item.drop();
+
 rawItems.forEach(function (str) {
     var strPieces = str.split('|');
 

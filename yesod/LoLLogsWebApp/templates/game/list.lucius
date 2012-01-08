@@ -47,6 +47,17 @@ table.game-list {
             padding: 0 5px;
         }
 
+        td.elo {
+            .eloChange {
+                color: #900;
+            }
+        }
+        td.elo.winner {
+            .eloChange {
+                color: #090;
+            }
+        }
+
     }
 }
 

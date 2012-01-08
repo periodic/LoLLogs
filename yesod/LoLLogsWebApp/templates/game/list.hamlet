@@ -14,6 +14,8 @@
                         Purple Team
                     <th>
                         Queue
+                    $maybe summonerName <- mSummonerName 
+                        <th>Elo
                     <th>
                         Date Added
             <tbody>
@@ -30,6 +32,18 @@
                                     ^{portraits (gsPurpleTeam (gameGameStats game)) game}
                             <td.queueType>
                                 #{queueDisplayName $ gsQueueType $ gameGameStats game}
+                            $maybe summonerName <- mSummonerName 
+                                $if gsRanked $ gameGameStats game
+                                    $maybe player <- (>>=) mSummonerName (flip gameLookupPlayer game)
+                                        <td.elo :playerWon game:.winner>
+                                            #{psElo player} (
+                                            <span.eloChange>
+                                                #{psEloChange player}
+                                            )
+                                    $nothing
+                                        <td>
+                                $else
+                                    <td>
                             <td.created>
                                 #{gameFormattedCreateTime game}
 

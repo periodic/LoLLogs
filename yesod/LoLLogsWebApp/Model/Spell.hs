@@ -20,7 +20,7 @@ spellsAsList = M.toList
 spellImage :: Spell -> Widget
 spellImage spell = do
     addStylesheet $ StaticR css_spell_thumbnail_sprite_css
-    [whamlet|<div class="spell-thumbnail spell-thumbnail-#{spellImageName spell}" title="#{spellName spell}">|]
+    [whamlet|<div class="spell-thumbnail spell-thumbnail-#{spellImageName spell} spell-id-#{spellIdent spell}" title="#{spellName spell}">|]
 
 spellImageLink :: LoLLogsWebAppRoute -> Spell -> Widget
 spellImageLink route spell = do

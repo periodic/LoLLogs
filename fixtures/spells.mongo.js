@@ -24,6 +24,11 @@ var spells = [
         name: 'Exhaust',
         imageName: 'Exhaust'
     },
+    { 
+        ident: NumberLong(6),
+        name: "Promote",
+        imageName: 'Promote'
+    },
     {
         ident: NumberLong(7), 
         name: 'Fortify',
@@ -74,12 +79,9 @@ var spells = [
         name: "Stifle",
         imageName: 'Stifle'
     },
-    { 
-        ident: NumberLong(17),
-        name: "Promote",
-        imageName: 'Promote'
-    },
 ]
+
+db.Spell.drop();
 
 spells.forEach(function (s) {
     db.Spell.insert(s);
