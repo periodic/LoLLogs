@@ -60,10 +60,10 @@ namespace CAClient.Properties {
             }
         }
         
-        public static byte[] Adder {
+        public static System.Drawing.Icon favicon {
             get {
-                object obj = ResourceManager.GetObject("Adder", resourceCulture);
-                return ((byte[])(obj));
+                object obj = ResourceManager.GetObject("favicon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

@@ -16,25 +16,19 @@ namespace CAClient
 {
     public partial class MainWindow : Form
     {
-        private static RegistryKey caKey = Registry.CurrentUser.OpenSubKey("\\Software\\CasualAddict\\CAClient", true);
-        private static string registryValueName = "LoLFolder";
-        private UILogger logger;
-
-        private void log(string msg)
-        {
-            logger.log(msg);
-        }
-
+        private static readonly RegistryKey caHive = Registry.CurrentUser;
+        private const string caKey = "Software\\CasualAddict\\CAClient";
+        private const string caValue = "LoLFolder";
         public MainWindow()
         {
 
             InitializeComponent();
+            InitializeNotifyIcon();
+            InitializeLogger(logText);
 
-            logger = new UILogger(logText);
-
-            var files = new List<string>();
-            DirFinder[] dirFinders = { new RegistryDirFinder(Registry.CurrentUser.OpenSubKey("\\Software\\Riot Games\\RADS"), "LocalRootFolder")
-                                     , new RegistryDirFinder(caKey, registryValueName)
+            var logDirs = new List<string>();
+            DirFinder[] dirFinders = { new RegistryDirFinder(Registry.CurrentUser, "Software\\Riot Games\\RADS", "LocalRootFolder")
+                                     , new RegistryDirFinder(caHive, caKey, caValue)
                                      , new StaticDirFinder("C:\\Riot Games\\League of Legends") 
                                      , new DialogDirFinder()
                                      };
@@ -45,173 +39,198 @@ namespace CAClient
             {
                 try
                 {
-                    files.AddRange(dir.getFiles());
+                    logDirs.AddRange(dir.getDirs());
                     saveDirInRegistry(dir.getDirectory());
                     break;
                 }
                 catch (Exception e)
                 {
-                    log(e.Message + e.StackTrace);
+                    log(e.Message);
                 }
             }
 
-            //files.Add("D:\\Games\\League of Legends\\RADS\\projects\\lol_air_client\\releases\\0.0.0.116\\deploy\\logs\\LolClient.20111227.215719.log");
-
-            if (files.Count() == 0) 
+            if (logDirs.Count() == 0) 
             {
                 log("No files found to process.");
+                setTitle("Unable to find LoL directory.");
             }
             else
             {
                 log("Starting processing.");
-                progressBar.Maximum = files.Count();
-    
-                UploadWorker worker = new UploadWorker(files);
-                backgroundUploader.RunWorkerAsync(worker);
+
+                //backgroundUploader.RunWorkerAsync(logDirs);
+
+                uploader = new UploadWorker(logDirs, logger);
+                workerDelegate = new WorkerDelegate(StartWorker);
+
+                RunWorker();
             }
-
         }
 
-        private void saveDirInRegistry(string dir)
+        #region Background Worker
+        private UploadWorker uploader;
+
+        delegate void WorkerDelegate();
+        WorkerDelegate workerDelegate;
+
+        private void RunWorker()
         {
-            caKey.SetValue(registryValueName, dir);
-            log("Saved directory in the registry for future use.");
+            workerDelegate.BeginInvoke(null, null);
         }
-
-        private void quitButton_Click(object sender, EventArgs e)
+        private void StartWorker()
         {
-            System.Environment.Exit(0);
+            uploader.start();
         }
 
+        /*
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (System.ComponentModel.BackgroundWorker)sender;
 
-            UploadWorker uploader = (UploadWorker)e.Argument;
+            List<string> dirs = (List<string>)e.Argument;
 
-            uploader.ProcessFiles(worker, e);
+            uploader = new UploadWorker(dirs, worker);
+            uploader.start();
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             try
             {
-                UploadWorker.CurrentState state = (UploadWorker.CurrentState)e.UserState;
-                progressBar.Value = state.filesProcessed;
-            }
-            catch (InvalidCastException e1)
-            {
-                try
-                {
-                    string msg = (string)e.UserState;
-                    log(msg);
-                } catch (InvalidCastException e2) {
-                    log("Got invalid state type from worker.");
-                    throw e2;
-                }
+                string msg = (string)e.UserState;
+                log(msg);
+            } catch (InvalidCastException e2) {
+                log("Got invalid state type from worker.");
+                throw e2;
             }
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
+            {
                 log("Error processing files: " + e.Error.Message);
+                setTitle("Error uploading files.");
+            }
             else if (e.Cancelled)
+            {
                 log("Processing cancelled.");
+                setTitle("Cancelled.");
+            }
             else
+            {
                 log("Processing complete.");
+                setTitle("Done.");
+            }
+        }
+        */
+
+        private void runNowButton_Click(object sender, EventArgs e)
+        {
+            RunWorker();
+        }
+        #endregion
+
+        #region Event Handlers
+        /* 
+         * Event Handlers
+         */
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            hideWindow();
         }
 
-        public class UploadWorker
+        protected override void OnLoad(EventArgs e)
         {
-            public class CurrentState
-            {
-                public int filesProcessed;
-                public int gamesFound;
-            }
+            // Hide because we'll use a system tray icon.
+            Visible = false;
+            ShowInTaskbar = false;
 
-            private List<string> files;
+            base.OnLoad(e);
+        }
 
-            private void log(BackgroundWorker worker, string msg)
-            {
-                worker.ReportProgress(0, msg);
-            }
-
-            public UploadWorker(List<string> files) {
-                this.files = files;
-            }
-
-            public void ProcessFiles(BackgroundWorker worker, DoWorkEventArgs e)
-            {
-                log(worker, "Processing started.");
-                // initialize state.
-                CurrentState state = new CurrentState();
-                DateTime lastReportDateTime = DateTime.Now;
-
-                if (files == null)
-                    throw new Exception("No files specified.");
-
-                // Parser parser = new Parser();
-                // var parser = new LogParserFromString();
-
-                log(worker, "Processing " + files.Count() + " files.");
-                foreach (string logFile in files)
-                {
-                    // Cancel if requested.
-                    if (worker.CancellationPending)
-                    {
-                        log(worker, "Processing cancelled.");
-                        e.Cancel = true;
-                        break;
-                    }
-
-
-                    //string data = File.OpenText(logFile).ReadToEnd();
-                    log(worker, HsParser.uploadLog(logFile));
-
-                    /*
-                    ParserCombinators.Result<string, DList<LogParsers<string>.LogMsg>> parsedData = parser.LogMsgs(data, 0);
-                    */
-
-                    log(worker, "Processing " + logFile);
-
-                    state.filesProcessed += 1;
-                    worker.ReportProgress(0, state);
-
-                    /*
-                    if (parsedData.Value.Count() > 0)
-                    {
-                        log(worker, "Found " + parsedData.Value.Count() + " messages."); ;
-                        foreach (LogParsers<string>.LogMsg msg in parsedData.Value)
-                        {
-                            Value data = msg.data;
-                            if (data != null)
-                            {
-                                log(worker, "Found game."); ;
-                                state.gamesFound += 1;
-                                worker.ReportProgress(0, state);
-                            }
-
-                        }
-                    }
-                    */
-                }
-                log(worker, "Processing complete.");
-            }
+        private void OnExit(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
 
-        private void detailsButton_Click(object sender, EventArgs e)
+        private void notifyIcon_Click(object sender, MouseEventArgs e)
         {
-            if (logText.Visible)
-            {
-                logText.Hide();
-            }
+            /*
+            if (Visible == false)
+                showWindow();
             else
-            {
-                logText.Show();
-            }
+                hideWindow();
+            */
         }
+        #endregion
+
+        #region Notification Icon
+        /* 
+         * NotifyIcon setup
+         */
+        private void InitializeNotifyIcon()
+        {
+            trayMenu.MenuItems.Add("Show Log", (sender, args) => showWindow());
+            trayMenu.MenuItems.Add("Upload Now", (sender, args) => RunWorker());
+            trayMenu.MenuItems.Add("Exit", OnExit);
+            notifyIcon.ContextMenu = trayMenu;
+        }
+        #endregion
+
+        #region Logger
+        /* 
+         * Logger setup
+         */
+        private UILogger logger;
+
+        private void InitializeLogger(TextBox output)
+        {
+            logger = new UILogger(output);
+        }
+        private void log(string msg)
+        {
+            logger.log(msg);
+        }
+        #endregion
+
+        #region Helpers
+        /*
+         * Helpers
+         */
+        private void setTitle(string title)
+        {
+            Title.Text = title;
+        }
+        private void hideWindow() 
+        {
+            Visible = false;
+            ShowInTaskbar = false;
+        }
+
+        private void showWindow()
+        {
+            Visible = true;
+            ShowInTaskbar = true;
+        }
+
+        private void saveDirInRegistry(string dir)
+        {
+            RegistryKey key = caHive.OpenSubKey(caKey, true);
+            if (key == null)
+            {
+                caHive.CreateSubKey(caKey);
+                key = caHive.OpenSubKey(caKey, true);
+            }
+
+            key.SetValue(caValue, dir);
+
+            log("Saved directory in the registry for future use.");
+        }
+        #endregion
 
     }
+
 }

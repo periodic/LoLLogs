@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAClientCommon", "CAClientC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAClient", "CAClient\CAClient.csproj", "{B7D7802D-2B61-435B-837E-211581085DB3}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CA Client Installer", "CA Client Installer\CA Client Installer.vdproj", "{25F39249-152F-463D-AF0D-B26E7678049C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +21,8 @@ Global
 		{B7D7802D-2B61-435B-837E-211581085DB3}.Debug|x86.Build.0 = Debug|x86
 		{B7D7802D-2B61-435B-837E-211581085DB3}.Release|x86.ActiveCfg = Release|x86
 		{B7D7802D-2B61-435B-837E-211581085DB3}.Release|x86.Build.0 = Release|x86
+		{25F39249-152F-463D-AF0D-B26E7678049C}.Debug|x86.ActiveCfg = Debug
+		{25F39249-152F-463D-AF0D-B26E7678049C}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

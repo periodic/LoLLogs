@@ -14,11 +14,12 @@ namespace CAClientCommon
         static string logSubDir = "\\deploy\\logs";
 
         public abstract List<string> getFiles();
+        public abstract List<string> getDirs();
         public abstract string getDirectory();
  
-        protected static List<string> getLogFiles(string path)
+        protected static List<string> getLogDirs(string path) 
         {
-            var logFiles = new List<string>();
+            var logDirs = new List<string>();
 
             if (! Directory.Exists(path))
                 throw new DirectoryNotFoundException("Base directory does not exist: " + path);
@@ -28,11 +29,24 @@ namespace CAClientCommon
 
             foreach (string verDir in Directory.EnumerateDirectories(path + releaseDir))
             {
-                string logDir = verDir + logSubDir; // The enumerator returns directories with a trailing slash.
+                string logDir = verDir + logSubDir;
                 if (Directory.Exists(logDir))
-                    logFiles.AddRange(Directory.EnumerateFiles(logDir));
+                    logDirs.Add(logDir);
                 else
                     throw new DirectoryNotFoundException("Directory should exist: " + logDir);
+            }
+
+            return logDirs;
+        }
+        protected static List<string> getLogFiles(string path)
+        {
+            var logFiles = new List<string>();
+
+            var logDirs = getLogDirs(path);
+
+            foreach (string logDir in logDirs)
+            {
+                logFiles.AddRange(Directory.EnumerateFiles(logDir));
             }
 
             if (logFiles.Count == 0)
@@ -40,6 +54,7 @@ namespace CAClientCommon
 
             return logFiles;
         }
+
     }
 
     public class DialogDirFinder : DirFinder
@@ -75,6 +90,12 @@ namespace CAClientCommon
             return getLogFiles(baseDir);
         }
 
+        public override List<string> getDirs()
+        {
+            requestDirectory();
+            return getLogDirs(baseDir);
+        }
+
         public override string getDirectory()
         {
             return baseDir;
@@ -92,6 +113,11 @@ namespace CAClientCommon
             return getLogFiles(directory);
         }
 
+        public override List<string> getDirs()
+        {
+            return getLogDirs(directory);
+        }
+
         public override string getDirectory()
         {
             return directory;
@@ -103,9 +129,10 @@ namespace CAClientCommon
         public RegistryKey registryKey;
         public string registryValue;
 
-        public RegistryDirFinder(RegistryKey key, string val)
+        public RegistryDirFinder(RegistryKey hive, string key, string val)
         {
-            registryKey = key;
+
+            registryKey = hive.OpenSubKey(key);
             registryValue = val;
         }
 
@@ -114,17 +141,27 @@ namespace CAClientCommon
             return getLogFiles(lookupRegistryString());
         }
 
+        public override List<string> getDirs()
+        {
+            return getLogDirs(lookupRegistryString());
+        }
+
         private string lookupRegistryString()
         {
+            if (registryKey == null)
+            {
+                throw new DirectoryNotFoundException("The registry subkey does not exist.");
+            }
+
             Object val = registryKey.GetValue(registryValue, null);
 
             if (val == null)
-                throw new DirectoryNotFoundException("Could not get directory from registry at: " + registryKey + " : " + registryValue);
+                throw new DirectoryNotFoundException("Could not get directory from registry at: " + registryKey.Name + " : " + registryValue);
 
             try {
                 return (string)val;
-            } catch (InvalidCastException e) {
-                throw new DirectoryNotFoundException("Registry did not return a string: " + registryKey + " : " + registryValue);
+            } catch (InvalidCastException) {
+                throw new DirectoryNotFoundException("Registry did not return a string: " + registryKey.Name + " : " + registryValue);
             }
         }
 

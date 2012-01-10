@@ -28,31 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.quitButton = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            this.closeButton = new System.Windows.Forms.Button();
             this.Title = new System.Windows.Forms.Label();
             this.logText = new System.Windows.Forms.TextBox();
-            this.backgroundUploader = new System.ComponentModel.BackgroundWorker();
-            this.detailsButton = new System.Windows.Forms.Button();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayMenu = new System.Windows.Forms.ContextMenu();
+            this.runNowButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // progressBar
+            // closeButton
             // 
-            this.progressBar.Location = new System.Drawing.Point(12, 25);
-            this.progressBar.Maximum = 1;
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(410, 23);
-            this.progressBar.TabIndex = 0;
-            // 
-            // quitButton
-            // 
-            this.quitButton.Location = new System.Drawing.Point(347, 54);
-            this.quitButton.Name = "quitButton";
-            this.quitButton.Size = new System.Drawing.Size(75, 23);
-            this.quitButton.TabIndex = 4;
-            this.quitButton.Text = "Quit";
-            this.quitButton.UseVisualStyleBackColor = true;
-            this.quitButton.Click += new System.EventHandler(this.quitButton_Click);
+            this.closeButton.Location = new System.Drawing.Point(347, 12);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(75, 23);
+            this.closeButton.TabIndex = 4;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // Title
             // 
@@ -66,33 +60,32 @@
             // logText
             // 
             this.logText.AcceptsReturn = true;
-            this.logText.Location = new System.Drawing.Point(12, 83);
+            this.logText.Location = new System.Drawing.Point(12, 41);
+            this.logText.MaxLength = 131072;
             this.logText.Multiline = true;
             this.logText.Name = "logText";
             this.logText.ReadOnly = true;
             this.logText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logText.Size = new System.Drawing.Size(410, 300);
+            this.logText.Size = new System.Drawing.Size(410, 342);
             this.logText.TabIndex = 6;
-            this.logText.Visible = false;
             // 
-            // backgroundUploader
+            // notifyIcon
             // 
-            this.backgroundUploader.WorkerReportsProgress = true;
-            this.backgroundUploader.WorkerSupportsCancellation = true;
-            this.backgroundUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundUploader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.notifyIcon.BalloonTipText = "CasualAddict Client";
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "Casual Addict Client";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_Click);
             // 
-            // detailsButton
+            // runNowButton
             // 
-            this.detailsButton.AutoSize = true;
-            this.detailsButton.Location = new System.Drawing.Point(249, 54);
-            this.detailsButton.Name = "detailsButton";
-            this.detailsButton.Size = new System.Drawing.Size(92, 23);
-            this.detailsButton.TabIndex = 7;
-            this.detailsButton.Text = "Show Details";
-            this.detailsButton.UseVisualStyleBackColor = true;
-            this.detailsButton.Click += new System.EventHandler(this.detailsButton_Click);
+            this.runNowButton.Location = new System.Drawing.Point(266, 12);
+            this.runNowButton.Name = "runNowButton";
+            this.runNowButton.Size = new System.Drawing.Size(75, 23);
+            this.runNowButton.TabIndex = 7;
+            this.runNowButton.Text = "Run Now";
+            this.runNowButton.UseVisualStyleBackColor = true;
+            this.runNowButton.Click += new System.EventHandler(this.runNowButton_Click);
             // 
             // MainWindow
             // 
@@ -101,11 +94,11 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(434, 395);
-            this.Controls.Add(this.detailsButton);
+            this.Controls.Add(this.runNowButton);
             this.Controls.Add(this.logText);
             this.Controls.Add(this.Title);
-            this.Controls.Add(this.quitButton);
-            this.Controls.Add(this.progressBar);
+            this.Controls.Add(this.closeButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.Text = "CA Upload Client";
             this.ResumeLayout(false);
@@ -115,12 +108,12 @@
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Button quitButton;
+        private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Label Title;
         private System.Windows.Forms.TextBox logText;
-        private System.ComponentModel.BackgroundWorker backgroundUploader;
-        private System.Windows.Forms.Button detailsButton;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenu trayMenu;
+        private System.Windows.Forms.Button runNowButton;
     }
 }
 

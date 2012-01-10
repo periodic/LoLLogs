@@ -7,3 +7,5 @@ yesod/LoLLogsWebApp/static/tmp/
 /json
 /logs
 yesod/LoLLogsWebApp/.static-cache/
+Debug
+Release
