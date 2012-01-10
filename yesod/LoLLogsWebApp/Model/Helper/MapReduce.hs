@@ -3,6 +3,8 @@ module Model.Helper.MapReduce ( execute
                               , runMapReduce
                               , Model.Helper.MapReduce.mapReduce
                               , Queryable(..)
+                              , MRData
+                              , MRBackend
                               , simpleKey
                               , simpleMap
                               , simpleReduce
@@ -30,6 +32,10 @@ module Model.Helper.MapReduce ( execute
                               , wrapJS
                               , getResultValue
                               , getResultCount
+                              -- From MongoDB
+                              , MapReduce
+                              , Label
+                              , Value
                               ) where
 
 import Database.MongoDB as Mongo hiding (selector)
@@ -60,6 +66,9 @@ unJS (Javascript _ code) = code
 
 wrapJS :: UString -> Javascript
 wrapJS = Javascript []
+
+type MRData = M.Map Label Value
+type MRBackend = Action
 
 instance Val Text where
     val = String . S.pack . T.unpack
@@ -244,7 +253,7 @@ simpleFinalizeFunc fields =
 
 {- | Execute a map-reduce query, returning a either a list of results as touples from values to maps of data, or an error.
  -}
-execute :: MapReduce -> IO (Either Failure [(Label, M.Map Label Value)])
+execute :: MapReduce -> IO (Either Failure [(Label, MRData)])
 execute query = do
     conn <- runIOE . connect $ host "localhost"
     result <- access conn UnconfirmedWrites "LoLLogsWebApp" . runMR' $ query
@@ -258,13 +267,13 @@ execute query = do
                 return (recid, M.fromList $ map (\(l := v) -> (l,v)) values)
             return . catMaybes $ map makeRecord results
 
-runMapReduce :: (PersistBackend Action m, Applicative m) => MapReduce -> Action m [(Label, M.Map Label Value)]
+runMapReduce :: (PersistBackend Action m, Applicative m) => MapReduce -> Action m [(Label, MRData)]
 runMapReduce query = do
     result  <- runMR' query
     results <- Mongo.lookup "results" result -- Note, will call fail if no results exist.
     return . catMaybes $ map makeRecord results
     where
-        makeRecord :: Document -> Maybe (Label, M.Map Label Value)
+        makeRecord :: Document -> Maybe (Label, MRData)
         makeRecord doc = do
             recId  <- Mongo.lookup "_id" doc
             values <- Mongo.lookup "value" doc
@@ -274,15 +283,15 @@ mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
            => QueryColumn model typ                     -- ^ The column to use a key.
            -> [QueryFilter model]                       -- ^ A list of filters.
            -> [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
-           -> Action m [(Label, M.Map Label Value)]
+           -> Action m [(Label, MRData)]
 mapReduce keyCol filters fields = runMapReduce $ buildQuery keyCol filters fields
 
 -- | Get a result value from the result set, and make sure it is cast to the appropriate type.
-getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> M.Map Label Value -> Maybe typ
+getResultValue :: (Val typ, Queryable model) => QueryColumn model typ -> MRData -> Maybe typ
 getResultValue col vals = M.lookup (queryColumnName col) vals >>= queryCastResult col
 
 -- | Get the count of documents that went into a result set
-getResultCount :: M.Map Label Value -> Int
+getResultCount :: MRData -> Int
 getResultCount vals = case (M.lookup "_count" vals >>= cast') of
     Just c  -> c
     Nothing -> 0

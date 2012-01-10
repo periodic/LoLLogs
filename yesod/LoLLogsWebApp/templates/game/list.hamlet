@@ -8,18 +8,42 @@
             <thead>
                 <tr>
                     <th>
-                        Teams
+                        Blue Team
+                    <th>
+                    <th>
+                        Purple Team
                     <th>
                         Queue
+                    $maybe summonerName <- mSummonerName 
+                        <th>Elo
                     <th>
                         Date Added
             <tbody>
-                $forall game <- games
-                    <tr data-href=@{GameViewR (fst game)}>
-                        <td.champs>
-                            ^{portraits champions (snd game)}
-                        <td.queueType>
-                            #{queueDisplayName $ gsQueueType $ gameGameStats $ snd game}
-                        <td.created>
-                            #{gameFormattedCreateTime (snd game)}
+                $forall (gameId, game) <- games
+                    <a href=@{GameViewR gameId}>
+                        <tr data-href=@{GameViewR gameId}>
+                            <td.team.blue-team :gameBlueTeamWon game:.winner>
+                                <span.game-champions>
+                                    ^{portraits (gsBlueTeam (gameGameStats game)) game}
+                            <td.vs>
+                                VS
+                            <td.team.purple-team :not (gameBlueTeamWon game):.winner>
+                                <span.game-champions>
+                                    ^{portraits (gsPurpleTeam (gameGameStats game)) game}
+                            <td.queueType>
+                                #{queueDisplayName $ gsQueueType $ gameGameStats game}
+                            $maybe summonerName <- mSummonerName 
+                                $if gsRanked $ gameGameStats game
+                                    $maybe player <- (>>=) mSummonerName (flip gameLookupPlayer game)
+                                        <td.elo :playerWon game:.winner>
+                                            #{psElo player} (
+                                            <span.eloChange>
+                                                #{psEloChange player}
+                                            )
+                                    $nothing
+                                        <td>
+                                $else
+                                    <td>
+                            <td.created>
+                                #{gameFormattedCreateTime game}
 

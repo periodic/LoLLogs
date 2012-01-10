@@ -1,5 +1,6 @@
 module Yesod.Widget.Pager ( paginateSelectList
                           , pager
+                          , PagerOptions(..)
                           ) where
 
 
@@ -41,6 +42,7 @@ defaultPagerOptions = PagerOptions
 defaultUrlGenerator :: Int -> Html
 defaultUrlGenerator i = toHtml $ "?p=" ++ show i
 
+-- paginateSelectList :: (PersistEntity val, PersistBackend b m) => Int -> [Filter val] -> [SelectOpt val] -> Handler ([(Key b val, val)], PagerOptions)
 paginateSelectList pSize filters opts = do
     page <- fromMaybe 1 <$> (runInputGet $ iopt intField "p")
     let offset = max ((page - 1) * pSize) 0

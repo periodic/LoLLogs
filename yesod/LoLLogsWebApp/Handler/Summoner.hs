@@ -13,11 +13,7 @@ import Yesod.Widget.AjaxFrame
 import Model.Champion
 import Model.Game.Query hiding (Query(..), runQuery)
 
-champPortrait :: Text -> ChampionMap -> Widget
-champPortrait skinName champions = $(widgetFile "game/champion-portrait")
-
-portraits :: ChampionMap -> Game -> Widget
-portraits champions game = $(widgetFile "game/champions")
+import Widget.GameList
 
 queryCols :: Text -> [QueryColumn Game Double]
 queryCols summonerName =
@@ -45,16 +41,20 @@ getSummonerStatsR summonerName = do
 
     defaultLayout $ do
         setTitle . toHtml $ T.append "Stats for " summonerName
-        addScript $ StaticR js_bootstrap_tabs_js
+        --addScript $ StaticR js_bootstrap_bootstrap_tabs_js
+        addScript $ StaticR js_jqueryui_jquery_ui_core_min_js
+        addScript $ StaticR js_jqueryui_jquery_ui_widget_min_js
+        addScript $ StaticR js_jqueryui_jquery_ui_tabs_min_js
         $(widgetFile "summoner/view")
 
 gamesPane :: Text -> ChampionMap -> Handler Widget
 gamesPane summonerName champions = do
-    (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] []
+    (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] [Desc GameCreated]
 
-    let gameList = $(widgetFile "game/list")
+    let gamesWidget = gameList (Just summonerName) champions games pagerOpts
 
-    return $ ajaxFrame defaultFrameOptions gameList
+    return $ ajaxFrame defaultFrameOptions gamesWidget
+
 
 
 statsPane :: Text -> ChampionMap -> Handler Widget
@@ -80,7 +80,7 @@ statsPane summonerName champions = do
     return $ do
         -- Static scripts
         addScript $ StaticR js_jquery_tablesorter_min_js -- for a pretty table.
-        addScript $ StaticR js_bootstrap_buttons_js
+        addScript $ StaticR js_bootstrap_bootstrap_buttons_js
         chosenImports
         $(widgetFile "summoner/stats")
     where
@@ -127,8 +127,10 @@ data Query = Query { qKey       :: QueryColumn Game Text
                    , qCols      :: [QueryColumn Game Double]
                    }
 
+runQuery :: Query -> MRBackend (GGHandler LoLLogsWebApp LoLLogsWebApp IO) [(Label, MRData)]
 runQuery = runMapReduce . mrFromQuery
 
+mrFromQuery :: Query -> MapReduce
 mrFromQuery query = buildQuery (qKey query)
                                (summonerFilter : (catMaybes [championFilters, queueTypeFilters]))
                                (qCols query)

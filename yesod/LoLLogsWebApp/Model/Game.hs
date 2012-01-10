@@ -8,9 +8,8 @@ import Data.Text (Text, isPrefixOf)
 import Data.Time
 import System.Locale (defaultTimeLocale)
 import qualified Data.Map as M
-import Text.Printf
 import Data.Maybe (fromMaybe)
-import Data.GameLog
+import Data.GameLog hiding (Spell(..))
 import Data.GameLog.Persist ()
 import Database.Persist.Base
 import Database.Persist.MongoDB (Action)
@@ -101,30 +100,26 @@ playerTeamWon :: M.Map Text PlayerStats -> Bool
 playerTeamWon team =
     (> 0) . playerVictory . head . M.elems $ team
 
+totalStat :: Text -> [Text] -> Game -> Int
+totalStat statName players game =
+    let playerStats = map (flip gameLookupPlayer game) players
+     in sum . map (fromMaybe 0) . map (maybe (Just 0) (lookupStat statName)) $ playerStats
 
-roundLargeNumber :: (Integral i) => i -> String
-roundLargeNumber i = if i < 1000
-                     then show i
-                     else if i < 1000000
-                        then printf "%.1fk" (fromIntegral i / 1000 :: Float)
-                        else printf "%.1fM" (fromIntegral i / 1000000 :: Float)
+totalKDA :: [Text] -> Game -> (Int, Int, Int)
+totalKDA players game =
+    let k = totalStat "Champion Kills" players game
+        d = totalStat "Deaths"         players game
+        a = totalStat "Assists"        players game
+     in (k,d,a)
 
-formatGameTime :: Int -> String
-formatGameTime i = let hours = i `div` 3600
-                       mins  = (i `div` 60) `mod` 60
-                       secs  = i `mod` 60
-                    in if hours > 0
-                       then printf "%02d:%02d:%02d" hours mins secs
-                       else printf "%02d:%02d" mins secs
+totalCS :: [Text] -> Game -> Int
+totalCS players game =
+    let neutral = totalStat "Neutral Monsters Killed" players game
+        minions = totalStat "Minions Slain"           players game
+     in neutral + minions
 
-gameFormattedCreateTime :: Game -> String
-gameFormattedCreateTime = formatTime defaultTimeLocale "%F" . gameCreated
-
-queueDisplayName :: Text -> Text
-queueDisplayName "NORMAL"           = "Normal"
-queueDisplayName "RANKED_SOLO_5x5"  = "Ranked, Solo"
-queueDisplayName "BOT"              = "Bot"
-queueDisplayName s                  = s
+totalGold :: [Text] -> Game -> Int
+totalGold players game = totalStat "Gold Earned" players game
 
 {- PlayerStats related stuff.
  -}
@@ -139,3 +134,15 @@ itemStats = M.filterWithKey (\k v -> "**ITEM" `isPrefixOf` k)
 
 nonItemStats :: M.Map Text Int -> M.Map Text Int
 nonItemStats = M.filterWithKey (\k v -> not $ "**ITEM" `isPrefixOf` k)
+
+{- Formatting.
+ -}
+queueDisplayName :: Text -> Text
+queueDisplayName "NORMAL"           = "Normal"
+queueDisplayName "RANKED_SOLO_5x5"  = "Ranked, Solo"
+queueDisplayName "BOT"              = "Bot"
+queueDisplayName s                  = s
+
+gameFormattedCreateTime :: Game -> String
+gameFormattedCreateTime = formatTime defaultTimeLocale "%F" . gameCreated
+

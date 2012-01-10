@@ -32,9 +32,11 @@ library
                      Import
                      Model
                      Model.Helper.MapReduce
+                     Model.Champion
                      Model.Game
                      Model.Game.Query
-                     Model.Champion
+                     Model.Item
+                     Model.Spell
                      Settings
                      Settings.StaticFiles
                      Handler.Root
@@ -42,9 +44,11 @@ library
                      Handler.Champion
                      Handler.ChartExample
                      Handler.Summoner
+                     Widget.GameList
                      Yesod.Widget.AjaxFrame
-                     Yesod.Widget.Pager
                      Yesod.Widget.Flot
+                     Yesod.Widget.GoogleAnalytics
+                     Yesod.Widget.Pager
 
     ghc-options:   -Wall -threaded -O0
     cpp-options:   -DDEVELOPMENT

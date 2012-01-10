@@ -1,3 +1,7 @@
+var statData = #{statDataJson game};
+
+var players = #{jsonPlayers game};
+
 $(function () {
     $('#players').delegate('.player-header', 'click', function (e) {
         $this = $(this);
@@ -11,4 +15,103 @@ $(function () {
         else
             $details.slideDown('fast');
     });
+
+    $('#grid thead th').twipsy();
+    $('.item-thumbnail, .spell-thumbnail').twipsy();
+
+    var tabIndexes = {
+        '#players': 0,
+        '#grid': 1,
+        '#graph': 2,
+    };
+
+    var plot = initPlot();
+
+    var $tabs = $('#tabs').tabs({
+        selected: tabIndexes[window.location.hash],
+        change: function (e) {
+            refreshChart(plot, ['Champion Kills', 'Deaths', 'Assists']);
+        },
+    });
+
+    $tabs.find('ul.ui-tabs-nav a').click(function (event) {
+        var hash = event.target.hash;
+        history.pushState({hash: hash}, '', window.location.origin + window.location.pathname + hash);
+    });
+
+    $(window).bind('popstate', function (e) {
+        if (e.originalEvent.state) {
+            $tabs.tabs('select', e.originalEvent.state.hash);
+        } else {
+            $tabs.tabs('select', 0);
+        }
+    });
 });
+
+function initPlot() {
+    var plotOpts = makeDataAndLabels(['Champion Kills', 'Deaths', 'Assists']);
+
+    // For horizontal bar charts, x an y values must will be "flipped"
+    // from their vertical bar counterpart.
+    return $.jqplot('chart', plotOpts.data, {
+        seriesDefaults: {
+            renderer: $.jqplot.BarRenderer,
+            shadow: false,
+            rendererOptions: {
+                barDirection: 'horizontal'
+            }
+        },
+        legend: {
+            show: true,
+        },
+        series: plotOpts.labels,
+        axes: {
+            yaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                ticks: players
+            }
+        }
+    });
+}
+
+function refreshChart(plot, statNames) {
+
+    var plotOpts = makeDataAndLabels(statNames);
+
+    plot.data = plotOpts.data;
+
+    plot.replot({series: plotOpts.labels});
+
+}
+
+function makeDataAndLabels(statNames) {
+    var data = [];
+    var labels = []
+
+    // console.log(data);
+
+    for (var statIdx in statNames) {
+        var statName = statNames[statIdx];
+        var series = [];
+
+        labels.push({label: statName});
+
+        // console.log("Stat: " + statName);
+        var pid = 0;
+        for (var playerIdx in players) {
+            var player = players[playerIdx];
+            pid++;
+
+            // console.log("Player: " + player + "(" + pid + ")");
+            if (statData[player] && statData[player][statName]) {
+                series.push([statData[player][statName], pid]);
+            } else {
+                console.log("player: " + player + ", statName: " + statName);
+                series.push([0, pid]);
+            }
+        }
+        data.push(series);
+    }
+
+    return { data: data, labels: labels };
+}

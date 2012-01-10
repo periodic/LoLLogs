@@ -1,22 +1,9 @@
-<span.game-champions>
-    <span.blue-team :gameBlueTeamWon game:.winner>
-        $forall summoner <- gsBlueTeam (gameGameStats game)
+<ul>
+    $forall summoner <- players
+        <li :isMe summoner:.me>
             $maybe player <- (gameLookupPlayer summoner game)
                 $maybe champ <- lookupChamp (psSkinName player) champions
-                    <a href=@{SummonerStatsR summoner}>
-                        <img.champ-portrait src=@{StaticR $ championImageUrl champ} alt=#{summoner}>
-                $nothing
-                    <a href=@{SummonerStatsR summoner}>
-                        <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{summoner}>
-            $nothing
-                <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=Unknown>
-    <span.vs>vs.
-    <span.purple-team :not (gameBlueTeamWon game):.winner>
-        $forall summoner <- gsPurpleTeam (gameGameStats game)
-            $maybe player <- (gameLookupPlayer summoner game)
-                $maybe champ <- lookupChamp (psSkinName player) champions
-                    <a href=@{SummonerStatsR summoner}>
-                        <img.champ-portrait src=@{StaticR $ championImageUrl champ} alt=#{summoner}>
+                    ^{championImageLinkWithTitle (SummonerStatsR summoner) champ summoner}
                 $nothing
                     <a href=@{SummonerStatsR summoner}>
                         <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{summoner}>

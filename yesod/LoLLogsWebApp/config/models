@@ -13,10 +13,47 @@ Champion
     skinName Text
     UniqueName name
 
-Item
+Spell
+    ident Int
     name Text
-    imageUrl Text
-    number Int
-    UniqueNumber number
+    imageName Text
+    UniqueSpell ident
+
+Item
+    ident                          Int
+    name                           Text
+    description                    Text
+    iconPath                       Text
+    price                          Int
+    flatHPPoolMod                  Double
+    percentHPPoolMod               Double
+    flatMPPoolMod                  Double
+    percentMPPoolMod               Double
+    flatHPRegenMod                 Double
+    percentHPRegenMod              Double
+    flatMPRegenMod                 Double
+    percentMPRegenMod              Double
+    flatArmorMod                   Double
+    percentArmorMod                Double
+    flatAttackDamageMod            Double
+    percentAttackDamageMod         Double
+    flatAbilityPowerMod            Double
+    percentAbilityPowerMod         Double
+    flatMovementSpeedMod           Double
+    percentMovementSpeedMod        Double
+    flatAttackSpeedMod             Double
+    percentAttackSpeedMod          Double
+    flatDodgeMod                   Double
+    percentDodgeMod                Double
+    flatCritChanceMod              Double
+    percentCritChanceMod           Double
+    flatCritDamageMod              Double
+    percentCritDamageMod           Double
+    flatMagicResistMod             Double
+    percentMagicResistMod          Double
+    flatEXPBonus                   Double
+    percentEXPBonus                Double
+    epicness                       Int
+    UniqueItem ident
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

@@ -1,92 +1,106 @@
-#stats span.data-label {
-    font-weight: bold;
-    width: 80px;
-    text-align: left;
-    margin-right: 5px;
-}
+#players {
 
-.team {
-    border: 1px solid #d00;
-    margin-bottom: 10px;
-}
+    .spell-thumbnail, .item-thumbnail{
+        display: inline-block;
+        margin: 1px;
+    }
 
-.team.winner {
-    border: 1px solid #0d0;
-}
+    .team {
+        border: 2px solid #5C1818;
+    }
+    .team.winner {
+        border: 2px solid #235C35;
+    }
 
-.player-header {
-    clear: both;
-    border-top: 1px solid #ccc;
-    padding: 10px;
-    height: 40px;
-
-    .summoner-info {
-        float: left;
-        width: 220px;
-        overflow: hidden;
-
-        img {
-            width: 40px;
-            float: left;
-            margin-right: 5px;
-        }
-
-        .champion-name {
-            display: block;
-            color: #999;
-        }
-        .summoner-name {
-            display: block;
-            font-size: 120%;
-            font-weight: bold;
-        }
+    .leaver .player-header .summoner-info .summoner-name a {
+        color: #600;
     }
 
     .summoner-kda {
-        float: left;
-        width: 100px;
-        overflow: hidden;
-        font-size: 200%;
-        line-height: 40px;
+        text-align: center;
+    }
 
-        .kills {
-            color: #090;
+    .summoner-cs, .summoner-gold {
+        text-align: right;
+    }
+
+    tbody {
+        td.summoner-info {
+            width: 220px;
+
+            .champion-thumbnail {
+                float: left;
+                margin-right: 5px;
+            }
+
+            .champion-name {
+                display: block;
+                color: #999;
+            }
+            .summoner-name {
+                display: block;
+                font-size: 120%;
+                font-weight: bold;
+            }
         }
-        .deaths {
-            color: #900;
+
+        .summoner-kda {
+            .kills {
+                color: #090;
+            }
+            .deaths {
+                color: #900;
+            }
+            .assists {
+                color: #990;
+            }
         }
-        .assists {
+
+        .summoner-gold {
             color: #990;
         }
+
+        td.summoner-kda, td.summoner-cs, td.summoner-gold {
+            font-size: 160%;
+            line-height: 40px;
+        }
     }
 
-    .summoner-items {
-        float: left;
-        width: 180px;
-        overflow: hidden;
-    }
+}
 
-    .summoner-gold {
-        float: left;
-        width: 80px;
-        overflow: hidden;
-        color: #990;
-        font-size: 200%;
-        line-height: 40px;
+#grid {
+    thead {
+        th {
+            text-align: center;
+        }
     }
-
-    .summoner-cs {
-        float: left;
-        width: 80px;
-        overflow: hidden;
-        font-size: 200%;
-        line-height: 40px;
+    tr.categoryHeading {
+        th {
+            font-weight: bold;
+            color: white;
+            background-color: #38495C;
+        }
+        td {
+            background-color: #5C1818;
+        }
+        td.winner {
+            background-color: #235C35;
+        }
+    }
+    td.statValue {
+        text-align: right;
+        border-left: 1px solid #DDD;
+    }
+    colgroup col.team {
+        border: 1px solid #DDD;
     }
 }
 
-.player-details {
-    clear: both;
-    display: none;
-    background-color: #eee;
-    padding: 10px;
+#chart {
+    width: 100%;
+    height: 600px;
+
+    .jqplot-table-legend {
+        width: auto;
+    }
 }
