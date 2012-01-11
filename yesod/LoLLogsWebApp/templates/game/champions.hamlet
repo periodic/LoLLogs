@@ -7,5 +7,7 @@
                 $nothing
                     <a href=@{SummonerStatsR summoner}>
                         <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{summoner}>
+                $if isMe summoner
+                    <img.triangle src=@{StaticR img_triangle_png}>
             $nothing
                 <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=Unknown>
