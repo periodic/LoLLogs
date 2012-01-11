@@ -7,7 +7,7 @@
     \ You must close the League of Legends client before running the uploader.  League of Legends locks the logs while it is open, so we can't read them while it is running.
 
 <p>
-    <a.btn.primary href=@{StaticR upload_games_zip}>Download
+    <a.btn.primary href=@{StaticR ca_client_installer_msi}>Download
 
 
 <h2>FAQ

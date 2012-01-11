@@ -62,17 +62,17 @@ instance Queryable Game where
     queryKeyCode c@QGameSummoner  = simpleKey "gameStats.summoners" c
     queryKeyCode c@QGameChampion  = simpleKey "gameStats.champions" c
     queryKeyCode (QPlayerChampion sNameT) = summonerKeyCode sNameT ".skinName"
-    queryKeyCode (QPlayerWins    sNameT) = summonerKeyCode sNameT ".statistics.Victories" -- Wins total
-    queryKeyCode (QPlayerWinPct  sNameT) = summonerKeyCode sNameT ".statistics.Victories" -- % wins
-    queryKeyCode (QPlayerKills   sNameT) = summonerKeyCode sNameT ".statistics['Champion Kills']" -- Total kills
-    queryKeyCode (QPlayerDeaths  sNameT) = summonerKeyCode sNameT ".statistics.Deaths" -- Total deaths
-    queryKeyCode (QPlayerAssists sNameT) = summonerKeyCode sNameT ".statistics.Assists" -- Total Assists
-    queryKeyCode (QPlayerKPM     sNameT) = summonerKeyCode sNameT ".statistics['Champion Kills'] * 60 / this.gameStats.gameLength" -- Kills/min
-    queryKeyCode (QPlayerDPM     sNameT) = summonerKeyCode sNameT ".statistics.Deaths * 60 / this.gameStats.gameLength" -- Deaths/min
-    queryKeyCode (QPlayerAPM     sNameT) = summonerKeyCode sNameT ".statistics.Assists * 60 / this.gameStats.gameLength" -- Assists/min
-    queryKeyCode (QPlayerGold    sNameT) = summonerKeyCode sNameT ".statistics['Gold Earned']" -- Gold
-    queryKeyCode (QPlayerGPM     sNameT) = summonerKeyCode sNameT ".statistics['Gold Earned'] * 60 / this.gameStats.gameLength" -- Gold / minute
-    queryKeyCode (QPlayerCS      sNameT) = -- Creep score (neutral + minions)
+    queryKeyCode (QPlayerWins     sNameT) = summonerKeyCode sNameT ".statistics.Victories" -- Wins total
+    queryKeyCode (QPlayerWinPct   sNameT) = summonerKeyCode sNameT ".statistics.Victories" -- % wins
+    queryKeyCode (QPlayerKills    sNameT) = summonerKeyCode sNameT ".statistics['Champion Kills']" -- Total kills
+    queryKeyCode (QPlayerDeaths   sNameT) = summonerKeyCode sNameT ".statistics.Deaths" -- Total deaths
+    queryKeyCode (QPlayerAssists  sNameT) = summonerKeyCode sNameT ".statistics.Assists" -- Total Assists
+    queryKeyCode (QPlayerKPM      sNameT) = summonerKeyCode sNameT ".statistics['Champion Kills'] * 60 / this.gameStats.gameLength" -- Kills/min
+    queryKeyCode (QPlayerDPM      sNameT) = summonerKeyCode sNameT ".statistics.Deaths * 60 / this.gameStats.gameLength" -- Deaths/min
+    queryKeyCode (QPlayerAPM      sNameT) = summonerKeyCode sNameT ".statistics.Assists * 60 / this.gameStats.gameLength" -- Assists/min
+    queryKeyCode (QPlayerGold     sNameT) = summonerKeyCode sNameT ".statistics['Gold Earned']" -- Gold
+    queryKeyCode (QPlayerGPM      sNameT) = summonerKeyCode sNameT ".statistics['Gold Earned'] * 60 / this.gameStats.gameLength" -- Gold / minute
+    queryKeyCode (QPlayerCS       sNameT) = -- Creep score (neutral + minions)
         let champ = t2u sNameT
          in wrapJS $ US.concat [ "(this.gameStats.playerStats.", champ, ".statistics['Minions Slain']"
                                , "+ this.gameStats.playerStats.", champ, ".statistics['Neutral Monsters Killed'])"
