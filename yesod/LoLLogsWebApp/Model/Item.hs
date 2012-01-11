@@ -20,18 +20,18 @@ itemsAsList = M.toList
 
 itemImage :: Item -> Widget
 itemImage item = do
-    addStylesheet $ StaticR css_item_thumbnail_sprite_css
-    [whamlet|<div class="item-thumbnail item-thumbnail-#{cleanIconPath $ itemIconPath item}" title="#{itemName item}">|]
+    addStylesheet $ StaticR sprites_items_css
+    [whamlet|<div class="item-thumbnail sprite-items-#{cleanIconPath $ itemIconPath item}" title="#{itemName item}">|]
 
 itemImageLink :: LoLLogsWebAppRoute -> Item -> Widget
 itemImageLink route item = do
-    addStylesheet $ StaticR css_item_thumbnail_sprite_css
-    [whamlet|<a href=@{route} class="item-thumbnail item-thumbnail-#{cleanIconPath $ itemIconPath item}" title="#{itemName item}">|]
+    addStylesheet $ StaticR sprites_items_css
+    [whamlet|<a href=@{route} class="item-thumbnail sprite-items-#{cleanIconPath $ itemIconPath item}" title="#{itemName item}">|]
 
 itemImageEmpty :: Widget
 itemImageEmpty = do
-    addStylesheet $ StaticR css_item_thumbnail_sprite_css
-    [whamlet|<div class="item-thumbnail item-thumbnail-EmptyIcon" title="Empty">|]
+    addStylesheet $ StaticR sprites_items_css
+    [whamlet|<div class="item-thumbnail sprite-items-EmptyIcon" title="Empty">|]
 
 cleanIconPath :: Text -> Text
 cleanIconPath = T.takeWhile (/= '.')
