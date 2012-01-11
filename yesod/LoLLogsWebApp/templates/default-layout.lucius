@@ -41,6 +41,10 @@ li.next.last {
     clear: both;
 }
 
+.image-thumbnail, .champion-thumbnail, .spell-thumbnail {
+    display: inline-block;
+}
+
 /* For navigation tabs.
  */
 #section-nav {
