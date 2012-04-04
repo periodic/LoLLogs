@@ -1,8 +1,8 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes #-}
-module Data.GameLog.PersistTH where
+module Data.GameLog.PersistTH ( derivePersistFieldFromJSON
+                              ) where
 
-import Database.Persist
-import Database.Persist.Base
+import Database.Persist.Store
 import Database.Persist.TH
 import Language.Haskell.TH.Syntax (Type(..))
 
@@ -13,19 +13,33 @@ import qualified Data.Aeson.Types as P
 import Data.Text (pack, unpack)
 import qualified Data.Text.Encoding as E
 import qualified Data.Attoparsec.Number as N
--- import qualified Data.Map as M
 import qualified Data.HashMap.Lazy as M
 import qualified Data.Vector as V
 import Control.Monad (liftM)
 import Language.Haskell.TH
 
+{- | This module is designed to allow us to create PersistField instances for
+ - data types that have FromJSON and ToJSON instances (as implemented in the
+ - Aeson package).  It does this by doing two things:  Defining an instance of
+ - PersistField for Aeson.Value, and then defining a template-haskell function
+ - for defining a PersistField instance using that.  
+ -
+ - The PersistField definition is very simple.  To get a PersistValue from the
+ - data type we first convert it to JSON through toJSON, then convert that to a
+ - PersistValue.  To convert a PersistValue to a data type we first convert it
+ - to an Aeson.Value type, then parse it using parseJSON/fromJSON.
+ -}
 
 data T1 = T1
+
+fmapLeft :: (a -> b) -> Either a c -> Either b c
+fmapLeft f (Left a) = Left (f a)
+fmapLeft _ (Right a)= Right a -- Rewrap to fix types.
 
 derivePersistFieldFromJSON t = do
     d <- [d| instance PersistField T1 where
                 toPersistValue = toPersistValue . toJSON
-                fromPersistValue val = fromPersistValue val >>= P.parseEither parseJSON
+                fromPersistValue val = fromPersistValue val >>= fmapLeft pack . P.parseEither parseJSON
                 sqlType _ = SqlString
                 isNullable _ = False
          |]
