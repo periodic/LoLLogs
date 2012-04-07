@@ -2,7 +2,6 @@ module Handler.Game where
 
 import Import
 
-import Data.Enumerator.List (consume)
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as L
 import Data.Maybe (fromMaybe, catMaybes)
@@ -51,7 +50,7 @@ getGameIndexR :: Handler RepHtml
 getGameIndexR = do
     --gameData <- runDB $ selectList [] []
     (games, pagerOpts) <- paginateSelectList 10 [] [Desc GameCreated]
-    champions  <- championsByName
+    champions <- championsByName
     defaultLayout $ do
         let gamesWidget = gameList Nothing champions games pagerOpts
         setTitle "Game Index"
@@ -93,19 +92,18 @@ getGameViewR gameId = do
         statDataJson game =
             let notJson = statData game
                 fromList :: ToJSON a => [(Text, a)] -> Value
-                fromList = object . map (\(k,v) -> k .= v)
+                fromList = Data.Aeson.object . map (\(k,v) -> k .= v)
              in decodeUtf8 . BS.concat . L.toChunks . encode . fromList . map (\(player, stats) -> (player, fromList stats)) $ notJson
         empties itemList = replicate (6 - length itemList) ()
 
 
 postGameCreateR :: Handler RepJson
 postGameCreateR = do
-    bss <- lift consume
-    let body = foldr (BS.append) BS.empty bss
-    case (parseOnly (rawGames <$> json) body :: Either String (Result [GameStats])) of
-        Right (Success games)   -> insertGames games
-        Right (Error msg)       -> return . RepJson . toContent . encode . String . pack $ msg
-        Left msg                -> return . RepJson . toContent . encode . String . pack $ msg
+    parsedBody <- parseJsonBody
+    case (parsedBody :: Result [GameStats]) of
+        (Success games)   -> insertGames games
+        (Error msg)       -> return . RepJson . toContent . encode . String . pack $ msg
+        --Left msg                -> return . RepJson . toContent . encode . String . pack $ msg
     where
         insertGames games = do
             time <- liftIO getCurrentTime

@@ -6,7 +6,7 @@ import Model.Champion
 
 getChampionIndexR :: Handler RepHtml
 getChampionIndexR = do
-    items <- (runDB $ selectList [] [Asc ChampionName]) :: Handler [(ChampionId, Champion)]
+    items <- (runDB $ selectList [] [Asc ChampionName])
     defaultLayout $ do
         setTitle "Champions"
         $(widgetFile "champion/index")

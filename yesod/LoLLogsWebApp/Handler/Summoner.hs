@@ -29,7 +29,7 @@ getSummonerSearchR :: Handler RepHtml
 getSummonerSearchR = do
     summonerName <- runInputGet $ ireq textField "q"
     -- $(logDebug) $ "Redirecting query for " `T.append` summonerName
-    redirect RedirectPermanent $ SummonerStatsR summonerName
+    redirect $ SummonerStatsR summonerName
 
 getSummonerStatsR :: Text -> Handler RepHtml
 getSummonerStatsR summonerName = do
@@ -95,8 +95,8 @@ dataForm :: Text -> ChampionMap -> Html -> MForm LoLLogsWebApp LoLLogsWebApp (Fo
 dataForm summonerName championMap extra = do
     let queueDefault = ["RANKED_SOLO_5x5", "NORMAL"]
     let champDefault = []
-    (queueRes, queueSelect) <- mopt (multiSelectField queueTypes) "" (Just $ Just queueDefault)
-    (champRes, champSelect) <- mopt (multiSelectField . map (\(n,c) -> (championName c, n)) . champsAsList $ championMap) "" (Just $ Just champDefault)
+    (queueRes, queueSelect) <- mopt (multiSelectFieldList queueTypes) "" (Just $ Just queueDefault)
+    (champRes, champSelect) <- mopt (multiSelectFieldList . map (\(n,c) -> (championName c, n)) . champsAsList $ championMap) "" (Just $ Just champDefault)
     let q = Query <$> pure (QPlayerChampion summonerName) 
                   <*> pure summonerName
                   <*> (fromMaybe [] <$> queueRes)
@@ -127,7 +127,7 @@ data Query = Query { qKey       :: QueryColumn Game Text
                    , qCols      :: [QueryColumn Game Double]
                    }
 
-runQuery :: Query -> MRBackend (GGHandler LoLLogsWebApp LoLLogsWebApp IO) [(Label, MRData)]
+runQuery :: Query -> PersistEntityBackend Game (GHandler LoLLogsWebApp LoLLogsWebApp) [(Label, MRData)]
 runQuery = runMapReduce . mrFromQuery
 
 mrFromQuery :: Query -> MapReduce

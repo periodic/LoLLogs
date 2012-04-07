@@ -9,8 +9,8 @@ type ItemMap = M.Map Int Item
 
 itemsById :: Handler ItemMap
 itemsById = do
-    items <- (runDB $ selectList [] [Asc ItemName]) :: Handler [(ItemId, Item)]
-    return . M.fromList . map (\(_,item) -> (itemIdent item, item)) $ items
+    items <- (runDB $ selectList [] [Asc ItemName]) :: Handler [Entity Item]
+    return . M.fromList . map (\item -> (itemIdent $ entityVal item, entityVal item)) $ items
 
 lookupItem :: Int -> ItemMap -> Maybe Item
 lookupItem = M.lookup
@@ -23,7 +23,7 @@ itemImage item = do
     addStylesheet $ StaticR sprites_items_css
     [whamlet|<div class="item-thumbnail sprite-items-#{cleanIconPath $ itemIconPath item}" title="#{itemName item}">|]
 
-itemImageLink :: LoLLogsWebAppRoute -> Item -> Widget
+itemImageLink :: Route LoLLogsWebApp -> Item -> Widget
 itemImageLink route item = do
     addStylesheet $ StaticR sprites_items_css
     [whamlet|<a href=@{route} class="item-thumbnail sprite-items-#{cleanIconPath $ itemIconPath item}" title="#{itemName item}">|]

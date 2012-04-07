@@ -13,13 +13,13 @@ import Yesod.Default.Handlers
 import Yesod.Logger (Logger, logBS, flushLogger)
 import Network.Wai.Middleware.RequestLogger
 import Data.Dynamic (Dynamic, toDyn)
-import qualified Database.Persist.Base
+import qualified Database.Persist.Store
 
 -- Import all relevant handler modules here.
 import Handler.Root
 import Handler.Game
 import Handler.Champion
-import Handler.ChartExample
+--import Handler.ChartExample
 import Handler.Summoner
 
 -- This line actually creates our YesodSite instance. It is the second half
@@ -35,8 +35,8 @@ withLoLLogsWebApp :: AppConfig DefaultEnv () -> Logger -> (Application -> IO ())
 withLoLLogsWebApp conf logger f = do
     s <- staticSite
     dbconf <- withYamlEnvironment "config/mongoDB.yml" (appEnv conf)
-            $ either error return . Database.Persist.Base.loadConfig
-    Database.Persist.Base.withPool (dbconf :: Settings.PersistConfig) $ \p -> do
+            $ either error return . Database.Persist.Store.loadConfig
+    Database.Persist.Store.withPool (dbconf :: Settings.PersistConfig) $ \p -> do
         let h = LoLLogsWebApp conf logger s p
         defaultRunner (f . logWare) h
     where
