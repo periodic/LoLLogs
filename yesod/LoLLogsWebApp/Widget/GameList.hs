@@ -8,7 +8,7 @@ import Yesod.Widget.Pager
 
 gameList :: Maybe Text -- ^ Summoner(s) to highlight.
          -> ChampionMap
-         -> [(GameId, Game)]
+         -> [Entity Game]
          -> PagerOptions
          -> Widget
 gameList mSummonerName champions games pagerOpts = do

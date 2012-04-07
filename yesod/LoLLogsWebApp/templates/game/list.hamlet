@@ -19,31 +19,32 @@
                     <th>
                         Date Added
             <tbody>
-                $forall (gameId, game) <- games
-                    <a href=@{GameViewR gameId}>
-                        <tr data-href=@{GameViewR gameId}>
-                            <td.team.blue-team :gameBlueTeamWon game:.winner>
-                                <span.game-champions>
-                                    ^{portraits (gsBlueTeam (gameGameStats game)) game}
-                            <td.vs>
-                                VS
-                            <td.team.purple-team :not (gameBlueTeamWon game):.winner>
-                                <span.game-champions>
-                                    ^{portraits (gsPurpleTeam (gameGameStats game)) game}
-                            <td.queueType>
-                                #{queueDisplayName $ gsQueueType $ gameGameStats game}
-                            $maybe summonerName <- mSummonerName 
-                                $if gsRanked $ gameGameStats game
-                                    $maybe player <- (>>=) mSummonerName (flip gameLookupPlayer game)
-                                        <td.elo :playerWon game:.winner>
-                                            #{psElo player} (
-                                            <span.eloChange>
-                                                #{psEloChange player}
-                                            )
-                                    $nothing
+                $forall gameEntity <- games
+                    $with game <- entityVal gameEntity
+                        <a href=@{GameViewR $ entityKey gameEntity}>
+                            <tr data-href=@{GameViewR $ entityKey gameEntity}>
+                                <td.team.blue-team :gameBlueTeamWon game:.winner>
+                                    <span.game-champions>
+                                        ^{portraits (gsBlueTeam (gameGameStats game)) game}
+                                <td.vs>
+                                    VS
+                                <td.team.purple-team :not (gameBlueTeamWon game):.winner>
+                                    <span.game-champions>
+                                        ^{portraits (gsPurpleTeam (gameGameStats game)) game}
+                                <td.queueType>
+                                    #{queueDisplayName $ gsQueueType $ gameGameStats game}
+                                $maybe summonerName <- mSummonerName 
+                                    $if gsRanked $ gameGameStats game
+                                        $maybe player <- (>>=) mSummonerName (flip gameLookupPlayer game)
+                                            <td.elo :playerWon game:.winner>
+                                                #{psElo player} (
+                                                <span.eloChange>
+                                                    #{psEloChange player}
+                                                )
+                                        $nothing
+                                            <td>
+                                    $else
                                         <td>
-                                $else
-                                    <td>
-                            <td.created>
-                                #{gameFormattedCreateTime game}
+                                <td.created>
+                                    #{gameFormattedCreateTime game}
 

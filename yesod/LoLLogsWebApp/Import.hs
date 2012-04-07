@@ -1,8 +1,10 @@
 module Import
     ( module Prelude
+    , module Yesod
     , module Foundation
     , (<>)
     , Text
+    , module Settings.StaticFiles
     , module Data.Monoid
     , module Control.Applicative
     -- Helper functions
@@ -12,11 +14,13 @@ module Import
     ) where
 
 import Prelude hiding (writeFile, readFile)
+import Yesod
 import Foundation
 import Data.Monoid (Monoid (mappend, mempty, mconcat))
 import Control.Applicative ((<$>), (<*>), pure)
 import Data.Text (Text)
 import Text.Printf
+import Settings.StaticFiles
 
 infixr 5 <>
 (<>) :: Monoid m => m -> m -> m

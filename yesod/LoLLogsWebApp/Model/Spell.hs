@@ -8,8 +8,8 @@ type SpellMap = M.Map Int Spell
 
 spellsById :: Handler SpellMap
 spellsById = do
-    spells <- (runDB $ selectList [] [Asc SpellName]) :: Handler [(SpellId, Spell)]
-    return . M.fromList . map (\(_,spell) -> (spellIdent spell, spell)) $ spells
+    spells <- (runDB $ selectList [] [Asc SpellName]) :: Handler [Entity Spell]
+    return . M.fromList . map (\spell -> (spellIdent spell, spell)) . map entityVal $ spells
 
 lookupSpell :: Int -> SpellMap -> Maybe Spell
 lookupSpell = M.lookup
@@ -22,7 +22,7 @@ spellImage spell = do
     addStylesheet $ StaticR css_spell_thumbnail_sprite_css
     [whamlet|<div class="spell-thumbnail spell-thumbnail-#{spellImageName spell} spell-id-#{spellIdent spell}" title="#{spellName spell}">|]
 
-spellImageLink :: LoLLogsWebAppRoute -> Spell -> Widget
+spellImageLink :: Route LoLLogsWebApp -> Spell -> Widget
 spellImageLink route spell = do
     addStylesheet $ StaticR css_spell_thumbnail_sprite_css
     [whamlet|<a href=@{route} class="spell-thumbnail spell-thumbnail-#{spellImageName spell}" title="#{spellName spell}">|]

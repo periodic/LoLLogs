@@ -1,34 +1,35 @@
 module Foundation
     ( LoLLogsWebApp (..)
-    , LoLLogsWebAppRoute (..)
+    , Route (..)
     , LoLLogsWebAppMessage (..)
     , resourcesLoLLogsWebApp
     , Handler
     , Widget
+    , Form
     , maybeAuth
     , requireAuth
-    , module Yesod
+    --, module Yesod
     , module Settings
     , module Model
-    , module Settings.StaticFiles
-    , StaticRoute (..)
-    , AuthRoute (..)
+    --, module Settings.StaticFiles
     ) where
 
 import Prelude
-import Yesod hiding (Form, AppConfig(..), withYamlEnvironment)
-import Yesod.Static (Static, base64md5, StaticRoute(..))
+import Yesod
+import Yesod.Static
 import Settings.StaticFiles
 import Yesod.Auth
-import Yesod.Auth.OpenId
+import Yesod.Auth.BrowserId
+import Yesod.Auth.GoogleEmail
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText, logLazyText)
 import Yesod.Widget.GoogleAnalytics
 import qualified Settings
 import qualified Data.ByteString.Lazy as L
-import qualified Database.Persist.Base
+import qualified Database.Persist.Store
 import Data.Text (Text)
+import Database.Persist.Store
 import Database.Persist.MongoDB
 import Settings (widgetFile)
 import Model
@@ -49,7 +50,8 @@ data LoLLogsWebApp = LoLLogsWebApp
     { settings :: AppConfig DefaultEnv ()
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
-    , connPool :: Database.Persist.Base.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
+    , connPool :: Database.Persist.Store.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
+    , persistConfig :: Settings.PersistConfig
     }
 
 -- Set up i18n messages. See the message folder.
@@ -76,6 +78,8 @@ mkMessage "LoLLogsWebApp" "messages" "en"
 -- split these actions into two functions and place them in separate files.
 mkYesodData "LoLLogsWebApp" $(parseRoutesFile "config/routes")
 
+type Form x = Html -> MForm LoLLogsWebApp LoLLogsWebApp (FormResult x, Widget)
+
 -- Sections for routes.
 data LoLLogsWebAppSection = HomeSection
                           | GamesSection
@@ -84,7 +88,7 @@ data LoLLogsWebAppSection = HomeSection
                           | OtherSection
                           deriving (Show, Eq)
 
-getSection :: LoLLogsWebAppRoute -> LoLLogsWebAppSection
+getSection :: Route LoLLogsWebApp -> LoLLogsWebAppSection
 getSection RootR = HomeSection
 
 getSection GameIndexR = GamesSection
@@ -104,7 +108,7 @@ getSection _  = OtherSection
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
 instance Yesod LoLLogsWebApp where
-    approot = appRoot . settings
+    approot = ApprootMaster $ appRoot . settings
 
     -- Place the session key file in the config folder
     encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
@@ -141,14 +145,13 @@ instance Yesod LoLLogsWebApp where
     authRoute _ = Just $ AuthR LoginR
 
     messageLogger y loc level msg =
-      -- From 0.9formatLogMessage loc level msg >>= logLazyText (getLogger y)
       formatLogText (getLogger y) loc level msg >>= logMsg (getLogger y)
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
     -- expiration dates to be set far in the future without worry of
     -- users receiving stale content.
-    addStaticContent = addStaticContentExternal minifym base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
+    addStaticContent = addStaticContentExternal (const $ Left ()) base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
 
     -- Enable Javascript async loading
     yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
@@ -156,8 +159,14 @@ instance Yesod LoLLogsWebApp where
 -- How to run database actions.
 instance YesodPersist LoLLogsWebApp where
     type YesodPersistBackend LoLLogsWebApp = Action
-    runDB f = liftIOHandler
-            $ fmap connPool getYesod >>= Database.Persist.Base.runPool (undefined :: Settings.PersistConfig) f
+    {- runDB f = liftIOHandler
+            $ fmap connPool getYesod >>= Database.Persist.Store.runPool (undefined :: Settings.PersistConfig) f -}
+    runDB f = do
+        master <- getYesod
+        Database.Persist.Store.runPool
+            (persistConfig master)
+            f
+            (connPool master)
 
 instance YesodAuth LoLLogsWebApp where
     type AuthId LoLLogsWebApp = UserId
@@ -170,12 +179,13 @@ instance YesodAuth LoLLogsWebApp where
     getAuthId creds = runDB $ do
         x <- getBy $ UniqueUser $ credsIdent creds
         case x of
-            Just (uid, _) -> return $ Just uid
+            Just (Entity uid _) -> return $ Just uid
             Nothing -> do
                 fmap Just $ insert $ User (credsIdent creds) Nothing
 
+
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins = [authOpenId]
+    authPlugins _ = [authBrowserId, authGoogleEmail]
 
 -- Sends off your mail. Requires sendmail in production!
 deliver :: LoLLogsWebApp -> L.ByteString -> IO ()

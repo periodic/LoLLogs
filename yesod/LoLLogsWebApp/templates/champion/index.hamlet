@@ -1,11 +1,11 @@
 <h1>Champion Index
 
 <ul.media-grid>
-    $forall (champId, champ) <- items
+    $forall champ <- items
         <li.champion-row>
-            <a.box href=@{ChampionViewR champId}>
+            <a.box href=@{ChampionViewR (entityKey champ)}>
                 <div.champion-img>
-                    <img src=@{StaticR $ championImageUrl champ}
+                    <img src=@{StaticR $ championImageUrl $ entityVal champ}
                 <div.champion-name>
-                    #{championName champ}
+                    #{championName $ entityVal champ}
 

@@ -11,7 +11,9 @@ import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.GameLog hiding (Spell(..))
 import Data.GameLog.Persist ()
-import Database.Persist.Base
+import Database.Persist
+import Database.Persist.Store
+import Database.Persist.EntityDef
 import Database.Persist.MongoDB (Action)
 import Database.Persist.TH.Library
 
@@ -22,6 +24,7 @@ type Game = GameGeneric Action
 type GameId = Key Action Game
 instance PersistEntity (GameGeneric backend) where
     data Unique (GameGeneric backend) backend2 = UniqueGameId Int deriving (Show, Read, Eq)
+    type PersistEntityBackend (GameGeneric backend) = backend
     data EntityField (GameGeneric backend) typ
         = typ ~ (Key backend (GameGeneric backend)) => GameId 
         | typ ~ UTCTime   => GameCreated
@@ -32,16 +35,19 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ Text      => GameSummoners
         | typ ~ Text      => GameChampions
     entityDef _
-        = Database.Persist.Base.EntityDef
-            "Game"
+        = EntityDef
+            (HaskellName "Game")
+            (DBName "Game")
+            (DBName "Game")
             []
-            [Database.Persist.Base.ColumnDef "created" "UTCTime" [],
-             Database.Persist.Base.ColumnDef "gameStats" "GameStats" []]
+            [FieldDef (HaskellName "created")   (DBName "created")   (FTTypeCon Nothing "UTCTime")   [],
+             FieldDef (HaskellName "gameStats") (DBName "gameStats") (FTTypeCon Nothing "GameStats") []]
             []
             ["Show", "Read", "Eq"]
+            M.empty
     toPersistFields (Game created stats)
-        = [ Database.Persist.Base.SomePersistField created
-          , Database.Persist.Base.SomePersistField stats]
+        = [ SomePersistField created
+          , SomePersistField stats]
     fromPersistValues [created, stats]
         = ((Right Game
           `Database.Persist.TH.Library.apE`
@@ -50,17 +56,19 @@ instance PersistEntity (GameGeneric backend) where
            fromPersistValue stats)
     fromPersistValues _ = Left "Invalid fromPersistValues input"
     halfDefined = Game undefined undefined
-    persistUniqueToFieldNames UniqueGameId {}    = ["gameStats.gameId"]
+    persistUniqueToFieldNames UniqueGameId {}    = [(HaskellName "gameStats.gameId", DBName "gameStats.gameId")]
     persistUniqueToValues     (UniqueGameId gid) = [toPersistValue gid]
     persistUniqueKeys (Game _created _gameStats) = []
-    persistColumnDef GameId         = Database.Persist.Base.ColumnDef "id" "GameId" []
-    persistColumnDef GameCreated    = Database.Persist.Base.ColumnDef "created" "UTCTime" []
-    persistColumnDef GameGameStats  = Database.Persist.Base.ColumnDef "gameStats" "GameStats" []
-    persistColumnDef GameGameId     = Database.Persist.Base.ColumnDef "gameStats.gameId" "Int" []
-    persistColumnDef GameRanked     = Database.Persist.Base.ColumnDef "gameStats.ranked" "Bool" []
-    persistColumnDef GameLength     = Database.Persist.Base.ColumnDef "gameStats.gameLength" "Int" []
-    persistColumnDef GameSummoners  = Database.Persist.Base.ColumnDef "gameStats.summoners" "Text" []
-    persistColumnDef GameChampions  = Database.Persist.Base.ColumnDef "gameStats.champions" "Text" []
+    {-
+    persistColumnDef GameId         = FieldDef (HaskellName "id")                   (DBName "id")                   "GameId" []
+    persistColumnDef GameCreated    = FieldDef (HaskellName "created")              (DBName "created")              "UTCTime" []
+    persistColumnDef GameGameStats  = FieldDef (HaskellName "gameStats")            (DBName "gameStats")            "GameStats" []
+    persistColumnDef GameGameId     = FieldDef (HaskellName "gameStats.gameId")     (DBName "gameStats.gameId")     "Int" []
+    persistColumnDef GameRanked     = FieldDef (HaskellName "gameStats.ranked")     (DBName "gameStats.ranked")     "Bool" []
+    persistColumnDef GameLength     = FieldDef (HaskellName "gameStats.gameLength") (DBName "gameStats.gameLength") "Int" []
+    persistColumnDef GameSummoners  = FieldDef (HaskellName "gameStats.summoners")  (DBName "gameStats.summoners")  "Text" []
+    persistColumnDef GameChampions  = FieldDef (HaskellName "gameStats.champions")  (DBName "gameStats.champions")  "Text" []
+    -}
 
 -- | Return whether the reporting player's team won.
 gameBlueTeamWon :: Game -> Bool

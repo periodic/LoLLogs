@@ -41,7 +41,10 @@ module Model.Helper.MapReduce ( execute
 import Database.MongoDB as Mongo hiding (selector)
 
 import Prelude
-import Database.Persist.Base
+import Database.Persist
+import Database.Persist.Store
+import Database.Persist.Query
+import Database.Persist.EntityDef
 import qualified Data.UString as S (pack, unpack, concat)
 import Data.Text as T (Text, unpack, pack)
 import Data.Maybe (catMaybes)
@@ -111,7 +114,7 @@ class PersistEntity model => Queryable model where
     queryFinalizeFunc = simpleFinalizeFunc
 
     queryCollection :: QueryColumn model typ -> UString
-    queryCollection _ = S.pack . entityName $ entityDef (undefined :: model)
+    queryCollection _ = S.pack . T.unpack . unDBName . entityDB $ entityDef (undefined :: model)
 
 {- | Reduce operators.
  -}
@@ -267,7 +270,7 @@ execute query = do
                 return (recid, M.fromList $ map (\(l := v) -> (l,v)) values)
             return . catMaybes $ map makeRecord results
 
-runMapReduce :: (PersistBackend Action m, Applicative m) => MapReduce -> Action m [(Label, MRData)]
+runMapReduce :: (PersistQuery Action m, Applicative m) => MapReduce -> Action m [(Label, MRData)]
 runMapReduce query = do
     result  <- runMR' query
     results <- Mongo.lookup "results" result -- Note, will call fail if no results exist.
@@ -279,7 +282,7 @@ runMapReduce query = do
             values <- Mongo.lookup "value" doc
             return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
 
-mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
+mapReduce :: (PersistQuery Action m, Applicative m, Queryable model)
            => QueryColumn model typ                     -- ^ The column to use a key.
            -> [QueryFilter model]                       -- ^ A list of filters.
            -> [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
