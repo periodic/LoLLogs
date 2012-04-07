@@ -270,7 +270,7 @@ execute query = do
                 return (recid, M.fromList $ map (\(l := v) -> (l,v)) values)
             return . catMaybes $ map makeRecord results
 
-runMapReduce :: (PersistQuery Action m, Applicative m) => MapReduce -> Action m [(Label, MRData)]
+--runMapReduce :: (PersistBackend Action m, Applicative m) => MapReduce -> Action m [(Label, MRData)]
 runMapReduce query = do
     result  <- runMR' query
     results <- Mongo.lookup "results" result -- Note, will call fail if no results exist.
@@ -282,11 +282,12 @@ runMapReduce query = do
             values <- Mongo.lookup "value" doc
             return (recId, M.fromList $ map (\(l := v) -> (l,v)) values)
 
-mapReduce :: (PersistQuery Action m, Applicative m, Queryable model)
+{-mapReduce :: (PersistBackend Action m, Applicative m, Queryable model)
            => QueryColumn model typ                     -- ^ The column to use a key.
            -> [QueryFilter model]                       -- ^ A list of filters.
            -> [QueryColumn model typ0]     -- ^ A list of columns to select for the output.
            -> Action m [(Label, MRData)]
+-}
 mapReduce keyCol filters fields = runMapReduce $ buildQuery keyCol filters fields
 
 -- | Get a result value from the result set, and make sure it is cast to the appropriate type.

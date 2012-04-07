@@ -18,6 +18,7 @@ import Prelude
 import Yesod
 import Yesod.Static
 import Settings.StaticFiles
+import Network.HTTP.Conduit (Manager)
 import Yesod.Auth
 import Yesod.Auth.BrowserId
 import Yesod.Auth.GoogleEmail
@@ -31,16 +32,18 @@ import qualified Database.Persist.Store
 import Data.Text (Text)
 import Database.Persist.Store
 import Database.Persist.MongoDB
-import Settings (widgetFile)
+import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)
 import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
-#if DEVELOPMENT
-import qualified Data.Text.Lazy.Encoding
-#else
-import Network.Mail.Mime (sendmail)
-#endif
+{-
+    #if DEVELOPMENT
+    import qualified Data.Text.Lazy.Encoding
+    #else
+    import Network.Mail.Mime (sendmail)
+    #endif
+-}
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -51,6 +54,7 @@ data LoLLogsWebApp = LoLLogsWebApp
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
     , connPool :: Database.Persist.Store.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
+    , httpManager :: Manager
     , persistConfig :: Settings.PersistConfig
     }
 
@@ -111,7 +115,7 @@ instance Yesod LoLLogsWebApp where
     approot = ApprootMaster $ appRoot . settings
 
     -- Place the session key file in the config folder
-    encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
+    --encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
 
     defaultLayout widget = do
         mmsg <- getMessage
@@ -125,6 +129,10 @@ instance Yesod LoLLogsWebApp where
         promote <- getRouteToMaster
         currentRoute <- getCurrentRoute
         let section = maybe OtherSection (getSection . promote) currentRoute
+            isHomeSec       = section == HomeSection
+            isGamesSec      = section == GamesSection
+            isChampSec      = section == ChampionsSection
+            isDownloadSec   = section == DownloadSection
 
         pc <- widgetToPageContent $ do
             setTitle "Casual Addict"
@@ -154,7 +162,9 @@ instance Yesod LoLLogsWebApp where
     addStaticContent = addStaticContentExternal (const $ Left ()) base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
 
     -- Enable Javascript async loading
-    yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
+    --yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
+
+    jsLoader _ = BottomOfBody
 
 -- How to run database actions.
 instance YesodPersist LoLLogsWebApp where
@@ -188,12 +198,14 @@ instance YesodAuth LoLLogsWebApp where
     authPlugins _ = [authBrowserId, authGoogleEmail]
 
 -- Sends off your mail. Requires sendmail in production!
+{-
 deliver :: LoLLogsWebApp -> L.ByteString -> IO ()
 #ifdef DEVELOPMENT
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 #else
 deliver _ = sendmail
 #endif
+-}
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.

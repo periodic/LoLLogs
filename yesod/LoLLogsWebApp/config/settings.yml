@@ -1,7 +1,8 @@
 Default: &defaults
   host: "localhost"
   port: 3000
-
+  copyright: Insert copyright statement here
+  analytics: UA-21596514-1
 Development:
   <<: *defaults
 
@@ -12,5 +13,5 @@ Staging:
   <<: *defaults
 
 Production:
-  approot: "http://www.example.com"
+  approot: "http://www.casualaddict.com"
   <<: *defaults

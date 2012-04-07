@@ -1,6 +1,6 @@
 !!!
 <html>
-    <head
+    <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         <title>#{pageTitle pc}
         ^{pageHead pc}
@@ -11,13 +11,13 @@
                     <div.container>
                         <a.brand href=@{RootR}>CasualAddict
                         <ul.nav>
-                            <li :section == HomeSection:.active>
+                            <li :isHomeSec:.active>
                                 <a href=@{RootR}>Home
-                            <li :section == GamesSection:.active>
+                            <li :isGamesSec:.active>
                                 <a href=@{GameIndexR}>Games
-                            <li :section == ChampionsSection:.active>
+                            <li :isChampSec:.active>
                                 <a href=@{ChampionIndexR}>Champions
-                            <li :section == DownloadSection:.active>
+                            <li :isDownloadSec:.active>
                                 <a href=@{DownloadR}>Download Client
                         <form.pull-right action=@{SummonerSearchR}>
                             <input name=q type=text placeholder="Search for a summoner">

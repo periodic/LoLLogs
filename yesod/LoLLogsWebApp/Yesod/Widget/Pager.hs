@@ -62,28 +62,32 @@ pager opts =
         prevP = max 0 (p - 1)
         nextP = min m (p + 1)
         pageNums = [minP .. maxP]
+
+        isMultiplePages = m > 1
+        isFirstPage = p <= 1
+        isLastPage = p >= m
     in [whamlet|
-$if (m > 1)
+$if isMultiplePages
     <div class=#{cssClass opts}>
         <ul>
             $if showFirst opts
-                <li.first.prev :p <= 1:.disabled>
+                <li.first.prev :isFirstPage:.disabled>
                     <a href=#{urlGenerator opts 0}>
                         First
             $if showPrev opts
-                <li.prev :p <= 1:.disabled>
+                <li.prev :isFirstPage:.disabled>
                     <a href=#{urlGenerator opts prevP}>
                         Prev
             $forall n <- pageNums
-                <li :n == p:.active>
-                    <a href=#{urlGenerator opts n}
+                <li :(==) n p:.active>
+                    <a href=#{urlGenerator opts n}>
                         #{n}
             $if showNext opts
-                <li.next :p >= m:.disabled>
+                <li.next :isLastPage:.disabled>
                     <a href=#{urlGenerator opts nextP}>
                         Next
             $if showLast opts
-                <li.last.next :p >= m:.disabled>
+                <li.last.next :isLastPage:.disabled>
                     <a href=#{urlGenerator opts m}>
                         Last
 |]

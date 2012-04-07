@@ -5,7 +5,7 @@
         <li.champion-row>
             <a.box href=@{ChampionViewR (entityKey champ)}>
                 <div.champion-img>
-                    <img src=@{StaticR $ championImageUrl $ entityVal champ}
+                    <img src=@{StaticR $ championImageUrl $ entityVal champ}>
                 <div.champion-name>
                     #{championName $ entityVal champ}
 

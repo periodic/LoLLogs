@@ -12,5 +12,5 @@
     <div#stats.ui-tabs-panel.ui-tabs-hide>
         ^{statsWidget}
 
-    <div#games.ui-tabs-panel.ui-tabs-hide
+    <div#games.ui-tabs-panel.ui-tabs-hide>
         ^{gamesWidget}

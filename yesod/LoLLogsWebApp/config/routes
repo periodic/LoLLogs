@@ -14,7 +14,5 @@
 /champions ChampionIndexR GET
 /champion/view/#ChampionId ChampionViewR GET
 
-/stats GameStatsR GET
-
 /summoner SummonerSearchR GET
 /summoner/#Text SummonerStatsR GET
