@@ -4,9 +4,11 @@ cabal-dev
 *.swo
 *.hi
 *.o
-yesod/LoLLogsWebApp/static/tmp/
 /json
 /logs
-yesod/LoLLogsWebApp/.static-cache/
 Debug
 Release
+yesod/LoLLogsWebApp/static/tmp/
+yesod/LoLLogsWebApp/.static-cache/
+yesod/LoLLogsWebApp/client_session_key.aes
+yesod/LoLLogsWebApp/plices/

@@ -16,6 +16,7 @@ var data = [
 { name: "Evelynn", skinName: "Evelynn" },
 { name: "Ezreal", skinName: "Ezreal" },
 { name: "Fiddlesticks", skinName: "FiddleSticks" },
+{ name: "Fiora", skinName: "Fiora" },
 { name: "Fizz", skinName: "Fizz" },
 { name: "Galio", skinName: "Galio" },
 { name: "Gangplank", skinName: "Gangplank" },
@@ -37,6 +38,7 @@ var data = [
 { name: "LeBlanc", skinName: "Leblanc" },
 { name: "Lee Sin", skinName: "LeeSin" },
 { name: "Leona", skinName: "Leona" },
+{ name: "Lulu", skinName: "Lulu" },
 { name: "Lux", skinName: "Lux" },
 { name: "Malphite", skinName: "Malphite" },
 { name: "Malzahar", skinName: "Malzahar" },
@@ -46,6 +48,7 @@ var data = [
 { name: "Mordekaiser", skinName: "Mordekaiser" },
 { name: "Morgana", skinName: "Morgana" },
 { name: "Nasus", skinName: "Nasus" },
+{ name: "Nautilus", skinName: "Nautilus" },
 { name: "Nidalee", skinName: "Nidalee" },
 { name: "Nocturne", skinName: "Nocturne" },
 { name: "Nunu", skinName: "Nunu" },
@@ -88,6 +91,7 @@ var data = [
 { name: "Xerath", skinName: "Xerath" },
 { name: "Xin Zhao", skinName: "XinZhao" },
 { name: "Yorick", skinName: "Yorick" },
+{ name: "Ziggs", skinName: "Ziggs" },
 { name: "Zilean", skinName: "Zilean" },
 ];
 

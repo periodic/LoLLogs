@@ -31,8 +31,8 @@ var spells = [
     },
     {
         ident: NumberLong(7), 
-        name: 'Fortify',
-        imageName: 'Fortify'
+        name: 'Heal',
+        imageName: 'Heal'
     },
     { 
         ident: NumberLong(8),
@@ -41,8 +41,8 @@ var spells = [
     },
     { 
         ident: NumberLong(9),
-        name: "Heal",
-        imageName: 'Heal'
+        name: "Forify",
+        imageName: 'Fortify'
     },
     { 
         ident: NumberLong(10),
