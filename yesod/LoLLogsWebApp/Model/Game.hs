@@ -34,6 +34,9 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ GameStats => GameGameStats
         | typ ~ Text      => GameSummoners
         | typ ~ Text      => GameChampions
+    
+    persistIdField = GameId
+
     entityDef _
         = EntityDef
             (HaskellName "Game")
@@ -59,16 +62,15 @@ instance PersistEntity (GameGeneric backend) where
     persistUniqueToFieldNames UniqueGameId {}    = [(HaskellName "gameStats.gameId", DBName "gameStats.gameId")]
     persistUniqueToValues     (UniqueGameId gid) = [toPersistValue gid]
     persistUniqueKeys (Game _created _gameStats) = []
-    {-
-    persistColumnDef GameId         = FieldDef (HaskellName "id")                   (DBName "id")                   "GameId" []
-    persistColumnDef GameCreated    = FieldDef (HaskellName "created")              (DBName "created")              "UTCTime" []
-    persistColumnDef GameGameStats  = FieldDef (HaskellName "gameStats")            (DBName "gameStats")            "GameStats" []
-    persistColumnDef GameGameId     = FieldDef (HaskellName "gameStats.gameId")     (DBName "gameStats.gameId")     "Int" []
-    persistColumnDef GameRanked     = FieldDef (HaskellName "gameStats.ranked")     (DBName "gameStats.ranked")     "Bool" []
-    persistColumnDef GameLength     = FieldDef (HaskellName "gameStats.gameLength") (DBName "gameStats.gameLength") "Int" []
-    persistColumnDef GameSummoners  = FieldDef (HaskellName "gameStats.summoners")  (DBName "gameStats.summoners")  "Text" []
-    persistColumnDef GameChampions  = FieldDef (HaskellName "gameStats.champions")  (DBName "gameStats.champions")  "Text" []
-    -}
+
+    persistFieldDef GameId         = FieldDef (HaskellName "id")                   (DBName "id")                   (FTTypeCon Nothing "GameId")     []
+    persistFieldDef GameCreated    = FieldDef (HaskellName "created")              (DBName "created")              (FTTypeCon Nothing "UTCTime")    []
+    persistFieldDef GameGameStats  = FieldDef (HaskellName "gameStats")            (DBName "gameStats")            (FTTypeCon Nothing "GameStats")  []
+    persistFieldDef GameGameId     = FieldDef (HaskellName "gameStats.gameId")     (DBName "gameStats.gameId")     (FTTypeCon Nothing "Int")        []
+    persistFieldDef GameRanked     = FieldDef (HaskellName "gameStats.ranked")     (DBName "gameStats.ranked")     (FTTypeCon Nothing "Bool")       []
+    persistFieldDef GameLength     = FieldDef (HaskellName "gameStats.gameLength") (DBName "gameStats.gameLength") (FTTypeCon Nothing "Int")        []
+    persistFieldDef GameSummoners  = FieldDef (HaskellName "gameStats.summoners")  (DBName "gameStats.summoners")  (FTTypeCon Nothing "Text")       []
+    persistFieldDef GameChampions  = FieldDef (HaskellName "gameStats.champions")  (DBName "gameStats.champions")  (FTTypeCon Nothing "Text")       []
 
 -- | Return whether the reporting player's team won.
 gameBlueTeamWon :: Game -> Bool
