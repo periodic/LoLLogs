@@ -1,3 +1,4 @@
+/*
 var spells = [
     {
         ident: NumberLong(1),
@@ -9,25 +10,25 @@ var spells = [
         name: 'Clairvoyance',
         imageName: 'Clairvoyance'
     },
-    { 
-        ident: NumberLong(3),
-        name: "Revive",
-        imageName: 'Revive'
+    {
+        ident: NumberLong(5),
+        name: 'Exhaust',
+        imageName: 'Exhaust'
     },
     {
         ident: NumberLong(4),
         name: 'Flash',
         imageName: 'Flash'
     },
-    {
+    { 
         ident: NumberLong(5),
-        name: 'Exhaust',
-        imageName: 'Exhaust'
+        name: "Revive",
+        imageName: 'Revive'
     },
     { 
         ident: NumberLong(6),
-        name: "Promote",
-        imageName: 'Promote'
+        name: "Ghost",
+        imageName: 'Ghost'
     },
     {
         ident: NumberLong(7), 
@@ -36,8 +37,8 @@ var spells = [
     },
     { 
         ident: NumberLong(8),
-        name: "Ghost",
-        imageName: 'Ghost'
+        name: "Promote",
+        imageName: 'Promote'
     },
     { 
         ident: NumberLong(9),
@@ -79,10 +80,35 @@ var spells = [
         name: "Stifle",
         imageName: 'Stifle'
     },
-]
+];
+*/
+var spells = [
+    'Cleanse',      // 1
+    'Clairvoyance', // 2
+    'Exhaust',      // 3
+    'Flash',        // 4
+    "Clarity",      // 5
+    "Ghost",        // 6
+    'Heal',         // 7
+    "Promote",      // 8
+    "Forify",       // 9
+    "Revive",       // 10
+    "Smite",        // 11
+    "Teleport",     // 12
+    "Rally",        // 13
+    "Ignite",       // 14
+    "Surge",        // 15
+    "Garison"       // 16
+];
 
 db.Spell.drop();
 
+var id = 1;
 spells.forEach(function (s) {
-    db.Spell.insert(s);
+    db.Spell.insert({
+        ident: NumberLong(id),
+        name: s,
+        imageName: s
+    });
+    id++;
 });
