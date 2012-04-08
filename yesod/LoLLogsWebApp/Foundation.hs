@@ -50,7 +50,7 @@ import Text.Hamlet (hamletFile)
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data LoLLogsWebApp = LoLLogsWebApp
-    { settings :: AppConfig DefaultEnv ()
+    { settings :: AppConfig DefaultEnv Extra
     , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
     , connPool :: Database.Persist.Store.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.

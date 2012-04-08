@@ -1,5 +1,5 @@
 {-# LANGUAGE PackageImports #-}
-import "PCFWeb" Application (getApplicationDev)
+import "LoLLogsWebApp" Application (getApplicationDev)
 import Network.Wai.Handler.Warp
     (runSettings, defaultSettings, settingsPort)
 import Control.Concurrent (forkIO)

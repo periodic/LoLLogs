@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Application
-    ( withLoLLogsWebApp
-    , withDevelAppPort
+    ( makeApplication
+    , getApplicationDev
     ) where
 
 {-
