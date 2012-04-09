@@ -28,6 +28,11 @@ championImage champ = do
     addStylesheet $ StaticR sprites_champion_thumbnails_css
     [whamlet|<div class="champion-thumbnail sprite-champion-thumbnails-thumbnail-#{championSkinName champ}" title="#{championName champ}">|]
 
+unknownChampionImage :: Widget
+unknownChampionImage = do
+    addStylesheet $ StaticR sprites_champion_thumbnails_css
+    [whamlet|<div class="champion-thumbnail sprite-champion-thumbnails-thumbnail-Unknown" title="Unknown">|]
+
 championImageLink :: Route LoLLogsWebApp -> Champion -> Widget
 championImageLink route champ = do
     addStylesheet $ StaticR sprites_champion_thumbnails_css
@@ -37,3 +42,9 @@ championImageLinkWithTitle :: Route LoLLogsWebApp -> Champion -> Text -> Widget
 championImageLinkWithTitle route champ title = do
     addStylesheet $ StaticR sprites_champion_thumbnails_css
     [whamlet|<a href=@{route} class="champion-thumbnail sprite-champion-thumbnails-thumbnail-#{championSkinName champ}" title="#{title}">|]
+
+unknownChampionImageLinkWithTitle :: Route LoLLogsWebApp -> Text -> Widget
+unknownChampionImageLinkWithTitle route title = do
+    addStylesheet $ StaticR sprites_champion_thumbnails_css
+    [whamlet|<a href=@{route} class="champion-thumbnail sprite-champion-thumbnails-thumbnail-Unknown" title="#{title}">|]
+

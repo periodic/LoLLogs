@@ -107,14 +107,14 @@ parseRawGame (Object obj) = GameStats
             pTeam <- playerTeam
             oTeam <- otherTeam
             if (==100) . psTeamId . head $ pTeam
-                then return . map ps_summonerName $ pTeam
-                else return . map ps_summonerName $ oTeam
+                then return . map (toLower . ps_summonerName0 $ pTeam
+                else return . map (toLower . ps_summonerName) $ oTeam
         purpleTeam = do
             pTeam <- playerTeam
             oTeam <- otherTeam
             if (==100) . psTeamId . head $ pTeam
-                then return . map ps_summonerName $ oTeam -- note, opposite of blueTeam above.
-                else return . map ps_summonerName $ pTeam
+                then return . map (toLower . ps_summonerName) $ oTeam -- note, opposite of blueTeam above.
+                else return . map (toLower . ps_summonerName) $ pTeam
 
         champions = do
             pTeam <- playerTeam

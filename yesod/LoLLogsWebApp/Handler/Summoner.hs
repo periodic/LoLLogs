@@ -4,7 +4,7 @@ module Handler.Summoner where
 import Import
 
 import Data.Maybe (catMaybes, fromMaybe)
-import Data.Text as T (append, pack)
+import Data.Text as T (append, pack, toLower)
 import Text.Printf
 
 import Yesod.Widget.Pager
@@ -34,10 +34,11 @@ getSummonerSearchR = do
 getSummonerStatsR :: Text -> Handler RepHtml
 getSummonerStatsR summonerName = do
     champions <- championsByName
+    let lcSummonerName = toLower summonerName
 
     -- Widgets
-    statsWidget <- statsPane summonerName champions
-    gamesWidget <- gamesPane summonerName champions
+    statsWidget <- statsPane lcSummonerName champions
+    gamesWidget <- gamesPane lcSummonerName champions
 
     defaultLayout $ do
         setTitle . toHtml $ T.append "Stats for " summonerName
