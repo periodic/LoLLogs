@@ -1,13 +1,12 @@
 <ul>
     $forall summoner <- players
-        <li :isMe summoner:.me>
+        <li :isMe summoner:.me champName=#{summoner}>
             $maybe player <- (gameLookupPlayer summoner game)
                 $maybe champ <- lookupChamp (psSkinName player) champions
                     ^{championImageLinkWithTitle (SummonerStatsR summoner) champ summoner}
                 $nothing
-                    <a href=@{SummonerStatsR summoner}>
-                        <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=#{summoner}>
+                    ^{unknownChampionImageLinkWithTitle (SummonerStatsR summoner) summoner}
                 $if isMe summoner
                     <img.triangle src=@{StaticR img_triangle_png}>
             $nothing
-                <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt=Unknown>
+                ^{unknownChampionImage}
