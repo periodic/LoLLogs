@@ -57,8 +57,25 @@ pager :: PagerOptions -> GWidget sub master ()
 pager opts = 
     let p = currentPage opts
         m = maxPage opts
-        minP = maybe 1 (\context -> max 1 (currentPage opts - context)) $ pageContext opts
-        maxP = maybe m (\context -> min m (currentPage opts + context)) $ pageContext opts
+
+        {- TODO: this can probably be cleaned up.
+         -
+         - * Basically, we set the minimum to either 1 or the current page
+         - minus our context, whichever is in bounds.
+         -
+         - * Then we set the max to either the max page or the min page plus
+         - twice the context, whichever is in bounds.  This makes the max
+         - stretch further if little of the context was used on the lower
+         - bound.
+         -
+         - * But now what if the max didn't use up the whole context?  We have
+         - to lower the min context to possibly the max minus twice the context
+         - if that's also in bounds.
+         -}
+        minP' = maybe 1 (\context -> max 1 (currentPage opts - context)) $ pageContext opts
+        maxP  = maybe m (\context -> min m (minP' + 2 * context)) $ pageContext opts
+        minP  = max 1 $ maybe 1 (\context -> min minP' (maxP - 2 * context)) $ pageContext opts
+
         prevP = max 0 (p - 1)
         nextP = min m (p + 1)
         pageNums = [minP .. maxP]
