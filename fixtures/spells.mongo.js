@@ -87,7 +87,7 @@ var spells = [
     'Clairvoyance', // 2
     'Exhaust',      // 3
     'Flash',        // 4
-    "Clarity",      // 5
+    "Rally",        // 5
     "Ghost",        // 6
     'Heal',         // 7
     "Promote",      // 8
@@ -95,7 +95,7 @@ var spells = [
     "Revive",       // 10
     "Smite",        // 11
     "Teleport",     // 12
-    "Rally",        // 13
+    "Clarity",      // 13
     "Ignite",       // 14
     "Surge",        // 15
     "Garison"       // 16
