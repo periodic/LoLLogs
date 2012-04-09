@@ -13,5 +13,7 @@ Staging:
   <<: *defaults
 
 Production:
+  host: "www.casualaddict.com"
   approot: "http://www.casualaddict.com"
+  port: 3000
   <<: *defaults
