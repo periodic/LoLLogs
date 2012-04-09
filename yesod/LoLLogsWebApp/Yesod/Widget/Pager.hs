@@ -31,7 +31,7 @@ defaultPagerOptions = PagerOptions
     , showFirst = True
     , showLast  = True
     , showPages = True
-    , pageContext = Nothing
+    , pageContext = Just 10
     , cssClass = "pagination"
     , currentPage = 0
     , maxPage = 0
@@ -57,7 +57,7 @@ pager :: PagerOptions -> GWidget sub master ()
 pager opts = 
     let p = currentPage opts
         m = maxPage opts
-        minP= maybe 1 (\context -> max 1 (currentPage opts - context)) $ pageContext opts
+        minP = maybe 1 (\context -> max 1 (currentPage opts - context)) $ pageContext opts
         maxP = maybe m (\context -> min m (currentPage opts + context)) $ pageContext opts
         prevP = max 0 (p - 1)
         nextP = min m (p + 1)
@@ -66,6 +66,8 @@ pager opts =
         isMultiplePages = m > 1
         isFirstPage = p <= 1
         isLastPage = p >= m
+        hasPrevEllip = minP > 1
+        hasNextEllip = maxP < m
     in [whamlet|
 $if isMultiplePages
     <div class=#{cssClass opts}>
@@ -78,10 +80,18 @@ $if isMultiplePages
                 <li.prev :isFirstPage:.disabled>
                     <a href=#{urlGenerator opts prevP}>
                         Prev
+            $if hasPrevEllip
+                <li.disabled>
+                    <a href=#>
+                        &hellip;
             $forall n <- pageNums
                 <li :(==) n p:.active>
                     <a href=#{urlGenerator opts n}>
                         #{n}
+            $if hasNextEllip
+                <li.disabled>
+                    <a href=#>
+                        &hellip;
             $if showNext opts
                 <li.next :isLastPage:.disabled>
                     <a href=#{urlGenerator opts nextP}>

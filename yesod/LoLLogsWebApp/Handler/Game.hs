@@ -51,7 +51,7 @@ getGameIndexR = do
     (games, pagerOpts) <- paginateSelectList 10 [] [Desc GameCreated]
     champions <- championsByName
     defaultLayout $ do
-        let gamesWidget = gameList Nothing champions games pagerOpts
+        let gamesWidget = gameList Nothing champions games (pagerOpts { pageContext = Just 5 })
         setTitle "Game Index"
         $(widgetFile "game/index")
 
