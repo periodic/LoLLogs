@@ -107,7 +107,7 @@ dataForm summonerName championMap extra = do
     return (q, widget)
 
 queueTypes :: [(Text, Text)]
-queueTypes = map (\x -> (queueDisplayName x, x)) ["RANKED_SOLO_5x5", "NORMAL", "BOT"]
+queueTypes = map (\x -> (queueDisplayName x, x)) ["RANKED_SOLO_5x5", "NORMAL", "BOT", "ODIN_UNRANKED"]
 
 chosenImports :: Widget
 chosenImports = do

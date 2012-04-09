@@ -151,6 +151,7 @@ queueDisplayName :: Text -> Text
 queueDisplayName "NORMAL"           = "Normal"
 queueDisplayName "RANKED_SOLO_5x5"  = "Ranked, Solo"
 queueDisplayName "BOT"              = "Bot"
+queueDisplayName "ODIN_UNRANKED"    = "Dominion"
 queueDisplayName s                  = s
 
 gameFormattedCreateTime :: Game -> String
