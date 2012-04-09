@@ -1,9 +1,6 @@
 <tr.player :psIsMe player:.reporting-player :psLeaver player:.leaver>
     <td.summoner-info>
-        $maybe champ <- lookupChamp (psSkinName player) champions
-            ^{championImage champ}
-        $nothing
-            <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
+        ^{championImage (Just $ SummonerStatsR $ ps_summonerName player) (lookupChamp (psSkinName player) champions) Nothing}
         <span.summoner-name>
             <a href=@{SummonerStatsR (ps_summonerName player)}>#{ps_summonerName player}
             $if psBotPlayer player

@@ -35,7 +35,7 @@
                                     #{queueDisplayName $ gsQueueType $ gameGameStats game}
                                 $maybe summonerName <- mSummonerName 
                                     $if gsRanked $ gameGameStats game
-                                        $maybe player <- (>>=) mSummonerName (flip gameLookupPlayer game)
+                                        $maybe player <- gameLookupPlayer summonerName game
                                             <td.elo :playerWon game:.winner>
                                                 #{psElo player} (
                                                 <span.eloChange>

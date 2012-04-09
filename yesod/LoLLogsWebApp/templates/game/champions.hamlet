@@ -2,11 +2,9 @@
     $forall summoner <- players
         <li :isMe summoner:.me champName=#{summoner}>
             $maybe player <- (gameLookupPlayer summoner game)
-                $maybe champ <- lookupChamp (psSkinName player) champions
-                    ^{championImageLinkWithTitle (SummonerStatsR summoner) champ summoner}
-                $nothing
-                    ^{unknownChampionImageLinkWithTitle (SummonerStatsR summoner) summoner}
+                $with playerName <- ps_summonerName player
+                    ^{championImage (Just $ SummonerStatsR playerName) (lookupChamp (psSkinName player) champions) (Just playerName)}
                 $if isMe summoner
                     <img.triangle src=@{StaticR img_triangle_png}>
             $nothing
-                ^{unknownChampionImage}
+                ^{championImage Nothing Nothing Nothing}

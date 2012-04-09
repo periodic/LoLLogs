@@ -6,7 +6,6 @@ import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as L
 import Data.Maybe (fromMaybe, catMaybes)
 import Data.Aeson
-import Data.Attoparsec (parseOnly)
 import Data.Text (pack)
 import Data.Text.Encoding (decodeUtf8)
 import Data.Time (getCurrentTime)

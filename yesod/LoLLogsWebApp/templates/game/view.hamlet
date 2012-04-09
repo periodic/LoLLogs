@@ -100,18 +100,13 @@
                             $forall summonerName <- gsBlueTeam (gameGameStats game)
                                 <th data-placement="above" data-original-title="#{summonerName}">
                                     $maybe player <- gameLookupPlayer summonerName game
-                                        $maybe champ <- lookupChamp (psSkinName player) champions
-                                            ^{championImageLink (SummonerStatsR summonerName) champ}
-                                        $nothing 
-                                            <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
+                                        $with playerName <- ps_summonerName player
+                                            ^{championImage (Just $ SummonerStatsR playerName) (lookupChamp (psSkinName player) champions) (Just playerName)}
                             $forall summonerName <- gsPurpleTeam (gameGameStats game)
                                 <th data-placement="above" data-original-title="#{summonerName}">
                                     $maybe player <- gameLookupPlayer summonerName game
-                                        $maybe champ <- lookupChamp (psSkinName player) champions
-                                            ^{championImageLink (SummonerStatsR summonerName) champ}
-                                        $nothing 
-                                            <img.champ-portrait src=@{StaticR img_unknownchampion_jpg} alt="Unknown">
-
+                                        $with playerName <- ps_summonerName player
+                                            ^{championImage (Just $ SummonerStatsR playerName) (lookupChamp (psSkinName player) champions) (Just playerName)}
                     <tbody>
                         $forall (categoryName, stats) <- gridStats
                             <tr.categoryHeading>
