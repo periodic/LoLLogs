@@ -11,8 +11,8 @@ import Data.Aeson.TH
 import qualified Data.Map as M
 import qualified Data.HashMap.Lazy as HM
 import qualified Data.Vector as V
-import Data.Char (toLower)
-import Data.Text (Text)
+import Data.Char as C (toLower)
+import Data.Text as T (Text, toLower)
 
 instance (FromJSON a) => FromJSON (List a) where
     parseJSON (Object obj) = case HM.lookup "list" obj of
@@ -27,10 +27,10 @@ instance (ToJSON a) => ToJSON (List a) where
 -- This can't be used due to stage restrictions with template haskell.
 -- lcFirst (c:cs) = toLower c : cs
 
-$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 5) ''Spell)
-$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 1) ''PointsPenalty)
-$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 2) ''GameStats)
-$(deriveJSON ((\(c:cs) -> toLower c : cs) . drop 2) ''PlayerStats)
+$(deriveJSON ((\(c:cs) -> C.toLower c : cs) . drop 5) ''Spell)
+$(deriveJSON ((\(c:cs) -> C.toLower c : cs) . drop 1) ''PointsPenalty)
+$(deriveJSON ((\(c:cs) -> C.toLower c : cs) . drop 2) ''GameStats)
+$(deriveJSON ((\(c:cs) -> C.toLower c : cs) . drop 2) ''PlayerStats)
 
 rawGames = Data.Aeson.Types.parse parseRawGames
 
@@ -107,14 +107,14 @@ parseRawGame (Object obj) = GameStats
             pTeam <- playerTeam
             oTeam <- otherTeam
             if (==100) . psTeamId . head $ pTeam
-                then return . map (toLower . ps_summonerName0 $ pTeam
-                else return . map (toLower . ps_summonerName) $ oTeam
+                then return . map (T.toLower . ps_summonerName) $ pTeam
+                else return . map (T.toLower . ps_summonerName) $ oTeam
         purpleTeam = do
             pTeam <- playerTeam
             oTeam <- otherTeam
             if (==100) . psTeamId . head $ pTeam
-                then return . map (toLower . ps_summonerName) $ oTeam -- note, opposite of blueTeam above.
-                else return . map (toLower . ps_summonerName) $ pTeam
+                then return . map (T.toLower . ps_summonerName) $ oTeam -- note, opposite of blueTeam above.
+                else return . map (T.toLower . ps_summonerName) $ pTeam
 
         champions = do
             pTeam <- playerTeam
