@@ -16,6 +16,12 @@
     <dt>I ran the uploader, but only a few games show up.
     <dd>The League of Legends client only keeps up to five days of logs on your system, and it wipes out the logs every time it patches.  Right after a patch, or if you haven't played in a while, there will be almost no data.  Just keep uploading your logs and we'll make sure the records are never deleted.
 
+    <dt>My recent games aren't showing up.
+    <dd>The uploader has to wait for the League of Legends client to close before it can parse the log file.  If you shut down the computer with the League of Legends client open, it won't have time to do the upload before the system shuts down.  Instead, close your League of Legends client and then click Upload Now in the CasualAddict client, or simply wait a few minutes.  If you don't upload them, your games will just be uploaded when you start up again.
+
+    <dt>The dates on my games are wrong.
+    <dd>The uploader has to wait until your League of Legends client has closed to do the upload, and the game doesn't store the time the game actually took place.  Because of this, all we can do is record when we received your games, which may be later than they actually occurred.
+
     <dt>When I run the uploader I get a message saying "Permission Denied".
     <dd>This is what happens when the League of Legends client is open when you run the uploader.  Close the client and try again. The client locks the log files while it is open, which prevents the uploader from reading them.
 
