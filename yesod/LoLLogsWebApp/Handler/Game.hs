@@ -99,10 +99,12 @@ getGameViewR gameId = do
 postGameCreateR :: Handler RepJson
 postGameCreateR = do
     parsedBody <- parseJsonBody
-    case (parsedBody :: Result [GameStats]) of
-        (Success games)   -> insertGames games
-        (Error msg)       -> return . RepJson . toContent . encode . String . pack $ msg
-        --Left msg                -> return . RepJson . toContent . encode . String . pack $ msg
+    case (parsedBody :: Result Value) of
+        Success jsonData -> case rawGames jsonData of
+                            Success games -> insertGames games
+                            Error msg     -> return . RepJson . toContent . encode . String . pack $ msg
+
+        Error msg        -> return . RepJson . toContent . encode . String . pack $ msg
     where
         insertGames games = do
             time <- liftIO getCurrentTime
