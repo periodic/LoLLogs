@@ -111,6 +111,8 @@ postGameCreateR = do
             mapM_ (insertGame . Game time) games
             return . RepJson . toContent . encode . String . pack $ "Found " ++ show (length games) ++ " games."
         insertGame game = do
+            $(logDebug) "Found game:"
+            $(logDebug) . decodeUtf8 . BS.concat . L.toChunks . encode . toJSON $ gameGameStats game
             let gameId = gsGameId . gameGameStats $ game
             mGame <- runDB . getBy . UniqueGameId $ fromIntegral gameId
             case mGame of 
