@@ -1,7 +1,8 @@
 Name:               lollogs
-Version:            0.3.2
+Version:            0.3.3
 Synopsis:           League of Legends Log Parsing
 Description:        LoL Log parsing.
+Category:           Parser
 License:            GPL
 License-file:       LICENSE
 Author:             Drew Haven

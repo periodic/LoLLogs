@@ -96,7 +96,7 @@ parseRawGame (Object obj) = GameStats
         summoners = do
             pTeam <- playerTeam
             oTeam <- otherTeam
-            return . map ps_summonerName $ pTeam ++ oTeam
+            return . map (T.toLower . ps_summonerName) $ pTeam ++ oTeam
 
         playerStats = do
             pTeam <- playerTeam
