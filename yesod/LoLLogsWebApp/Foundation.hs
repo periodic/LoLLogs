@@ -166,6 +166,10 @@ instance Yesod LoLLogsWebApp where
 
     jsLoader _ = BottomOfBody
 
+#if DEVELOPMENT
+    logLevel _ = LevelDebug
+#endif
+
 -- How to run database actions.
 instance YesodPersist LoLLogsWebApp where
     type YesodPersistBackend LoLLogsWebApp = Action

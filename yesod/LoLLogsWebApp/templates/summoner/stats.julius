@@ -14,6 +14,7 @@ $(function () {
             url: "@{SummonerStatsR summonerName}",
             success: function (data, textStatus, jqXHR) {
                 $table.html( $("##{statsTableId}", data).html() );
+                $('div.game-list').html( $("div.game-list", data).html() );
                 $table.removeClass('loading');
                 $button.button('reset');
             },

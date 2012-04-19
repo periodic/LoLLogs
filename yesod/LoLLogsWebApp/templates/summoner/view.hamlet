@@ -1,5 +1,9 @@
 <h1>#{summonerName}
 
+<div>
+    <form#stats-form>
+        ^{queryForm}
+
 <div#tabs.ui-tabs>
     <ul#section-nav data-tabs=tabs>
         <li.active>

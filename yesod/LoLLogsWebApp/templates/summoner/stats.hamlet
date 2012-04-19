@@ -1,7 +1,3 @@
-<div>
-    <form#stats-form>
-        ^{queryForm}
-
 <div#stats-table>
     <table.zebra-striped id=#{statsTableId}>
         <thead>

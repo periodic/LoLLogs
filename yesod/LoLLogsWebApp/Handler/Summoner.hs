@@ -32,13 +32,23 @@ getSummonerSearchR = do
     redirect $ SummonerStatsR summonerName
 
 getSummonerStatsR :: Text -> Handler RepHtml
-getSummonerStatsR summonerName = do
+getSummonerStatsR ucSummonerName = do
     champions <- championsByName
-    let lcSummonerName = toLower summonerName
+    let summonerName = toLower ucSummonerName
+
+    ((res, queryForm), enctype) <- runFormGet $ dataForm summonerName champions
+
+    r <- getCurrentRoute
+    $(logDebug) . T.pack . show $ r
+
+    -- Form Data
+    let query = case res of
+                    FormSuccess qData -> qData
+                    _                 -> Query (QPlayerChampion summonerName) summonerName ["RANKED_SOLO_5x5", "NORMAL"] [] (queryCols summonerName)
 
     -- Widgets
-    statsWidget <- statsPane lcSummonerName champions
-    gamesWidget <- gamesPane lcSummonerName champions
+    statsWidget <- statsPane summonerName champions query
+    gamesWidget <- gamesPane summonerName champions query
 
     defaultLayout $ do
         setTitle . toHtml $ T.append "Stats for " summonerName
@@ -48,30 +58,28 @@ getSummonerStatsR summonerName = do
         addScript $ StaticR js_jqueryui_jquery_ui_tabs_min_js
         $(widgetFile "summoner/view")
 
-gamesPane :: Text -> ChampionMap -> Handler Widget
-gamesPane summonerName champions = do
-    (games, pagerOpts) <- paginateSelectList 10 [GameSummoners ==. summonerName] [Desc GameCreated]
+gamesPane :: Text -> ChampionMap -> Query -> Handler Widget
+gamesPane summonerName champions query = do
+    (games, pagerOpts) <- paginateSelectList 10 filters [Desc GameCreated]
 
     let gamesWidget = gameList (Just summonerName) champions games pagerOpts
 
     return $ ajaxFrame defaultFrameOptions gamesWidget
+    where
+        baseFilter = [GameSummoners ==. summonerName]
+        withQueues = case (qQueueTypes query) of
+                        []      -> baseFilter
+                        types   -> (baseFilter ++ ) . foldl1 (||.) . map ((:[]) . (GameQueueType ==.)) $ types
+        withChampions = case (qChampions query) of
+                        []      -> withQueues
+                        champs  -> (withQueues ++ ) . foldl1 (||.) . map ((:[]) . (GameChampions ==.)) $ champs
+        filters = withChampions
 
-
-
-statsPane :: Text -> ChampionMap -> Handler Widget
-statsPane summonerName champions = do
+statsPane :: Text -> ChampionMap -> Query -> Handler Widget
+statsPane summonerName champions query = do
     let columns = queryCols summonerName
     -- ID for table container
     statsTableId <- newIdent
-
-    -- Form Data
-    ((res, queryForm), enctype) <- runFormGet $ dataForm summonerName champions
-    let query = case res of
-                    FormSuccess qData -> qData
-                    _                 -> Query (QPlayerChampion summonerName) summonerName ["RANKED_SOLO_5x5", "NORMAL"] [] (queryCols summonerName)
-
-    $(logDebug) . T.pack . show $ qQueueTypes query
-    $(logDebug) . T.pack . show $ mrFromQuery query
 
     dataRows <- runDB $ runQuery query
     let champData = Import.filter ((/= "_total") . fst) dataRows

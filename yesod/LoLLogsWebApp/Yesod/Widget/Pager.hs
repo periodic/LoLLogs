@@ -5,10 +5,15 @@ module Yesod.Widget.Pager ( paginateSelectList
 
 
 import Prelude hiding (writeFile, readFile)
+import Foundation
 import Yesod
 import Data.Text (Text)
+import qualified Data.Text as T
 import Data.Maybe (fromMaybe)
 import Control.Applicative ((<$>))
+
+import Blaze.ByteString.Builder
+import Text.Blaze
 
 data PagerOptions = PagerOptions
     { showNext :: Bool
@@ -21,7 +26,6 @@ data PagerOptions = PagerOptions
     , currentPage :: Int
     , maxPage :: Int
     , pageSize :: Int
-    , urlGenerator :: Int -> Html
     }
 
 defaultPagerOptions :: PagerOptions
@@ -36,11 +40,13 @@ defaultPagerOptions = PagerOptions
     , currentPage = 0
     , maxPage = 0
     , pageSize = 10
-    , urlGenerator = defaultUrlGenerator
     }
 
-defaultUrlGenerator :: Int -> Html
-defaultUrlGenerator i = toHtml $ "?p=" ++ show i
+defaultUrlGenerator :: [(Text, Text)] -> Int -> Html
+defaultUrlGenerator params i = toHtml . T.cons '?' . T.intercalate "&" $ paramStrings
+    where
+        newParams = ("p", T.pack . show $ i) : filter (not . (== "p") . fst) params
+        paramStrings = map (\(k,v) -> T.concat [k, "=", v]) newParams
 
 -- paginateSelectList :: (PersistEntity val, PersistBackend b m) => Int -> [Filter val] -> [SelectOpt val] -> Handler ([(Key b val, val)], PagerOptions)
 paginateSelectList pSize filters opts = do
@@ -50,11 +56,12 @@ paginateSelectList pSize filters opts = do
         results    <- selectList filters (LimitTo pSize : OffsetBy offset : opts)
         totalCount <- count filters
         return (results, totalCount)
-    let pagerOpts = defaultPagerOptions { pageSize = pSize, currentPage = page, maxPage = totalCount `div` pSize + 1}
+    let pagerOpts = defaultPagerOptions { pageSize = pSize, currentPage = page, maxPage = (totalCount - 1) `div` pSize + 1}
     return (results, pagerOpts)
 
 pager :: PagerOptions -> GWidget sub master ()
-pager opts = 
+pager opts = do
+    curParams <- lift $ fmap reqGetParams getRequest
     let p = currentPage opts
         m = maxPage opts
 
@@ -85,17 +92,19 @@ pager opts =
         isLastPage = p >= m
         hasPrevEllip = minP > 1
         hasNextEllip = maxP < m
-    in [whamlet|
+
+        mkUrl = defaultUrlGenerator curParams
+    [whamlet|
 $if isMultiplePages
     <div class=#{cssClass opts}>
         <ul>
             $if showFirst opts
                 <li.first.prev :isFirstPage:.disabled>
-                    <a href=#{urlGenerator opts 0}>
+                    <a href=#{mkUrl 0}>
                         First
             $if showPrev opts
                 <li.prev :isFirstPage:.disabled>
-                    <a href=#{urlGenerator opts prevP}>
+                    <a href=#{mkUrl prevP}>
                         Prev
             $if hasPrevEllip
                 <li.disabled>
@@ -103,7 +112,7 @@ $if isMultiplePages
                         &hellip;
             $forall n <- pageNums
                 <li :(==) n p:.active>
-                    <a href=#{urlGenerator opts n}>
+                    <a href=#{mkUrl n}>
                         #{n}
             $if hasNextEllip
                 <li.disabled>
@@ -111,10 +120,10 @@ $if isMultiplePages
                         &hellip;
             $if showNext opts
                 <li.next :isLastPage:.disabled>
-                    <a href=#{urlGenerator opts nextP}>
+                    <a href=#{mkUrl nextP}>
                         Next
             $if showLast opts
                 <li.last.next :isLastPage:.disabled>
-                    <a href=#{urlGenerator opts m}>
+                    <a href=#{mkUrl m}>
                         Last
 |]

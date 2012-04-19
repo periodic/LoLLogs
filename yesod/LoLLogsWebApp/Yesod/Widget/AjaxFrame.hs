@@ -33,16 +33,18 @@ ajaxFrame options content = do
 
                 var href = $(this).attr('href');
 
-                history.pushState({url: href}, '', href);
+                // history.pushState({url: href}, '', href);
                 ajaxUpdate(href);
             }).end();
 
+            /*
             $(window).bind('popstate', function (e) {
                 if (e.originalEvent.state)
                     ajaxUpdate(e.originalEvent.state.url);
                 else
                     ajaxUpdate(location.origin + location.pathname);
             });
+            */
 
             function ajaxUpdate(href) {
                 $.ajax({

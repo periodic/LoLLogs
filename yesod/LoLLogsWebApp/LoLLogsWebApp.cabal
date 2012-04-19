@@ -122,6 +122,9 @@ executable         LoLLogsWebApp
                  , bson                          >= 0.1.6      && < 0.2
                  , mongoDB                       >= 1.2        && < 1.3
                  , skein                         >= 0.1.0.4
+                 -- TOOD: is this needed?
+                 , blaze-builder
+                 , blaze-html
 
                  -- Old explicit package list.
                  --, yesod                         >= 0.10.2     && < 0.11

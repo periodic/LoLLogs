@@ -34,6 +34,7 @@ instance PersistEntity (GameGeneric backend) where
         | typ ~ GameStats => GameGameStats
         | typ ~ Text      => GameSummoners
         | typ ~ Text      => GameChampions
+        | typ ~ Text      => GameQueueType
     
     persistIdField = GameId
 
@@ -71,6 +72,7 @@ instance PersistEntity (GameGeneric backend) where
     persistFieldDef GameLength     = FieldDef (HaskellName "gameStats.gameLength") (DBName "gameStats.gameLength") (FTTypeCon Nothing "Int")        []
     persistFieldDef GameSummoners  = FieldDef (HaskellName "gameStats.summoners")  (DBName "gameStats.summoners")  (FTTypeCon Nothing "Text")       []
     persistFieldDef GameChampions  = FieldDef (HaskellName "gameStats.champions")  (DBName "gameStats.champions")  (FTTypeCon Nothing "Text")       []
+    persistFieldDef GameQueueType  = FieldDef (HaskellName "gameStats.queueType")  (DBName "gameStats.queueType")  (FTTypeCon Nothing "Text")       []
 
 -- | Return whether the reporting player's team won.
 gameBlueTeamWon :: Game -> Bool
